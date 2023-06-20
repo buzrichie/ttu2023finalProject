@@ -16,11 +16,14 @@ const AdmissionSchema = new mongoose.Schema({
   gardianEmail: {
     type: String,
     required: true,
+    unique: true,
     validate: {
       validator: function (value) {
-        return /^[\w-]+(\.[\w-]+)*@gmail\.com$/.test(value);
+        return /^[\w-]+(\.[\w-]+)*@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$/.test(
+          value
+        );
       },
-      message: "Please enter a valid Gmail address.",
+      message: "Please enter a valid email address.",
     },
   },
   gardianPhone: {
