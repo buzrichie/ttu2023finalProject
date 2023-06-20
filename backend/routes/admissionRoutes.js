@@ -6,7 +6,7 @@ const {
   getSingleAdmission,
   updateAdmission,
   deleteAdmission,
-} = require("../controller/admissionController");
+} = require("../controller/admissionControllers");
 
 //Routes for various Admissions
 router.get("/", getAllAdmission);

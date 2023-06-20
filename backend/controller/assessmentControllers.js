@@ -6,7 +6,7 @@ const {
   getSingleAssessment,
   updateAssessment,
   deleteAssessment,
-} = require("../controller/assessmentControllers");
+} = require("../controller/assessmentController");
 
 //Routes for various Assessments
 router.get("/", getAllAssessment);
