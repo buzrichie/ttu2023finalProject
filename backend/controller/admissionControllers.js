@@ -5,10 +5,10 @@ const createAdmission = async (req, res) => {
   console.log(req.body);
   const db = [];
   try {
-    // const admission = await Admission.create(req.body);
-    // res.status(201).json(admission);
-    const admissionDb = await db.push(req.body);
-    res.status(201).json(db.map((admi) => admi));
+    const admission = await Admission.create(req.body);
+    res.status(201).json(admission);
+    // const admissionDb = await db.push(req.body);
+    // res.status(201).json(db.map((admi) => admi));
   } catch (error) {
     res.status(400).json(error);
     console.log(error);
