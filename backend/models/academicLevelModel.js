@@ -6,14 +6,16 @@ const AcademicLevelSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    // student: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "Student",
-    // },
-    // subject: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "Subject",
-    // },
+    student: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Student",
+    },
+    subject: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Subject",
+      },
+    ],
   },
   { timestamps: true }
 );

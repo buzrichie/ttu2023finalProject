@@ -15,6 +15,27 @@ const SubjectSchema = new mongoose.Schema(
     description: {
       type: String,
     },
+    academicLevel: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "AcademicLevel",
+        required: true,
+      },
+    ],
+    student: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Student",
+        required: true,
+      },
+    ],
+    teacher: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Teacher",
+        required: true,
+      },
+    ],
   },
   { timestamps: true }
 );

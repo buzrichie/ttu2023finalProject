@@ -14,6 +14,7 @@ const studentRoutes = require("./routes/studentRoutes");
 const subjectRoutes = require("./routes/subjectRoutes");
 const teacherRoutes = require("./routes/teacherRoutes");
 const academicLevelRoutes = require("./routes/academicLevelRoutes");
+const addressRoutes = require("./routes/addressRoutes");
 
 //Express App
 const app = express();
@@ -55,3 +56,5 @@ app.use("/api/school", schoolRoutes);
 app.use("/api/student", studentRoutes);
 app.use("/api/subject", subjectRoutes);
 app.use("/api/teacher", teacherRoutes);
+app.use("/api/academicLevel", academicLevelRoutes);
+app.use("/api/address", addressRoutes);

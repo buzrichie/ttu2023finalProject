@@ -40,7 +40,8 @@ const TeacherSchema = new mongoose.Schema({
     },
   },
   address: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Address",
     required: true,
   },
   qualification: {
@@ -57,6 +58,12 @@ const TeacherSchema = new mongoose.Schema({
       message: "Please enter a valid teaching experience (a positive number).",
     },
   },
+  subject: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Subject",
+    },
+  ],
 });
 
 const Teacher = mongoose.model("Teacher", TeacherSchema);

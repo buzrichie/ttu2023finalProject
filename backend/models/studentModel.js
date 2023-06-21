@@ -10,11 +10,28 @@ const StudentSchema = new mongoose.Schema({
     ref: "Admission",
     required: true,
   },
-  subject: {
+  address: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Subject",
+    ref: "Address",
     required: true,
   },
+  parentGuardian: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "ParentGuardian",
+    required: true,
+  },
+  academicLevel: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "AcademicLevel",
+    required: true,
+  },
+  subject: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Subject",
+      required: true,
+    },
+  ],
 });
 
 const Student = mongoose.model("Student", StudentSchema);
