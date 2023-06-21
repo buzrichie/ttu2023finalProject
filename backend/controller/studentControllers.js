@@ -1,15 +1,37 @@
 const Student = require("../models/studentModel");
+const Subject = require("../models/subjectModel");
+const Admission = require("../models/admissionModel");
 
 // Create or add Student
 const createStudent = async (req, res) => {
   console.log(req.body);
-  const db = [];
-  try {
-    const Student = await Student.create(req.body);
-    res.status(201).json(Student);
-  } catch (error) {
-    res.status(400).json(error);
-    console.log(error);
+  // Query for Admission Data
+  const admission = await Admission.findOne({
+    admissionNumber: req.body.admissionNumberC,
+  });
+
+  // Query for Subject Data
+  const subject = await Subject.findOne({
+    code: req.body.code,
+  });
+  const { fullName } = req.body;
+
+  // console.log(subject);
+  if (admission && subject) {
+    try {
+      const student = await Student.create({
+        fullName,
+        admission: admission,
+        subject: subject,
+      });
+      console.log(student);
+      res.status(201).json(student);
+    } catch (error) {
+      res.status(400).json(error);
+      console.log(error);
+    }
+  } else {
+    res.status(301).json("Admission Number not found");
   }
 };
 

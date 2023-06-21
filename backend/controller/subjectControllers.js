@@ -3,10 +3,9 @@ const Subject = require("../models/subjectModel");
 // Create or add Subject
 const createSubject = async (req, res) => {
   console.log(req.body);
-  const db = [];
   try {
-    const Subject = await Subject.create(req.body);
-    res.status(201).json(Subject);
+    const subject = await Subject.create(req.body);
+    res.status(201).json(subject);
   } catch (error) {
     res.status(400).json(error);
     console.log(error);
@@ -16,8 +15,8 @@ const createSubject = async (req, res) => {
 //Get All Subject
 const getAllSubject = async (req, res) => {
   try {
-    const Subjects = await Subject.find();
-    res.json(Subjects);
+    const subjects = await Subject.find();
+    res.json(subjects);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -26,8 +25,8 @@ const getAllSubject = async (req, res) => {
 //Get Single Subject
 const getSingleSubject = async (req, res) => {
   try {
-    const Subject = await Subject.findById(req.params.id);
-    if (!Subject) {
+    const subject = await Subject.findById(req.params.id);
+    if (!subject) {
       return res.status(404).json({ error: "Subject not found" });
     }
     res.json(Subject);

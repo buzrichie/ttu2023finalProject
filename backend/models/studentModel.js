@@ -5,60 +5,14 @@ const StudentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    validate: {
-      validator: function (value) {
-        return /^[\w-]+(\.[\w-]+)*@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$/.test(
-          value
-        );
-      },
-      message: "Please enter a valid email address.",
-    },
-  },
-  dateOfBirth: {
-    type: Date,
+  admission: {
+    type: mongoose.Types.ObjectId,
+    ref: "Admission",
     required: true,
   },
-  grade: {
-    type: String,
-    required: true,
-  },
-  address: {
-    type: String,
-    required: true,
-  },
-  parentName: {
-    type: String,
-    required: true,
-  },
-  parentEmail: {
-    type: String,
-    required: true,
-    validate: {
-      validator: function (value) {
-        return /^[\w-]+(\.[\w-]+)*@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$/.test(
-          value
-        );
-      },
-      message: "Please enter a valid parent email address.",
-    },
-  },
-  parentPhone: {
-    type: String,
-    required: true,
-    validate: {
-      validator: function (value) {
-        return /^\d{10}$/.test(value);
-      },
-      message: "Please enter a valid 10-digit phone number.",
-    },
-  },
-  course: {
+  subject: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Course",
+    ref: "Subject",
     required: true,
   },
 });

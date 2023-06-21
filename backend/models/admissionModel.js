@@ -1,57 +1,14 @@
 const mongoose = require("mongoose");
 
-const AdmissionSchema = new mongoose.Schema({
-  fullName: {
-    type: String,
-    required: true,
-  },
-  dateOfBirth: {
-    type: Date,
-    required: true,
-  },
-  gardianFullName: {
-    type: String,
-    required: true,
-  },
-  gardianEmail: {
-    type: String,
-    required: true,
-    unique: true,
-    validate: {
-      validator: function (value) {
-        return /^[\w-]+(\.[\w-]+)*@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$/.test(
-          value
-        );
-      },
-      message: "Please enter a valid email address.",
+const AdmissionSchema = new mongoose.Schema(
+  {
+    admissionNumber: {
+      type: Number,
+      required: true,
     },
   },
-  gardianPhone: {
-    type: String,
-    required: true,
-    validate: {
-      validator: function (value) {
-        // Customize the validation logic for the phone field
-        return /^\d{10}$/.test(value);
-      },
-      message: "Please enter a valid 10-digit phone number.",
-    },
-  },
-  address: {
-    type: String,
-    required: true,
-  },
-  academicClass: {
-    type: String,
-    require: true,
-  },
-  previousSchool: {
-    type: String,
-  },
-  continiousAssessment: {
-    type: String,
-  },
-});
+  { timestamps: true }
+);
 
 // Pre-Save Hook: This function will be executed before saving the admission data
 AdmissionSchema.pre("save", function (next) {
