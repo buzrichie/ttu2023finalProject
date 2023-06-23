@@ -6,7 +6,7 @@ const StudentSchema = new mongoose.Schema({
     required: true,
   },
   admission: {
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "Admission",
     required: true,
   },
@@ -18,12 +18,11 @@ const StudentSchema = new mongoose.Schema({
   parentGuardian: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "ParentGuardian",
-    required: true,
   },
   academicLevel: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "AcademicLevel",
-    required: true,
+    // required: true,
   },
   subject: [
     {

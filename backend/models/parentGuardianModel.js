@@ -26,15 +26,11 @@ const ParentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  address: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Address",
-    required: true,
-  },
-  students: [
+  student: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Student",
+      required: true,
     },
   ],
 });

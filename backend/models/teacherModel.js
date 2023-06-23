@@ -50,7 +50,6 @@ const TeacherSchema = new mongoose.Schema({
   },
   teachingExperience: {
     type: Number,
-    required: true,
     validate: {
       validator: function (value) {
         return value >= 0;
@@ -58,12 +57,6 @@ const TeacherSchema = new mongoose.Schema({
       message: "Please enter a valid teaching experience (a positive number).",
     },
   },
-  subject: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Subject",
-    },
-  ],
 });
 
 const Teacher = mongoose.model("Teacher", TeacherSchema);

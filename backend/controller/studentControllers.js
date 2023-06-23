@@ -1,29 +1,64 @@
 const Student = require("../models/studentModel");
 const Subject = require("../models/subjectModel");
 const Admission = require("../models/admissionModel");
+const Address = require("../models/addressModel");
+const ParentGuardian = require("../models/parentGuardianModel");
+const AcademicLevel = require("../models/academicLevelModel");
 
 // Create or add Student
 const createStudent = async (req, res) => {
+  const {
+    applicantAdmissionNumber,
+    subjectCode,
+    applicantAcademicLevel,
+    p_gFullName,
+    p_gEmail,
+    p_gPhone,
+    p_gOccupation,
+  } = req.body;
+
   console.log(req.body);
   // Query for Admission Data
   const admission = await Admission.findOne({
-    admissionNumber: req.body.admissionNumberC,
+    admissionNumber: applicantAdmissionNumber,
   });
-
+  console.log("admission Passed");
   // Query for Subject Data
   const subject = await Subject.findOne({
-    code: req.body.code,
+    code: subjectCode,
   });
-  const { fullName } = req.body;
-
+  console.log("subject Passed");
+  // Query for Academic Level Data
+  const academicLevel = await AcademicLevel.findOne({
+    name: applicantAcademicLevel,
+  });
+  console.log(academicLevel);
   // console.log(subject);
-  if (admission && subject) {
+  if (admission && subject && academicLevel) {
     try {
-      const student = await Student.create({
-        fullName,
-        admission: admission,
-        subject: subject,
+      //Add Address to db
+      const address = await Address.create({
+        ...req.body,
       });
+      //Add Student to db
+      const student = await Student.create({
+        ...req.body,
+        admission,
+        subject,
+        address,
+      });
+      const parentGuardian = await ParentGuardian.create({
+        fullName: p_gFullName,
+        email: p_gEmail,
+        phone: p_gPhone,
+        occupation: p_gOccupation,
+        address,
+        student,
+      });
+
+      student.parentGuardian = parentGuardian._id;
+      await student.save();
+
       console.log(student);
       res.status(201).json(student);
     } catch (error) {
