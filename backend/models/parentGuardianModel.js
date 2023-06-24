@@ -1,30 +1,36 @@
 const mongoose = require("mongoose");
 
 const ParentSchema = new mongoose.Schema({
-  fullName: {
+  name: {
     type: String,
     required: true,
+    trim: true,
+    maxlength: 100,
   },
   email: {
     type: String,
     required: true,
     unique: true,
+    trim: true,
+    maxlength: 100,
     validate: {
-      validator: function (value) {
-        return /^[\w-]+(\.[\w-]+)*@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$/.test(
-          value
-        );
+      validator: (value) => {
+        return /^\S+@\S+\.\S+$/.test(value);
       },
-      message: "Please enter a valid email address.",
+      message: "Invalid email format",
     },
   },
   phone: {
     type: String,
     required: true,
+    trim: true,
+    maxlength: 20,
   },
   occupation: {
     type: String,
     required: true,
+    trim: true,
+    maxlength: 100,
   },
   student: [
     {

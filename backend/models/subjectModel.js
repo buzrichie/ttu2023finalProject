@@ -6,14 +6,15 @@ const SubjectSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+      trim: true,
+      maxlength: 100,
     },
     code: {
       type: String,
       required: true,
       unique: true,
-    },
-    description: {
-      type: String,
+      trim: true,
+      maxlength: 100,
     },
     academicLevel: [
       {

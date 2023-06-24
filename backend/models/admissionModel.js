@@ -3,12 +3,24 @@ const mongoose = require("mongoose");
 const AdmissionSchema = new mongoose.Schema(
   {
     admissionNumber: {
-      type: Number,
+      type: String,
       required: true,
+      unique: true,
+      trim: true,
+      maxlength: 20,
     },
     student: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Student",
+    },
+    admissionDate: {
+      type: Date,
+      required: true,
+    },
+    enrolledClass: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Class",
+      required: true,
     },
   },
   { timestamps: true }

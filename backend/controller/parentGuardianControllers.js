@@ -2,7 +2,6 @@ const ParentGuardian = require("../models/parentGuardianModel");
 
 // Create or add ParentGuardian
 const createParentGuardian = async (req, res) => {
-  const db = [];
   try {
     const ParentGuardian = await ParentGuardian.create(req.body);
     res.status(201).json(ParentGuardian);

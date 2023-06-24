@@ -1,17 +1,47 @@
 const mongoose = require("mongoose");
 
 const SchoolSchema = new mongoose.Schema({
-  name: {
+  schoolName: {
     type: String,
     required: true,
+    unique: true,
+    trim: true,
+    minlength: 2,
+    maxlength: 100,
   },
-  address: {
+  schoolAddress: {
     type: String,
     required: true,
+    trim: true,
+    maxlength: 200,
+  },
+  phoneNumber: {
+    type: String,
+    required: true,
+    trim: true,
+    maxlength: 15,
+  },
+  emailAddress: {
+    type: String,
+    required: true,
+    trim: true,
+    maxlength: 100,
+    validate: {
+      validator: function (value) {
+        // Simple email validation regex
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(value);
+      },
+      message: "Invalid email format",
+    },
   },
   principal: {
     type: String,
     required: true,
+    unique: true,
+    trim: true,
+    minlength: 2,
+    maxlength: 100,
   },
   teachers: [
     {
@@ -25,7 +55,7 @@ const SchoolSchema = new mongoose.Schema({
       ref: "Student",
     },
   ],
-  academicLevel: [
+  academicLevels: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "AcademicLevel",

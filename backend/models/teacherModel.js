@@ -1,8 +1,20 @@
 const mongoose = require("mongoose");
 
 const TeacherSchema = new mongoose.Schema({
-  fullName: {
+  firstName: {
     type: String,
+    required: true,
+    trim: true,
+    maxlength: 100,
+  },
+  lastName: {
+    type: String,
+    required: true,
+    trim: true,
+    maxlength: 100,
+  },
+  dateOfBirth: {
+    type: Date,
     required: true,
   },
   email: {
@@ -18,17 +30,6 @@ const TeacherSchema = new mongoose.Schema({
       message: "Please enter a valid email address.",
     },
   },
-  dateOfBirth: {
-    type: Date,
-    required: true,
-  },
-  subject: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Subject",
-      required: true,
-    },
-  ],
   phone: {
     type: String,
     required: true,
@@ -39,6 +40,13 @@ const TeacherSchema = new mongoose.Schema({
       message: "Please enter a valid 10-digit phone number.",
     },
   },
+  subjects: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Subject",
+      required: true,
+    },
+  ],
   address: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Address",
@@ -46,6 +54,11 @@ const TeacherSchema = new mongoose.Schema({
   },
   qualification: {
     type: String,
+    required: true,
+  },
+  school: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "School",
     required: true,
   },
   teachingExperience: {
