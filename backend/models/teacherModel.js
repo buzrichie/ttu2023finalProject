@@ -7,7 +7,7 @@ const TeacherSchema = new mongoose.Schema({
     trim: true,
     maxlength: 100,
   },
-  lastName: {
+  surName: {
     type: String,
     required: true,
     trim: true,
@@ -16,6 +16,11 @@ const TeacherSchema = new mongoose.Schema({
   dateOfBirth: {
     type: Date,
     required: true,
+  },
+  gender: {
+    type: String,
+    required: true,
+    enum: ["Male", "Female", "Other"],
   },
   email: {
     type: String,
@@ -35,30 +40,13 @@ const TeacherSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: function (value) {
-        return /^\d{10}$/.test(value);
+        return /^\d{1}$/.test(value);
       },
       message: "Please enter a valid 10-digit phone number.",
     },
   },
-  subjects: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Subject",
-      required: true,
-    },
-  ],
-  address: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Address",
-    required: true,
-  },
   qualification: {
     type: String,
-    required: true,
-  },
-  school: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "School",
     required: true,
   },
   teachingExperience: {
@@ -68,6 +56,23 @@ const TeacherSchema = new mongoose.Schema({
         return value >= 0;
       },
       message: "Please enter a valid teaching experience (a positive number).",
+    },
+    subjects: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Subject",
+        required: true,
+      },
+    ],
+    address: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Address",
+      required: true,
+    },
+    school: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "School",
+      required: true,
     },
   },
 });

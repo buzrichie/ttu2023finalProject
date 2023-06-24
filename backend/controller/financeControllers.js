@@ -5,20 +5,24 @@ const Student = require("../models/studentModel");
 const createFinance = async (req, res) => {
   try {
     const { _Student } = req.body;
+    if (!_Student) {
+      return res.status(400).json({ error: "Student Required" });
+    }
 
     // Query for Student Data
     const student = await Student.findOne({
       fullName: _Student,
     });
+    if (!student) {
+      return res.status(400).json({ error: "Student Not Found" });
+    }
 
     // Create Payment
-    if (student) {
-      const finance = await Finance.create({
-        student,
-        ...req.body,
-      });
-      res.status(201).json(finance);
-    }
+    const finance = await Finance.create({
+      student,
+      ...req.body,
+    });
+    res.status(201).json(finance);
   } catch (error) {
     res.status(400).json(error);
     console.log(error);

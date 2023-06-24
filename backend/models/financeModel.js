@@ -16,17 +16,17 @@ const FinanceSchema = new mongoose.Schema(
         message: "Payment amount must be a positive number",
       },
     },
-    student: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Student",
-      required: true,
-    },
     balance: {
       type: Number,
       required: true,
     },
     arrears: {
       type: Number,
+      required: true,
+    },
+    student: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Student",
       required: true,
     },
   },

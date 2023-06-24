@@ -9,17 +9,17 @@ const AdmissionSchema = new mongoose.Schema(
       trim: true,
       maxlength: 20,
     },
-    student: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Student",
-    },
     admissionDate: {
       type: Date,
       required: true,
     },
+    student: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Student",
+    },
     enrolledClass: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Class",
+      ref: "AcademicLevel",
       required: true,
     },
   },

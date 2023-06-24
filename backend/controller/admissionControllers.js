@@ -1,10 +1,22 @@
 const Admission = require("../models/admissionModel");
 const Student = require("../models/studentModel");
+const AcademicLevel = require("../models/academicLevelModel");
 
 // Create or add admission
 const createAdmission = async (req, res) => {
   try {
-    const { _Student } = req.body;
+    const { _Student, _EnrolledClass } = req.body;
+
+    if (!_EnrolledClass) {
+      return res.status(400).json({ error: "Class Required" });
+    }
+    const academicLevel = await AcademicLevel.findOne({
+      level: _EnrolledClass,
+    });
+
+    if (!academicLevel) {
+      return res.status(400).json({ error: "Class Not Available" });
+    }
 
     // Query for Student Data only if it provided in request body
     const student = _Student
@@ -15,6 +27,7 @@ const createAdmission = async (req, res) => {
 
     // Create Admission depending on Data found
     const Admission = await Admission.create({
+      academicLevel,
       student,
       ...req.body,
     });

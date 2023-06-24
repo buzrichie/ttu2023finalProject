@@ -1,7 +1,13 @@
 const mongoose = require("mongoose");
 
-const ParentSchema = new mongoose.Schema({
-  name: {
+const ParentGuardianSchema = new mongoose.Schema({
+  firstName: {
+    type: String,
+    required: true,
+    trim: true,
+    maxlength: 100,
+  },
+  surName: {
     type: String,
     required: true,
     trim: true,
@@ -41,6 +47,6 @@ const ParentSchema = new mongoose.Schema({
   ],
 });
 
-const Parent = mongoose.model("Parent", ParentSchema);
+const ParentGuardian = mongoose.model("ParentGuardian", ParentGuardianSchema);
 
-module.exports = Parent;
+module.exports = ParentGuardian;

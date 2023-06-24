@@ -1,30 +1,51 @@
 const Assessment = require("../models/assessmentModel");
 const Subject = require("../models/subjectModel");
 const Student = require("../models/studentModel");
+const Teacher = require("../models/teacherModel");
 
 // Create or add Assessment
 const createAssessment = async (req, res) => {
   try {
-    const { _Subject, _Student } = req.body;
+    const { _Subject, _Student, _Teacher } = req.body;
 
+    if (!_Subject) {
+      return res.status(400).json({ error: "Subject required" });
+    }
+    if (!_Student) {
+      return res.status(400).json({ error: "Student required" });
+    }
+    if (!_Teacher) {
+      return res.status(400).json({ error: "Teacher required" });
+    }
     // Query for Subject Data
     const subject = await Subject.findOne({
       name: _Subject,
     });
+    if (!subject) {
+      return res.status(400).json({ error: "Subject Not Available" });
+    }
     // Query for Student Data
     const student = await Student.findOne({
       fullName: _Student,
     });
-
-    // Create Assessment
-    if (subject && student) {
-      const assessment = await Assessment.create({
-        student,
-        subject,
-        ...req.body,
-      });
-      res.status(201).json(assessment);
+    if (!student) {
+      return res.status(400).json({ error: "Student Not Found" });
     }
+    // Query for Teacher Data
+    const teacher = await Teacher.findOne({
+      fullName: _Teacher,
+    });
+    if (!teacher) {
+      return res.status(400).json({ error: "Teacher Not Found" });
+    }
+    // Create Assessment
+    const assessment = await Assessment.create({
+      student,
+      subject,
+      teacher,
+      ...req.body,
+    });
+    res.status(201).json(assessment);
   } catch (error) {
     res.status(400).json(error);
     console.log(error);

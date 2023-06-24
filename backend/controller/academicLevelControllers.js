@@ -11,7 +11,7 @@ const createAcademicLevel = async (req, res) => {
     const subject = _Subject
       ? await Subject.findOne({
           name: _Subject,
-        }).exec()
+        })
       : null;
 
     // Query for Student Data only if it provided in request body

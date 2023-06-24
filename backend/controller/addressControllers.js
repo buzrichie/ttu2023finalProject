@@ -12,7 +12,7 @@ const createAddress = async (req, res) => {
     const parentGuardian = _ParentGuardian
       ? await ParentGuardian.findOne({
           fullName: _ParentGuardian,
-        }).exec()
+        })
       : null;
 
     // Query for Student Data only if it provided in request body

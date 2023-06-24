@@ -6,11 +6,11 @@ const AcademicLevelSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    school: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "School",
-      required: true,
-    },
+    // school: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "School",
+    //   required: true,
+    // },
     student: [
       {
         type: mongoose.Schema.Types.ObjectId,

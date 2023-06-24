@@ -8,7 +8,7 @@ const StudentSchema = new mongoose.Schema(
       trim: true,
       maxlength: 100,
     },
-    lastName: {
+    surName: {
       type: String,
       required: true,
       trim: true,
@@ -18,7 +18,7 @@ const StudentSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
-    admission: {
+    admissionNumber: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Admission",
       required: true,

@@ -12,7 +12,7 @@ const createSubject = async (req, res) => {
     const academicLevel = _AcademicLevel
       ? await AcademicLevel.findOne({
           level: _AcademicLevel,
-        }).exec()
+        })
       : null;
     console.log(academicLevel);
 

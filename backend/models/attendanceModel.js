@@ -13,6 +13,11 @@ const AttendanceSchema = new mongoose.Schema(
       ref: "Student",
       required: true,
     },
+    teacher: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Teacher",
+      required: true,
+    },
     remarks: {
       type: String,
       trim: true,

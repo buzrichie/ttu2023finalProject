@@ -1,10 +1,64 @@
 const ParentGuardian = require("../models/parentGuardianModel");
+const Student = require("../models/studentModel");
 
 // Create or add ParentGuardian
 const createParentGuardian = async (req, res) => {
   try {
-    const ParentGuardian = await ParentGuardian.create(req.body);
-    res.status(201).json(ParentGuardian);
+    const {
+      parentGuardianFirstName,
+      parentGuardianSurName,
+      parentGuardianEmail,
+      parentGuardianPhone,
+      parentGuardianOccupation,
+      student,
+    } = req.body;
+
+    if (!student) {
+      return res.status(400).json({ error: "Student required" });
+    }
+    if (!parentGuardianFirstName) {
+      return res
+        .status(400)
+        .json({ error: "Parent or Guardian Firstname required" });
+    }
+    if (!parentGuardianSurName) {
+      return res
+        .status(400)
+        .json({ error: "Parent or Guardian Surname required" });
+    }
+    if (!parentGuardianEmail) {
+      return res
+        .status(400)
+        .json({ error: "Parent or Guardian Email required" });
+    }
+    if (!parentGuardianPhone) {
+      return res
+        .status(400)
+        .json({ error: "Parent or Guardian Phone required" });
+    }
+    if (!parentGuardianOccupation) {
+      return res
+        .status(400)
+        .json({ error: "Parent or Guardian Occupation required" });
+    }
+
+    // Query for Student Data
+    const _Student = await Student.findOne({
+      fullName: student,
+    });
+    if (!_Student) {
+      return res.status(400).json({ error: "Student Not Found" });
+    }
+    const parentGuardian = await ParentGuardian.create({
+      firstName: parentGuardianFirstName,
+      surName: parentGuardianSurName,
+      email: parentGuardianEmail,
+      phone: parentGuardianPhone,
+      occupation: parentGuardianOccupation,
+      address,
+      student,
+    });
+    res.status(201).json(parentGuardian);
   } catch (error) {
     res.status(400).json(error);
     console.log(error);
