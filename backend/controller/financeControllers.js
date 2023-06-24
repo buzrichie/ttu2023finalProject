@@ -2,7 +2,6 @@ const Finance = require("../models/financeModel");
 
 // Create or add Finance
 const createFinance = async (req, res) => {
-  console.log(req.body);
   const db = [];
   try {
     const Finance = await Finance.create(req.body);

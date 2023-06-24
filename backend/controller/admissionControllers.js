@@ -2,7 +2,6 @@ const Admission = require("../models/admissionModel");
 
 // Create or add admission
 const createAdmission = async (req, res) => {
-  console.log(req.body);
   const db = [];
   try {
     const admission = await Admission.create(req.body);

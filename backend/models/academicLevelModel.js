@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const AcademicLevelSchema = new mongoose.Schema(
   {
-    name: {
+    level: {
       type: String,
       required: true,
     },

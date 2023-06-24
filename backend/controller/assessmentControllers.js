@@ -2,7 +2,6 @@ const Assessment = require("../models/assessmentModel");
 
 // Create or add Assessment
 const createAssessment = async (req, res) => {
-  console.log(req.body);
   const db = [];
   try {
     const Assessment = await Assessment.create(req.body);

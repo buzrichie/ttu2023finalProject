@@ -2,7 +2,6 @@ const School = require("../models/schoolModel");
 
 // Create or add School
 const createSchool = async (req, res) => {
-  console.log(req.body);
   const db = [];
   try {
     const School = await School.create(req.body);

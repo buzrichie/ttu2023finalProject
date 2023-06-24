@@ -2,7 +2,6 @@ const Attendance = require("../models/attendanceModel");
 
 // Create or add Attendance
 const createAttendance = async (req, res) => {
-  console.log(req.body);
   const db = [];
   try {
     const Attendance = await Attendance.create(req.body);

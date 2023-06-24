@@ -2,7 +2,6 @@ const Address = require("../models/addressModel");
 
 // Create or add Address
 const createAddress = async (req, res) => {
-  console.log(req.body);
   try {
     const address = await Address.create(req.body);
     res.status(201).json(address);

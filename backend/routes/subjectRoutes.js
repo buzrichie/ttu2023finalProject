@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const {
-  getAllSubject,
+  getAllSubjects,
   createSubject,
   getSingleSubject,
   updateSubject,
@@ -9,7 +9,7 @@ const {
 } = require("../controller/subjectControllers");
 
 //Routes for various Subjects
-router.get("/", getAllSubject);
+router.get("/", getAllSubjects);
 router.post("/", createSubject);
 router.get("/:id", getSingleSubject);
 router.put("/:id", updateSubject);

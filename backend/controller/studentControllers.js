@@ -8,19 +8,19 @@ const AcademicLevel = require("../models/academicLevelModel");
 // Create or add Student
 const createStudent = async (req, res) => {
   const {
-    applicantAdmissionNumber,
+    _AdmissionNumber,
     subjectCode,
-    applicantAcademicLevel,
-    p_gFullName,
-    p_gEmail,
-    p_gPhone,
-    p_gOccupation,
+    _AcademicLevel,
+    parentGuardianFullName,
+    parentGuardianEmail,
+    parentGuardianPhone,
+    parentGuardianOccupation,
   } = req.body;
 
   console.log(req.body);
   // Query for Admission Data
   const admission = await Admission.findOne({
-    admissionNumber: applicantAdmissionNumber,
+    admissionNumber: _AdmissionNumber,
   });
   console.log("admission Passed");
   // Query for Subject Data
@@ -30,7 +30,7 @@ const createStudent = async (req, res) => {
   console.log("subject Passed");
   // Query for Academic Level Data
   const academicLevel = await AcademicLevel.findOne({
-    name: applicantAcademicLevel,
+    level: _AcademicLevel,
   });
   console.log(academicLevel);
   // console.log(subject);
@@ -48,10 +48,10 @@ const createStudent = async (req, res) => {
         address,
       });
       const parentGuardian = await ParentGuardian.create({
-        fullName: p_gFullName,
-        email: p_gEmail,
-        phone: p_gPhone,
-        occupation: p_gOccupation,
+        fullName: parentGuardianFullName,
+        email: parentGuardianEmail,
+        phone: parentGuardianPhone,
+        occupation: parentGuardianOccupation,
         address,
         student,
       });
@@ -71,7 +71,7 @@ const createStudent = async (req, res) => {
 };
 
 //Get All Student
-const getAllStudent = async (req, res) => {
+const getAllStudents = async (req, res) => {
   try {
     const Students = await Student.find();
     res.json(Students);
@@ -121,7 +121,7 @@ const deleteStudent = async (req, res) => {
 };
 module.exports = {
   createStudent,
-  getAllStudent,
+  getAllStudents,
   getSingleStudent,
   updateStudent,
   deleteStudent,

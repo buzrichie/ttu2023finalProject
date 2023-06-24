@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const {
-  getAllStudent,
+  getAllStudents,
   createStudent,
   getSingleStudent,
   updateStudent,
@@ -9,7 +9,7 @@ const {
 } = require("../controller/studentControllers");
 
 //Routes for various Students
-router.get("/", getAllStudent);
+router.get("/", getAllStudents);
 router.post("/", createStudent);
 router.get("/:id", getSingleStudent);
 router.put("/:id", updateStudent);

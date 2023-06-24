@@ -2,8 +2,6 @@ const Teacher = require("../models/teacherModel");
 
 // Create or add Teacher
 const createTeacher = async (req, res) => {
-  console.log(req.body);
-  const db = [];
   try {
     const Teacher = await Teacher.create(req.body);
     res.status(201).json(Teacher);

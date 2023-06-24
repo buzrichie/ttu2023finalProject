@@ -1,19 +1,53 @@
 const Subject = require("../models/subjectModel");
+const AcademicLevel = require("../models/academicLevelModel");
+const Student = require("../models/studentModel");
+const Teacher = require("../models/teacherModel");
 
 // Create or add Subject
 const createSubject = async (req, res) => {
-  console.log(req.body);
   try {
-    const subject = await Subject.create(req.body);
+    const { _AcademicLevel, _Student, _Teacher } = req.body;
+
+    // Query for Academic Level Data only if provided in request body
+    const academicLevel = _AcademicLevel
+      ? await AcademicLevel.findOne({
+          level: _AcademicLevel,
+        }).exec()
+      : null;
+    console.log(academicLevel);
+
+    // Query for Student Data only if it provided in request body
+    const student = _Student
+      ? await Student.findOne({
+          fullName: _Student,
+        })
+      : null;
+    console.log(student);
+
+    // Query for Teacher Data only if it provided in request body
+    const teacher = _Teacher
+      ? await Teacher.findOne({
+          fullName: _Teacher,
+        })
+      : null;
+    console.log(teacher);
+
+    // Create Subject depending on Data found
+    const subject = await Subject.create({
+      academicLevel,
+      student,
+      teacher,
+      ...req.body,
+    });
     res.status(201).json(subject);
   } catch (error) {
-    res.status(400).json(error);
+    res.status(400).json({ error: error.message });
     console.log(error);
   }
 };
 
 //Get All Subject
-const getAllSubject = async (req, res) => {
+const getAllSubjects = async (req, res) => {
   try {
     const subjects = await Subject.find();
     res.json(subjects);
@@ -63,7 +97,7 @@ const deleteSubject = async (req, res) => {
 };
 module.exports = {
   createSubject,
-  getAllSubject,
+  getAllSubjects,
   getSingleSubject,
   updateSubject,
   deleteSubject,
