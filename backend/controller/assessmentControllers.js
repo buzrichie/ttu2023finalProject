@@ -1,11 +1,30 @@
 const Assessment = require("../models/assessmentModel");
+const Subject = require("../models/subjectModel");
+const Student = require("../models/studentModel");
 
 // Create or add Assessment
 const createAssessment = async (req, res) => {
-  const db = [];
   try {
-    const Assessment = await Assessment.create(req.body);
-    res.status(201).json(Assessment);
+    const { _Subject, _Student } = req.body;
+
+    // Query for Subject Data
+    const subject = await Subject.findOne({
+      name: _Subject,
+    });
+    // Query for Student Data
+    const student = await Student.findOne({
+      fullName: _Student,
+    });
+
+    // Create Assessment
+    if (subject && student) {
+      const assessment = await Assessment.create({
+        student,
+        subject,
+        ...req.body,
+      });
+      res.status(201).json(assessment);
+    }
   } catch (error) {
     res.status(400).json(error);
     console.log(error);

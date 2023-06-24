@@ -9,6 +9,11 @@ const FinanceSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  accountHolder: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Student",
+    required: true,
+  },
   amountPaid: {
     type: Number,
     required: true,

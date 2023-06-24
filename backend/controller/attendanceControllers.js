@@ -1,13 +1,29 @@
 const Attendance = require("../models/attendanceModel");
+const Student = require("../models/studentModel");
 
 // Create or add Attendance
 const createAttendance = async (req, res) => {
-  const db = [];
   try {
-    const Attendance = await Attendance.create(req.body);
-    res.status(201).json(Attendance);
+    const { _Student, status } = req.body;
+
+    // Query for Student Data
+    const student = await Student.findOne({
+      fullName: _Student,
+    });
+
+    if (!status || !["Present", "Absent", "Late"].includes(status)) {
+      return res.status(400).json({ error: "Invalid status" });
+    }
+    // Create Payment
+    if (student && status) {
+      const attendance = await Attendance.create({
+        student,
+        status,
+      });
+      res.status(201).json(attendance);
+    }
   } catch (error) {
-    res.status(400).json(error);
+    res.status(500).json(error);
     console.log(error);
   }
 };

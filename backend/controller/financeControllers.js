@@ -1,11 +1,24 @@
 const Finance = require("../models/financeModel");
+const Student = require("../models/studentModel");
 
 // Create or add Finance
 const createFinance = async (req, res) => {
-  const db = [];
   try {
-    const Finance = await Finance.create(req.body);
-    res.status(201).json(Finance);
+    const { _Student } = req.body;
+
+    // Query for Student Data
+    const student = await Student.findOne({
+      fullName: _Student,
+    });
+
+    // Create Payment
+    if (student) {
+      const finance = await Finance.create({
+        student,
+        ...req.body,
+      });
+      res.status(201).json(finance);
+    }
   } catch (error) {
     res.status(400).json(error);
     console.log(error);

@@ -14,6 +14,10 @@ const AddressSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Teacher",
     },
+    parentGuardian: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "ParentGuardian",
+    },
   },
   { timestamps: true }
 );

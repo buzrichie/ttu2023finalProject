@@ -1,9 +1,33 @@
 const AcademicLevel = require("../models/academicLevelModel");
+const Student = require("../models/studentModel");
+const Subject = require("../models/subjectModel");
 
 // Create or add AcademicLevel
 const createAcademicLevel = async (req, res) => {
   try {
-    const academicLevel = await AcademicLevel.create(req.body);
+    const { _Student, _Subject } = req.body;
+
+    // Query for Subject Data only if provided in request body
+    const subject = _Subject
+      ? await Subject.findOne({
+          name: _Subject,
+        }).exec()
+      : null;
+
+    // Query for Student Data only if it provided in request body
+    const student = _Student
+      ? await Student.findOne({
+          fullName: _Student,
+        })
+      : null;
+
+    // Create AcademicLevel depending on Data found
+    const academicLevel = await AcademicLevel.create({
+      student,
+      subject,
+      ...req.body,
+    });
+
     res.status(201).json(academicLevel);
   } catch (error) {
     res.status(400).json(error);
@@ -15,7 +39,7 @@ const createAcademicLevel = async (req, res) => {
 const getAllAcademicLevel = async (req, res) => {
   try {
     const academicLevels = await AcademicLevel.find();
-    res.json(academicLevels);
+    res.status(201).json(academicLevels);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

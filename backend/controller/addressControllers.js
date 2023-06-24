@@ -1,9 +1,41 @@
 const Address = require("../models/addressModel");
+const ParentGuardian = require("../models/parentGuardianModel");
+const Student = require("../models/studentModel");
+const Teacher = require("../models/teacherModel");
 
 // Create or add Address
 const createAddress = async (req, res) => {
   try {
-    const address = await Address.create(req.body);
+    const { _Student, _Teacher, _ParentGuardian } = req.body;
+
+    // Query for Parent Guardian Data only if provided in request body
+    const parentGuardian = _ParentGuardian
+      ? await ParentGuardian.findOne({
+          fullName: _ParentGuardian,
+        }).exec()
+      : null;
+
+    // Query for Student Data only if it provided in request body
+    const student = _Student
+      ? await Student.findOne({
+          fullName: _Student,
+        })
+      : null;
+
+    // Query for Teacher Data only if it provided in request body
+    const teacher = _Teacher
+      ? await Teacher.findOne({
+          fullName: _Teacher,
+        })
+      : null;
+
+    // Create Address depending on Data found
+    const address = await Address.create({
+      student,
+      teacher,
+      parentGuardian,
+      ...req.body,
+    });
     res.status(201).json(address);
   } catch (error) {
     res.status(400).json(error);
@@ -15,7 +47,7 @@ const createAddress = async (req, res) => {
 const getAllAddress = async (req, res) => {
   try {
     const addresss = await Address.find();
-    res.json(addresss);
+    res.status(201).json(addresss);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

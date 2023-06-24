@@ -1,13 +1,26 @@
 const Admission = require("../models/admissionModel");
+const Student = require("../models/studentModel");
 
 // Create or add admission
 const createAdmission = async (req, res) => {
-  const db = [];
   try {
+    const { _Student } = req.body;
+
+    // Query for Student Data only if it provided in request body
+    const student = _Student
+      ? await Student.findOne({
+          fullName: _Student,
+        })
+      : null;
+
+    // Create Admission depending on Data found
+    const Admission = await Admission.create({
+      student,
+      ...req.body,
+    });
+
     const admission = await Admission.create(req.body);
     res.status(201).json(admission);
-    // const admissionDb = await db.push(req.body);
-    // res.status(201).json(db.map((admi) => admi));
   } catch (error) {
     res.status(400).json(error);
     console.log(error);

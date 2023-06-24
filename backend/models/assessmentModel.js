@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 
 const AssessmentSchema = new mongoose.Schema({
-  title: {
-    type: String,
+  subject: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Subject",
     required: true,
   },
   description: {
@@ -13,13 +14,8 @@ const AssessmentSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  maxScore: {
+  score: {
     type: Number,
-    required: true,
-  },
-  subject: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Subject",
     required: true,
   },
 });

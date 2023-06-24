@@ -25,7 +25,13 @@ const SchoolSchema = new mongoose.Schema({
       ref: "Student",
     },
   ],
-  courses: [
+  academicLevel: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "AcademicLevel",
+    },
+  ],
+  subjects: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Course",
