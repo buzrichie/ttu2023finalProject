@@ -16,19 +16,19 @@ const SubjectSchema = new mongoose.Schema(
       trim: true,
       maxlength: 100,
     },
-    academicLevel: [
+    academicLevels: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "AcademicLevel",
       },
     ],
-    student: [
+    students: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Student",
       },
     ],
-    teacher: [
+    teachers: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Teacher",

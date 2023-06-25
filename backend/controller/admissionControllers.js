@@ -5,20 +5,21 @@ const AcademicLevel = require("../models/academicLevelModel");
 // Create or add admission
 const createAdmission = async (req, res) => {
   try {
-    const { _Student, _EnrolledClass } = req.body;
+    const { _Student, enrolledClass } = req.body;
 
-    if (!_EnrolledClass) {
+    if (!enrolledClass) {
       return res.status(400).json({ error: "Class Required" });
     }
+
     const academicLevel = await AcademicLevel.findOne({
-      level: _EnrolledClass,
+      level: enrolledClass,
     });
 
     if (!academicLevel) {
       return res.status(400).json({ error: "Class Not Available" });
     }
 
-    // Query for Student Data only if it provided in request body
+    // Query for Student Data only if it is provided in the request body
     const student = _Student
       ? await Student.findOne({
           fullName: _Student,
@@ -26,13 +27,14 @@ const createAdmission = async (req, res) => {
       : null;
 
     // Create Admission depending on Data found
-    const Admission = await Admission.create({
+    const admission = new Admission({
       academicLevel,
       student,
       ...req.body,
     });
 
-    const admission = await Admission.create(req.body);
+    await admission.save(); // Save the admission document
+
     res.status(201).json(admission);
   } catch (error) {
     res.status(400).json(error);

@@ -5,16 +5,24 @@ const Teacher = require("../models/teacherModel");
 // Create or add Attendance
 const createAttendance = async (req, res) => {
   try {
-    const { _Student, _Teacher, status } = req.body;
+    const { _Student, _Teacher, status, date } = req.body;
 
-    if (!status || !["Present", "Absent", "Late"].includes(status)) {
-      return res.status(400).json({ error: "Invalid status" });
+    if (!_Teacher) {
+      return res.status(400).json({ error: "Teacher required" });
     }
     if (!_Student) {
       return res.status(400).json({ error: "Student required" });
     }
-    if (!_Teacher) {
-      return res.status(400).json({ error: "Teacher required" });
+    if (!date) {
+      return res.status(400).json({ error: "Date required" });
+    }
+    if (
+      !status ||
+      !["Present", "Absent", "Late"].map((a) =>
+        a.toLowerCase.includes(status.toLowerCase)
+      )
+    ) {
+      return res.status(400).json({ error: "Invalid status" });
     }
     // Query for Student Data
     const student = await Student.findOne({

@@ -5,19 +5,21 @@ const AcademicLevelSchema = new mongoose.Schema(
     level: {
       type: String,
       required: true,
+      unique: true,
+      trim: true,
     },
     // school: {
     //   type: mongoose.Schema.Types.ObjectId,
     //   ref: "School",
     //   required: true,
     // },
-    student: [
+    students: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Student",
       },
     ],
-    subject: [
+    subjects: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Subject",

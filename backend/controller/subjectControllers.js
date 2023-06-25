@@ -6,8 +6,14 @@ const Teacher = require("../models/teacherModel");
 // Create or add Subject
 const createSubject = async (req, res) => {
   try {
-    const { _AcademicLevel, _Student, _Teacher } = req.body;
+    const { _AcademicLevel, _Student, _Teacher, name, code } = req.body;
 
+    if (!name) {
+      return res.status(400).json({ error: "Name required" });
+    }
+    if (!code) {
+      return res.status(400).json({ error: "Code required" });
+    }
     // Query for Academic Level Data only if provided in request body
     const academicLevel = _AcademicLevel
       ? await AcademicLevel.findOne({

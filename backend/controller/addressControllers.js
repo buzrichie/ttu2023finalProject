@@ -6,8 +6,32 @@ const Teacher = require("../models/teacherModel");
 // Create or add Address
 const createAddress = async (req, res) => {
   try {
-    const { _Student, _Teacher, _ParentGuardian } = req.body;
+    const {
+      _Student,
+      _Teacher,
+      _ParentGuardian,
+      street,
+      wpsAddress,
+      country,
+      state,
+      city,
+    } = req.body;
 
+    if (!street) {
+      return res.status(400).json({ error: "Street required" });
+    }
+    if (!country) {
+      return res.status(400).json({ error: "Street required" });
+    }
+    if (!state) {
+      return res.status(400).json({ error: "Street required" });
+    }
+    if (!city) {
+      return res.status(400).json({ error: "Street required" });
+    }
+    if (!wpsAddress) {
+      return res.status(400).json({ error: "Street required" });
+    }
     // Query for Parent Guardian Data only if provided in request body
     const parentGuardian = _ParentGuardian
       ? await ParentGuardian.findOne({

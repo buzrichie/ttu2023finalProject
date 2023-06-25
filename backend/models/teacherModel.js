@@ -40,7 +40,7 @@ const TeacherSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: function (value) {
-        return /^\d{1}$/.test(value);
+        return /^\d{10}$/.test(value);
       },
       message: "Please enter a valid 10-digit phone number.",
     },
@@ -57,23 +57,23 @@ const TeacherSchema = new mongoose.Schema({
       },
       message: "Please enter a valid teaching experience (a positive number).",
     },
-    subjects: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Subject",
-        required: true,
-      },
-    ],
-    address: {
+  },
+  subjects: [
+    {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Address",
+      ref: "Subject",
       required: true,
     },
-    school: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "School",
-      required: true,
-    },
+  ],
+  address: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Address",
+    required: true,
+  },
+  school: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "School",
+    required: true,
   },
 });
 

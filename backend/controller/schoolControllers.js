@@ -58,11 +58,11 @@ const createSchool = async (req, res) => {
 //Get Single School
 const getSingleSchool = async (req, res) => {
   try {
-    const School = await School.findById(req.params.id);
-    if (!School) {
+    const school = await School.findById(req.params.id);
+    if (!school) {
       return res.status(404).json({ error: "School not found" });
     }
-    res.json(School);
+    res.json(school);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

@@ -17,7 +17,7 @@ const AdmissionSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Student",
     },
-    enrolledClass: {
+    academicLevel: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "AcademicLevel",
       required: true,

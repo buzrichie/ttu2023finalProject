@@ -2,17 +2,15 @@ const Student = require("../models/studentModel");
 const Subject = require("../models/subjectModel");
 const Admission = require("../models/admissionModel");
 const AcademicLevel = require("../models/academicLevelModel");
-const { createAddress } = require("../controller/addressControllers");
-const {
-  createParentGuardian,
-} = require("../controller/parentGuardianControllers");
+const Address = require("../models/addressModel");
+const School = require("../models/schoolModel");
+const ParentGuardian = require("../models/parentGuardianModel");
 
 // Create or add Student
-
 const createStudent = async (req, res) => {
   try {
     const {
-      _AdmissionNumber,
+      admissionNumber,
       _Subject,
       _AcademicLevel,
       parentGuardianFirstName,
@@ -27,7 +25,7 @@ const createStudent = async (req, res) => {
       surName,
       dateOfBirth,
     } = req.body;
-
+    const { street, wpsAddress, country, state, city } = _address;
     //Request body field checks
     if (!firstName) {
       return res.status(400).json({ error: "Firstname required" });
@@ -38,14 +36,26 @@ const createStudent = async (req, res) => {
     if (!dateOfBirth) {
       return res.status(400).json({ error: "Date of Birth required" });
     }
-    if (!_AdmissionNumber) {
+    if (!admissionNumber) {
       return res.status(400).json({ error: "Admission Number required" });
     }
     if (!gender) {
       return res.status(400).json({ error: "Gender required" });
     }
-    if (!_address) {
-      return res.status(400).json({ error: "Address required" });
+    if (!street) {
+      return res.status(400).json({ error: "Street required" });
+    }
+    if (!country) {
+      return res.status(400).json({ error: "Street required" });
+    }
+    if (!state) {
+      return res.status(400).json({ error: "Street required" });
+    }
+    if (!city) {
+      return res.status(400).json({ error: "Street required" });
+    }
+    if (!wpsAddress) {
+      return res.status(400).json({ error: "Street required" });
     }
     if (!_School) {
       return res.status(400).json({ error: "School required" });
@@ -82,17 +92,24 @@ const createStudent = async (req, res) => {
         .json({ error: "Parent or Guardian Surname Occupation required" });
     }
 
-    console.log(req.body);
+    // Query for School Data
+    const school = await School.findOne({
+      schoolName: _School,
+    });
+    if (!school) {
+      return res.status(400).json({ error: "School Invalid" });
+    }
     // Query for Admission Data
     const admission = await Admission.findOne({
-      admissionNumber: _AdmissionNumber,
+      admissionNumber: admissionNumber,
     });
     if (!admission) {
       return res.status(400).json({ error: "Admission Number Invalid" });
     }
+
     // Query for Subject Data
     const subject = await Subject.findOne({
-      code: subjectCode,
+      code: _Subject,
     });
     if (!subject) {
       return res.status(400).json({ error: "Subject Not Available" });
@@ -106,29 +123,53 @@ const createStudent = async (req, res) => {
     }
 
     //Add Address to db
-    const address = await createAddress();
+
+    const address = await Address.create(_address);
     if (!address) {
       return res.status(500).json({ error: "Student Creation Failed" });
     }
+
     //Add Student to db
     const student = await Student.create({
-      ...req.body,
       admission,
-      subject,
+      subjects: subject,
       address,
+      school,
+      academicLevel,
+      ...req.body,
     });
     if (!student) {
       return res.status(500).json({ error: "Student Creation Failed" });
     }
-    const parentGuardian = await createParentGuardian;
+    const parentGuardian = await ParentGuardian.create({
+      firstName: parentGuardianFirstName,
+      surName: parentGuardianSurName,
+      email: parentGuardianEmail,
+      phone: parentGuardianPhone,
+      occupation: parentGuardianOccupation,
+      address,
+      student,
+    });
     if (!parentGuardian) {
       await Student.findByIdAndDelete(student._id);
       return res.status(500).json({ error: "Student Creation Failed" });
     }
+
+    //Update Models fields after Student Created
     student.parentGuardian = parentGuardian._id;
-    student = await student.save();
-    if (!student) {
-      await Student.findByIdAndDelete(student._id);
+    const saveStudent = await student.save();
+
+    school.students = student._id;
+    subject.students = student._id;
+    address.student = student._id;
+    address.parentGuardian = parentGuardian._id;
+    await school.save();
+    await subject.save();
+
+    const savedAddress = await address.save();
+
+    if (!(saveStudent && savedAddress)) {
+      await Student.findByIdAndDelete(saveStudent._id);
       return res.status(500).json({ error: "Student Creation Failed" });
     }
     res.status(201).json(student);

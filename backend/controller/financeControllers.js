@@ -4,9 +4,22 @@ const Student = require("../models/studentModel");
 // Create or add Finance
 const createFinance = async (req, res) => {
   try {
-    const { _Student } = req.body;
+    const { _Student, balance, amount, type, arrears } = req.body;
+
     if (!_Student) {
       return res.status(400).json({ error: "Student Required" });
+    }
+    if (!amount) {
+      return res.status(400).json({ error: "Amount Required" });
+    }
+    if (!type) {
+      return res.status(400).json({ error: "Payment Type Required" });
+    }
+    if (!balance) {
+      return res.status(400).json({ error: "Balance Required" });
+    }
+    if (!arrears) {
+      return res.status(400).json({ error: "Arrears Required" });
     }
 
     // Query for Student Data

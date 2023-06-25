@@ -38,7 +38,7 @@ const ParentGuardianSchema = new mongoose.Schema({
     trim: true,
     maxlength: 100,
   },
-  student: [
+  students: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Student",

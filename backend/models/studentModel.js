@@ -18,7 +18,7 @@ const StudentSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
-    admissionNumber: {
+    admission: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Admission",
       required: true,
@@ -43,7 +43,7 @@ const StudentSchema = new mongoose.Schema(
       ref: "AcademicLevel",
       required: true,
     },
-    subject: [
+    subjects: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Subject",

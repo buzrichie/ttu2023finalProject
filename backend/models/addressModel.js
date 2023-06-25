@@ -30,10 +30,10 @@ const AddressSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      maxlength: 10,
+      maxlength: 11,
       validate: {
         validator: (value) => {
-          return /^[A-Z]{2}-\d{3}-\d{4}$/.test(value);
+          return /^[A-Z]{2}-\d{3}-\d{4}$/gi.test(value);
         },
         message: "Invalid zip code format",
       },

@@ -6,7 +6,7 @@ const Teacher = require("../models/teacherModel");
 // Create or add Assessment
 const createAssessment = async (req, res) => {
   try {
-    const { _Subject, _Student, _Teacher } = req.body;
+    const { _Subject, _Student, _Teacher, name, score } = req.body;
 
     if (!_Subject) {
       return res.status(400).json({ error: "Subject required" });
@@ -16,6 +16,12 @@ const createAssessment = async (req, res) => {
     }
     if (!_Teacher) {
       return res.status(400).json({ error: "Teacher required" });
+    }
+    if (!name) {
+      return res.status(400).json({ error: "Name required" });
+    }
+    if (!score) {
+      return res.status(400).json({ error: "Score required" });
     }
     // Query for Subject Data
     const subject = await Subject.findOne({
