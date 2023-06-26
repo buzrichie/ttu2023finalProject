@@ -11,8 +11,6 @@ const createStudent = async (req, res) => {
   try {
     const {
       admissionNumber,
-      _Subject,
-      _AcademicLevel,
       parentGuardianFirstName,
       parentGuardianSurName,
       parentGuardianEmail,
@@ -20,13 +18,12 @@ const createStudent = async (req, res) => {
       parentGuardianOccupation,
       gender,
       _address,
-      _School,
       firstName,
       surName,
       dateOfBirth,
     } = req.body;
     const { street, wpsAddress, country, state, city } = _address;
-    //Request body field checks
+    // Request body field checks
     if (!firstName) {
       return res.status(400).json({ error: "Firstname required" });
     }
@@ -46,25 +43,16 @@ const createStudent = async (req, res) => {
       return res.status(400).json({ error: "Street required" });
     }
     if (!country) {
-      return res.status(400).json({ error: "Street required" });
+      return res.status(400).json({ error: "Country required" });
     }
     if (!state) {
-      return res.status(400).json({ error: "Street required" });
+      return res.status(400).json({ error: "State required" });
     }
     if (!city) {
-      return res.status(400).json({ error: "Street required" });
+      return res.status(400).json({ error: "City required" });
     }
     if (!wpsAddress) {
-      return res.status(400).json({ error: "Street required" });
-    }
-    if (!_School) {
-      return res.status(400).json({ error: "School required" });
-    }
-    if (!_AcademicLevel) {
-      return res.status(400).json({ error: "Class required" });
-    }
-    if (!_Subject) {
-      return res.status(400).json({ error: "Subject required" });
+      return res.status(400).json({ error: "WPS Address required" });
     }
     if (!parentGuardianFirstName) {
       return res
@@ -79,68 +67,44 @@ const createStudent = async (req, res) => {
     if (!parentGuardianEmail) {
       return res
         .status(400)
-        .json({ error: "Parent or Guardian Surname Email required" });
+        .json({ error: "Parent or Guardian Email required" });
     }
     if (!parentGuardianPhone) {
       return res
         .status(400)
-        .json({ error: "Parent or Guardian Surname Phone required" });
+        .json({ error: "Parent or Guardian Phone required" });
     }
     if (!parentGuardianOccupation) {
       return res
         .status(400)
-        .json({ error: "Parent or Guardian Surname Occupation required" });
+        .json({ error: "Parent or Guardian Occupation required" });
     }
 
-    // Query for School Data
-    const school = await School.findOne({
-      schoolName: _School,
-    });
-    if (!school) {
-      return res.status(400).json({ error: "School Invalid" });
-    }
     // Query for Admission Data
-    const admission = await Admission.findOne({
-      admissionNumber: admissionNumber,
-    });
+    const admission = await Admission.findOne({ admissionNumber });
     if (!admission) {
-      return res.status(400).json({ error: "Admission Number Invalid" });
+      return res.status(400).json({ error: "Invalid Admission Number" });
     }
 
-    // Query for Subject Data
-    const subject = await Subject.findOne({
-      code: _Subject,
-    });
-    if (!subject) {
-      return res.status(400).json({ error: "Subject Not Available" });
-    }
-    // Query for Academic Level Data
-    const academicLevel = await AcademicLevel.findOne({
-      level: _AcademicLevel,
-    });
-    if (!academicLevel) {
-      return res.status(400).json({ error: "Class Not Available" });
-    }
-
-    //Add Address to db
-
+    // Add Address to db
     const address = await Address.create(_address);
     if (!address) {
       return res.status(500).json({ error: "Student Creation Failed" });
     }
 
-    //Add Student to db
+    // Add Student to db
     const student = await Student.create({
       admission,
-      subjects: subject,
       address,
-      school,
-      academicLevel,
+      school: admission.school._id,
+      academicLevel: admission.academicLevel._id,
       ...req.body,
     });
     if (!student) {
       return res.status(500).json({ error: "Student Creation Failed" });
     }
+
+    // Add Parent/Guardian to db
     const parentGuardian = await ParentGuardian.create({
       firstName: parentGuardianFirstName,
       surName: parentGuardianSurName,
@@ -155,35 +119,67 @@ const createStudent = async (req, res) => {
       return res.status(500).json({ error: "Student Creation Failed" });
     }
 
-    //Update Models fields after Student Created
+    // Update Models fields after Student Created
     student.parentGuardian = parentGuardian._id;
-    const saveStudent = await student.save();
-
-    school.students = student._id;
-    subject.students = student._id;
     address.student = student._id;
     address.parentGuardian = parentGuardian._id;
+    await address.save();
+
+    // Query for School Data
+    const school = await School.findById(student.school);
+    if (!school) {
+      await Student.findByIdAndDelete(student._id);
+      return res.status(400).json({ error: "School Not Found" });
+    }
+    school.students.push(student);
     await school.save();
-    await subject.save();
 
-    const savedAddress = await address.save();
+    // Query for Academic Level Data
+    const academicLevel = await AcademicLevel.findById(student.academicLevel);
+    if (!academicLevel) {
+      await Student.findByIdAndDelete(student._id);
+      return res.status(400).json({ error: "Class Not Found" });
+    }
+    academicLevel.students.push(student);
+    await academicLevel.save();
 
-    if (!(saveStudent && savedAddress)) {
+    // Assign student subjects by Looping through Class or Academic Level Subjects
+    for (const academicLevelSubject of academicLevel.subjects) {
+      student.subjects.push(academicLevelSubject);
+    }
+
+    // Assign student subjects by Looping through Class or Academic Level Subjects
+    const subjects = await Subject.find({ _id: { $in: student.subjects } });
+    if (!subjects) {
+      await Student.findByIdAndDelete(student._id);
+      return res.status(400).json({ error: "Subjects not found" });
+    }
+
+    // Loop through the subjects and reference the student
+    for (const subject of subjects) {
+      subject.students.push(student);
+      await subject.save();
+    }
+
+    const saveStudent = await student.save();
+    if (!saveStudent) {
       await Student.findByIdAndDelete(saveStudent._id);
       return res.status(500).json({ error: "Student Creation Failed" });
     }
-    res.status(201).json(student);
+
+    console.log(saveStudent);
+    res.status(201).json(saveStudent);
   } catch (error) {
     res.status(400).json(error);
     console.log(error);
   }
 };
 
-//Get All Student
+//Get All Students
 const getAllStudents = async (req, res) => {
   try {
-    const Students = await Student.find();
-    res.json(Students);
+    const students = await Student.find();
+    res.json(students);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -192,11 +188,11 @@ const getAllStudents = async (req, res) => {
 //Get Single Student
 const getSingleStudent = async (req, res) => {
   try {
-    const Student = await Student.findById(req.params.id);
-    if (!Student) {
+    const student = await Student.findById(req.params.id);
+    if (!student) {
       return res.status(404).json({ error: "Student not found" });
     }
-    res.json(Student);
+    res.json(student);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -205,22 +201,23 @@ const getSingleStudent = async (req, res) => {
 //Update Student
 const updateStudent = async (req, res) => {
   try {
-    const Student = await Student.findByIdAndUpdate(req.params.id, req.body, {
+    const student = await Student.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
-    if (!Student) {
+    if (!student) {
       return res.status(404).json({ error: "Student not found" });
     }
-    res.json(Student);
+    res.json(student);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
+
 // Delete Student
 const deleteStudent = async (req, res) => {
   try {
-    const Student = await Student.findByIdAndDelete(req.params.id);
-    if (!Student) {
+    const student = await Student.findByIdAndDelete(req.params.id);
+    if (!student) {
       return res.status(404).json({ error: "Student not found" });
     }
     res.json({ message: "Student deleted successfully" });
@@ -228,6 +225,7 @@ const deleteStudent = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
 module.exports = {
   createStudent,
   getAllStudents,

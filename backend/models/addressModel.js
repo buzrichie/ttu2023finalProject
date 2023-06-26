@@ -50,6 +50,10 @@ const AddressSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "ParentGuardian",
     },
+    school: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "School",
+    },
   },
   { timestamps: true }
 );

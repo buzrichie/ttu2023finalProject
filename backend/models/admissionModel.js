@@ -22,6 +22,11 @@ const AdmissionSchema = new mongoose.Schema(
       ref: "AcademicLevel",
       required: true,
     },
+    school: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "School",
+      required: true,
+    },
   },
   { timestamps: true }
 );

@@ -10,10 +10,11 @@ const createParentGuardian = async (req, res) => {
       parentGuardianEmail,
       parentGuardianPhone,
       parentGuardianOccupation,
-      student,
+      _Student,
+      address,
     } = req.body;
 
-    if (!student) {
+    if (!_Student) {
       return res.status(400).json({ error: "Student required" });
     }
     if (!parentGuardianFirstName) {
@@ -42,11 +43,15 @@ const createParentGuardian = async (req, res) => {
         .json({ error: "Parent or Guardian Occupation required" });
     }
 
+    if (!address) {
+      return res.status(400).json({ error: "Address required" });
+    }
     // Query for Student Data
-    const _Student = await Student.findOne({
-      fullName: student,
+    const student = await Student.findOne({
+      fullName: _Student,
     });
-    if (!_Student) {
+
+    if (!student) {
       return res.status(400).json({ error: "Student Not Found" });
     }
     const parentGuardian = await ParentGuardian.create({
@@ -55,9 +60,13 @@ const createParentGuardian = async (req, res) => {
       email: parentGuardianEmail,
       phone: parentGuardianPhone,
       occupation: parentGuardianOccupation,
-      address,
+      address: address,
       student,
     });
+
+    if (!parentGuardian) {
+      return res.status(400).json({ error: "Guardian Not Created" });
+    }
     res.status(201).json(parentGuardian);
   } catch (error) {
     res.status(400).json(error);

@@ -1,36 +1,64 @@
 const AcademicLevel = require("../models/academicLevelModel");
-const Student = require("../models/studentModel");
+// const Student = require("../models/studentModel");
 const Subject = require("../models/subjectModel");
+const School = require("../models/schoolModel");
 
 // Create or add AcademicLevel
 const createAcademicLevel = async (req, res) => {
   try {
-    const { _Student, _Subject, level } = req.body;
+    const { _Subject, level, _School } = req.body;
 
     if (!level) {
       return res.status(400).json({ error: "Class required" });
     }
     // Query for Subject Data only if provided in request body
-    const subject = _Subject
-      ? await Subject.findOne({
-          name: _Subject,
+    const school = _School
+      ? await School.findOne({
+          schoolName: _School,
         })
       : null;
 
-    // Query for Student Data only if it provided in request body
-    const student = _Student
-      ? await Student.findOne({
-          fullName: _Student,
+    // Query for Subject Data only if provided in request body
+    const subject = _Subject
+      ? await Subject.findOne({
+          code: _Subject,
         })
       : null;
 
     // Create AcademicLevel depending on Data found
     const academicLevel = await AcademicLevel.create({
-      student,
-      subject,
+      school,
       ...req.body,
     });
 
+    if (!academicLevel) {
+      return res.status(400).json({ error: "Class Not Created" });
+    }
+
+    //Update fields that relate to Class - Academic Level
+    if (school) {
+      school.academicLevels.push(academicLevel);
+      await school.save();
+    }
+
+    // Update fields that relate to Class - Academic Level
+    if (_Subject) {
+      const subjects = await Subject.find({
+        code: _Subject,
+      });
+
+      if (subjects) {
+        subjects.map(async (subject) => {
+          academicLevel.subjects.push(subject);
+          await academicLevel.save();
+
+          // Update subject.academicLevels field
+          subject.academicLevels.push(academicLevel);
+          await subject.save();
+        });
+      }
+    }
+    //Submit Academic Level
     res.status(201).json(academicLevel);
   } catch (error) {
     res.status(400).json(error);
@@ -51,11 +79,11 @@ const getAllAcademicLevel = async (req, res) => {
 //Get Single AcademicLevel
 const getSingleAcademicLevel = async (req, res) => {
   try {
-    const AcademicLevel = await AcademicLevel.findById(req.params.id);
-    if (!AcademicLevel) {
+    const academicLevel = await AcademicLevel.findById(req.params.id);
+    if (!academicLevel) {
       return res.status(404).json({ error: "AcademicLevel not found" });
     }
-    res.json(AcademicLevel);
+    res.json(academicLevel);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -64,17 +92,17 @@ const getSingleAcademicLevel = async (req, res) => {
 //Update AcademicLevel
 const updateAcademicLevel = async (req, res) => {
   try {
-    const AcademicLevel = await AcademicLevel.findByIdAndUpdate(
+    const academicLevel = await AcademicLevel.findByIdAndUpdate(
       req.params.id,
       req.body,
       {
         new: true,
       }
     );
-    if (!AcademicLevel) {
+    if (!academicLevel) {
       return res.status(404).json({ error: "AcademicLevel not found" });
     }
-    res.json(AcademicLevel);
+    res.json(academicLevel);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -82,8 +110,8 @@ const updateAcademicLevel = async (req, res) => {
 // Delete AcademicLevel
 const deleteAcademicLevel = async (req, res) => {
   try {
-    const AcademicLevel = await AcademicLevel.findByIdAndDelete(req.params.id);
-    if (!AcademicLevel) {
+    const academicLevel = await AcademicLevel.findByIdAndDelete(req.params.id);
+    if (!academicLevel) {
       return res.status(404).json({ error: "AcademicLevel not found" });
     }
     res.json({ message: "AcademicLevel deleted successfully" });

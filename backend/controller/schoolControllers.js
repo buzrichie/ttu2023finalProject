@@ -3,12 +3,53 @@ const Subject = require("../models/subjectModel");
 const AcademicLevel = require("../models/academicLevelModel");
 const Student = require("../models/studentModel");
 const Teacher = require("../models/teacherModel");
+const Address = require("../models/addressModel");
 
 // Create or add School
 const createSchool = async (req, res) => {
   try {
-    const { _AcademicLevel, _Student, _Teacher, _Subject } = req.body;
+    const {
+      _AcademicLevel,
+      _Student,
+      _Teacher,
+      _Subject,
+      schoolName,
+      phoneNumber,
+      emailAddress,
+      principal,
+      _Address,
+    } = req.body;
+    const { street, wpsAddress, country, state, city } = _Address;
 
+    if (!schoolName) {
+      return res.status(400).json({ error: "School Name required" });
+    }
+    if (!phoneNumber) {
+      return res.status(400).json({ error: "School Phone required" });
+    }
+    if (!emailAddress) {
+      return res.status(400).json({ error: "School Email required" });
+    }
+    if (!principal) {
+      return res.status(400).json({ error: "School Principal required" });
+    }
+    if (!country) {
+      return res.status(400).json({ error: "Street required" });
+    }
+    if (!state) {
+      return res.status(400).json({ error: "Street required" });
+    }
+    if (!city) {
+      return res.status(400).json({ error: "Street required" });
+    }
+    if (!wpsAddress) {
+      return res.status(400).json({ error: "Street required" });
+    }
+    //Add Address to db
+    const address = await Address.create(_Address);
+    if (!address) {
+      return res.status(500).json({ error: "Student Creation Failed" });
+    }
     // Query for Academic Level Data only if provided in request body
     const academicLevel = _AcademicLevel
       ? await AcademicLevel.findOne({
@@ -16,7 +57,6 @@ const createSchool = async (req, res) => {
         })
       : null;
 
-    console.log(academicLevel);
     // Query for Subject Data only if provided in request body
     const subject = _Subject
       ? await Subject.findOne({
@@ -45,7 +85,7 @@ const createSchool = async (req, res) => {
       academicLevel,
       student,
       teacher,
-      subject,
+      address,
       ...req.body,
     });
     res.status(201).json(school);

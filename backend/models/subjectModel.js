@@ -28,6 +28,12 @@ const SubjectSchema = new mongoose.Schema(
         ref: "Student",
       },
     ],
+    schools: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "School",
+      },
+    ],
     teachers: [
       {
         type: mongoose.Schema.Types.ObjectId,

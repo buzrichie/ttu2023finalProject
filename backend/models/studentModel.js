@@ -21,6 +21,7 @@ const StudentSchema = new mongoose.Schema(
     admission: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Admission",
+      // unique: true,
       required: true,
     },
     gender: {
@@ -47,7 +48,6 @@ const StudentSchema = new mongoose.Schema(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Subject",
-        required: true,
       },
     ],
     parentGuardian: {

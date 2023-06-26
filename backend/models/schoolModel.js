@@ -9,12 +9,6 @@ const SchoolSchema = new mongoose.Schema({
     minlength: 2,
     maxlength: 100,
   },
-  schoolAddress: {
-    type: String,
-    required: true,
-    trim: true,
-    maxlength: 200,
-  },
   phoneNumber: {
     type: String,
     required: true,
@@ -42,6 +36,11 @@ const SchoolSchema = new mongoose.Schema({
     trim: true,
     minlength: 2,
     maxlength: 100,
+  },
+  address: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Address",
+    required: true,
   },
   teachers: [
     {

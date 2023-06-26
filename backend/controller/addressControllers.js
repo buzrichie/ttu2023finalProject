@@ -1,21 +1,9 @@
 const Address = require("../models/addressModel");
-const ParentGuardian = require("../models/parentGuardianModel");
-const Student = require("../models/studentModel");
-const Teacher = require("../models/teacherModel");
 
 // Create or add Address
 const createAddress = async (req, res) => {
   try {
-    const {
-      _Student,
-      _Teacher,
-      _ParentGuardian,
-      street,
-      wpsAddress,
-      country,
-      state,
-      city,
-    } = req.body;
+    const { street, wpsAddress, country, state, city } = req.body;
 
     if (!street) {
       return res.status(400).json({ error: "Street required" });
@@ -32,34 +20,36 @@ const createAddress = async (req, res) => {
     if (!wpsAddress) {
       return res.status(400).json({ error: "Street required" });
     }
-    // Query for Parent Guardian Data only if provided in request body
-    const parentGuardian = _ParentGuardian
-      ? await ParentGuardian.findOne({
-          fullName: _ParentGuardian,
-        })
-      : null;
+    // // Query for Parent Guardian Data only if provided in request body
+    // const parentGuardian = _ParentGuardian
+    //   ? await ParentGuardian.findOne({
+    //       fullName: _ParentGuardian,
+    //     })
+    //   : null;
 
-    // Query for Student Data only if it provided in request body
-    const student = _Student
-      ? await Student.findOne({
-          fullName: _Student,
-        })
-      : null;
+    // // Query for Student Data only if it provided in request body
+    // const student = _Student
+    //   ? await Student.findOne({
+    //       fullName: _Student,
+    //     })
+    //   : null;
 
-    // Query for Teacher Data only if it provided in request body
-    const teacher = _Teacher
-      ? await Teacher.findOne({
-          fullName: _Teacher,
-        })
-      : null;
+    // // Query for Teacher Data only if it provided in request body
+    // const teacher = _Teacher
+    //   ? await Teacher.findOne({
+    //       fullName: _Teacher,
+    //     })
+    //   : null;
 
-    // Create Address depending on Data found
+    // Create Address
     const address = await Address.create({
-      student,
-      teacher,
-      parentGuardian,
       ...req.body,
     });
+
+    if (!address) {
+      return res.status(400).json({ error: "Address Not Created" });
+    }
+    //Submit Address
     res.status(201).json(address);
   } catch (error) {
     res.status(400).json(error);
