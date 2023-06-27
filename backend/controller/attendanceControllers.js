@@ -55,8 +55,8 @@ const createAttendance = async (req, res) => {
 //Get All Attendance
 const getAllAttendance = async (req, res) => {
   try {
-    const Attendances = await Attendance.find();
-    res.json(Attendances);
+    const attendances = await Attendance.find();
+    res.json(attendances);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -65,11 +65,11 @@ const getAllAttendance = async (req, res) => {
 //Get Single Attendance
 const getSingleAttendance = async (req, res) => {
   try {
-    const Attendance = await Attendance.findById(req.params.id);
-    if (!Attendance) {
+    const attendance = await Attendance.findById(req.params.id);
+    if (!attendance) {
       return res.status(404).json({ error: "Attendance not found" });
     }
-    res.json(Attendance);
+    res.json(attendance);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -78,15 +78,15 @@ const getSingleAttendance = async (req, res) => {
 //Update Attendance
 const updateAttendance = async (req, res) => {
   try {
-    const Attendance = await Attendance.findByIdAndUpdate(
+    const attendance = await Attendance.findByIdAndUpdate(
       req.params.id,
       req.body,
       { new: true }
     );
-    if (!Attendance) {
+    if (!attendance) {
       return res.status(404).json({ error: "Attendance not found" });
     }
-    res.json(Attendance);
+    res.json(attendance);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -94,8 +94,8 @@ const updateAttendance = async (req, res) => {
 // Delete Attendance
 const deleteAttendance = async (req, res) => {
   try {
-    const Attendance = await Attendance.findByIdAndDelete(req.params.id);
-    if (!Attendance) {
+    const attendance = await Attendance.findByIdAndDelete(req.params.id);
+    if (!attendance) {
       return res.status(404).json({ error: "Attendance not found" });
     }
     res.json({ message: "Attendance deleted successfully" });

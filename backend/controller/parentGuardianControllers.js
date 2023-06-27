@@ -11,7 +11,7 @@ const createParentGuardian = async (req, res) => {
       parentGuardianPhone,
       parentGuardianOccupation,
       _Student,
-      address,
+      _Address,
     } = req.body;
 
     if (!_Student) {
@@ -43,33 +43,37 @@ const createParentGuardian = async (req, res) => {
         .json({ error: "Parent or Guardian Occupation required" });
     }
 
-    if (!address) {
+    if (!_Address) {
       return res.status(400).json({ error: "Address required" });
     }
-    // Query for Student Data
+
+    // Query for Student Data using the provided ID
     const student = await Student.findOne({
-      fullName: _Student,
+      _id: _Student,
     });
 
     if (!student) {
       return res.status(400).json({ error: "Student Not Found" });
     }
+
+    // Create ParentGuardian document using the provided data and queried student
     const parentGuardian = await ParentGuardian.create({
       firstName: parentGuardianFirstName,
       surName: parentGuardianSurName,
       email: parentGuardianEmail,
       phone: parentGuardianPhone,
       occupation: parentGuardianOccupation,
-      address: address,
+      address: _Address,
       student,
     });
 
     if (!parentGuardian) {
       return res.status(400).json({ error: "Guardian Not Created" });
     }
+
     res.status(201).json(parentGuardian);
   } catch (error) {
-    res.status(400).json(error);
+    res.status(400).json({ error: error.message });
     console.log(error);
   }
 };
@@ -77,8 +81,8 @@ const createParentGuardian = async (req, res) => {
 //Get All ParentGuardian
 const getAllParentGuardian = async (req, res) => {
   try {
-    const ParentGuardians = await ParentGuardian.find();
-    res.json(ParentGuardians);
+    const parentGuardians = await ParentGuardian.find();
+    res.json(parentGuardians);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -87,11 +91,11 @@ const getAllParentGuardian = async (req, res) => {
 //Get Single ParentGuardian
 const getSingleParentGuardian = async (req, res) => {
   try {
-    const ParentGuardian = await ParentGuardian.findById(req.params.id);
-    if (!ParentGuardian) {
+    const parentGuardian = await ParentGuardian.findById(req.params.id);
+    if (!parentGuardian) {
       return res.status(404).json({ error: "ParentGuardian not found" });
     }
-    res.json(ParentGuardian);
+    res.json(parentGuardian);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -100,15 +104,15 @@ const getSingleParentGuardian = async (req, res) => {
 //Update ParentGuardian
 const updateParentGuardian = async (req, res) => {
   try {
-    const ParentGuardian = await ParentGuardian.findByIdAndUpdate(
+    const parentGuardian = await ParentGuardian.findByIdAndUpdate(
       req.params.id,
       req.body,
       { new: true }
     );
-    if (!ParentGuardian) {
+    if (!parentGuardian) {
       return res.status(404).json({ error: "ParentGuardian not found" });
     }
-    res.json(ParentGuardian);
+    res.json(parentGuardian);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -116,10 +120,10 @@ const updateParentGuardian = async (req, res) => {
 // Delete ParentGuardian
 const deleteParentGuardian = async (req, res) => {
   try {
-    const ParentGuardian = await ParentGuardian.findByIdAndDelete(
+    const parentGuardian = await ParentGuardian.findByIdAndDelete(
       req.params.id
     );
-    if (!ParentGuardian) {
+    if (!parentGuardian) {
       return res.status(404).json({ error: "ParentGuardian not found" });
     }
     res.json({ message: "ParentGuardian deleted successfully" });

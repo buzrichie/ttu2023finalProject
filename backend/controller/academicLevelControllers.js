@@ -1,5 +1,4 @@
 const AcademicLevel = require("../models/academicLevelModel");
-// const Student = require("../models/studentModel");
 const Subject = require("../models/subjectModel");
 const School = require("../models/schoolModel");
 
@@ -11,23 +10,16 @@ const createAcademicLevel = async (req, res) => {
     if (!level) {
       return res.status(400).json({ error: "Class required" });
     }
-    // Query for Subject Data only if provided in request body
-    const school = _School
-      ? await School.findOne({
-          schoolName: _School,
-        })
-      : null;
 
     // Query for Subject Data only if provided in request body
-    const subject = _Subject
-      ? await Subject.findOne({
-          code: _Subject,
-        })
-      : null;
+    const school = _School ? await School.findById(_School) : null;
+
+    // Query for Subject Data only if provided in request body
+    const subject = _Subject ? await Subject.findById(_Subject) : null;
 
     // Create AcademicLevel depending on Data found
     const academicLevel = await AcademicLevel.create({
-      school,
+      school: school ? school._id : null,
       ...req.body,
     });
 
@@ -35,30 +27,27 @@ const createAcademicLevel = async (req, res) => {
       return res.status(400).json({ error: "Class Not Created" });
     }
 
-    //Update fields that relate to Class - Academic Level
+    // Update fields that relate to Class - Academic Level
     if (school) {
-      school.academicLevels.push(academicLevel);
-      await school.save();
+      school.academicLevels.push(academicLevel._id);
+      const savedSchool = await school.save();
+      if (!savedSchool) {
+        await AcademicLevel.findByIdAndDelete(academicLevel._id);
+        return res.status(500).json({ error: "Class Creation Failed" });
+      }
     }
 
     // Update fields that relate to Class - Academic Level
-    if (_Subject) {
-      const subjects = await Subject.find({
-        code: _Subject,
-      });
+    if (subject) {
+      academicLevel.subjects.push(subject._id);
+      await academicLevel.save();
 
-      if (subjects) {
-        subjects.map(async (subject) => {
-          academicLevel.subjects.push(subject);
-          await academicLevel.save();
-
-          // Update subject.academicLevels field
-          subject.academicLevels.push(academicLevel);
-          await subject.save();
-        });
-      }
+      // Update subject.academicLevels field
+      subject.academicLevels.push(academicLevel._id);
+      await subject.save();
     }
-    //Submit Academic Level
+
+    // Submit Academic Level
     res.status(201).json(academicLevel);
   } catch (error) {
     res.status(400).json(error);
@@ -107,6 +96,7 @@ const updateAcademicLevel = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
 // Delete AcademicLevel
 const deleteAcademicLevel = async (req, res) => {
   try {
@@ -119,6 +109,7 @@ const deleteAcademicLevel = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
 module.exports = {
   createAcademicLevel,
   getAllAcademicLevel,

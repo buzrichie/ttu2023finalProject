@@ -17,6 +17,12 @@ const TeacherSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  application: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Application",
+    unique: true,
+    required: true,
+  },
   gender: {
     type: String,
     required: true,
@@ -69,6 +75,10 @@ const TeacherSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Address",
     required: true,
+  },
+  academicLevel: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "AcademicLevel",
   },
   school: {
     type: mongoose.Schema.Types.ObjectId,

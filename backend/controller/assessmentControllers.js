@@ -61,8 +61,8 @@ const createAssessment = async (req, res) => {
 //Get All Assessment
 const getAllAssessment = async (req, res) => {
   try {
-    const Assessments = await Assessment.find();
-    res.json(Assessments);
+    const assessments = await Assessment.find();
+    res.json(assessments);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -71,11 +71,11 @@ const getAllAssessment = async (req, res) => {
 //Get Single Assessment
 const getSingleAssessment = async (req, res) => {
   try {
-    const Assessment = await Assessment.findById(req.params.id);
-    if (!Assessment) {
+    const assessment = await Assessment.findById(req.params.id);
+    if (!assessment) {
       return res.status(404).json({ error: "Assessment not found" });
     }
-    res.json(Assessment);
+    res.json(assessment);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -84,15 +84,15 @@ const getSingleAssessment = async (req, res) => {
 //Update Assessment
 const updateAssessment = async (req, res) => {
   try {
-    const Assessment = await Assessment.findByIdAndUpdate(
+    const assessment = await Assessment.findByIdAndUpdate(
       req.params.id,
       req.body,
       { new: true }
     );
-    if (!Assessment) {
+    if (!assessment) {
       return res.status(404).json({ error: "Assessment not found" });
     }
-    res.json(Assessment);
+    res.json(assessment);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -100,8 +100,8 @@ const updateAssessment = async (req, res) => {
 // Delete Assessment
 const deleteAssessment = async (req, res) => {
   try {
-    const Assessment = await Assessment.findByIdAndDelete(req.params.id);
-    if (!Assessment) {
+    const assessment = await Assessment.findByIdAndDelete(req.params.id);
+    if (!assessment) {
       return res.status(404).json({ error: "Assessment not found" });
     }
     res.json({ message: "Assessment deleted successfully" });

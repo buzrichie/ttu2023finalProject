@@ -9,37 +9,17 @@ const createAddress = async (req, res) => {
       return res.status(400).json({ error: "Street required" });
     }
     if (!country) {
-      return res.status(400).json({ error: "Street required" });
+      return res.status(400).json({ error: "Country required" });
     }
     if (!state) {
-      return res.status(400).json({ error: "Street required" });
+      return res.status(400).json({ error: "State required" });
     }
     if (!city) {
-      return res.status(400).json({ error: "Street required" });
+      return res.status(400).json({ error: "City required" });
     }
     if (!wpsAddress) {
-      return res.status(400).json({ error: "Street required" });
+      return res.status(400).json({ error: "WPS Address required" });
     }
-    // // Query for Parent Guardian Data only if provided in request body
-    // const parentGuardian = _ParentGuardian
-    //   ? await ParentGuardian.findOne({
-    //       fullName: _ParentGuardian,
-    //     })
-    //   : null;
-
-    // // Query for Student Data only if it provided in request body
-    // const student = _Student
-    //   ? await Student.findOne({
-    //       fullName: _Student,
-    //     })
-    //   : null;
-
-    // // Query for Teacher Data only if it provided in request body
-    // const teacher = _Teacher
-    //   ? await Teacher.findOne({
-    //       fullName: _Teacher,
-    //     })
-    //   : null;
 
     // Create Address
     const address = await Address.create({
@@ -49,7 +29,8 @@ const createAddress = async (req, res) => {
     if (!address) {
       return res.status(400).json({ error: "Address Not Created" });
     }
-    //Submit Address
+
+    // Submit Address
     res.status(201).json(address);
   } catch (error) {
     res.status(400).json(error);
@@ -70,11 +51,11 @@ const getAllAddress = async (req, res) => {
 //Get Single Address
 const getSingleAddress = async (req, res) => {
   try {
-    const Address = await Address.findById(req.params.id);
-    if (!Address) {
+    const address = await Address.findById(req.params.id);
+    if (!address) {
       return res.status(404).json({ error: "Address not found" });
     }
-    res.json(Address);
+    res.json(address);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -83,13 +64,13 @@ const getSingleAddress = async (req, res) => {
 //Update Address
 const updateAddress = async (req, res) => {
   try {
-    const Address = await Address.findByIdAndUpdate(req.params.id, req.body, {
+    const address = await Address.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
-    if (!Address) {
+    if (!address) {
       return res.status(404).json({ error: "Address not found" });
     }
-    res.json(Address);
+    res.json(address);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -97,11 +78,11 @@ const updateAddress = async (req, res) => {
 // Delete Address
 const deleteAddress = async (req, res) => {
   try {
-    const Address = await Address.findByIdAndDelete(req.params.id);
-    if (!Address) {
+    const address = await Address.findByIdAndDelete(req.params.id);
+    if (!address) {
       return res.status(404).json({ error: "Address not found" });
     }
-    res.json({ message: "Address deleted successfully" });
+    res.json({ message: "Address deleted successfully", address: address });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

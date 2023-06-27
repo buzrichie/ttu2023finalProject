@@ -42,43 +42,30 @@ const createSchool = async (req, res) => {
     if (!city) {
       return res.status(400).json({ error: "Street required" });
     }
+    if (!street) {
+      return res.status(400).json({ error: "Street required" });
+    }
     if (!wpsAddress) {
       return res.status(400).json({ error: "Street required" });
     }
     //Add Address to db
     const address = await Address.create(_Address);
     if (!address) {
-      return res.status(500).json({ error: "Student Creation Failed" });
+      return res.status(500).json({ error: "Address Creation Failed" });
     }
     // Query for Academic Level Data only if provided in request body
     const academicLevel = _AcademicLevel
-      ? await AcademicLevel.findOne({
-          level: _AcademicLevel,
-        })
+      ? await AcademicLevel.findOne({ _id: _AcademicLevel })
       : null;
 
     // Query for Subject Data only if provided in request body
-    const subject = _Subject
-      ? await Subject.findOne({
-          name: _Subject,
-        })
-      : null;
+    const subject = _Subject ? await Subject.findOne({ _id: _Subject }) : null;
 
-    // Query for Student Data only if it provided in request body
-    const student = _Student
-      ? await Student.findOne({
-          fullName: _Student,
-        })
-      : null;
-    console.log(student);
+    // Query for Student Data only if provided in request body
+    const student = _Student ? await Student.findOne({ _id: _Student }) : null;
 
-    // Query for Teacher Data only if it provided in request body
-    const teacher = _Teacher
-      ? await Teacher.findOne({
-          fullName: _Teacher,
-        })
-      : null;
-    console.log(teacher);
+    // Query for Teacher Data only if provided in request body
+    const teacher = _Teacher ? await Teacher.findOne({ _id: _Teacher }) : null;
 
     // Create School depending on Data found
     const school = await School.create({
@@ -88,6 +75,11 @@ const createSchool = async (req, res) => {
       address,
       ...req.body,
     });
+
+    if (!school) {
+      return res.status(400).json({ error: "School Not Created" });
+    }
+
     res.status(201).json(school);
   } catch (error) {
     res.status(400).json(error);
@@ -99,10 +91,11 @@ const createSchool = async (req, res) => {
 const getSingleSchool = async (req, res) => {
   try {
     const school = await School.findById(req.params.id);
+
     if (!school) {
       return res.status(404).json({ error: "School not found" });
     }
-    res.json(school);
+    res.json(school.populate);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -111,13 +104,13 @@ const getSingleSchool = async (req, res) => {
 //Update School
 const updateSchool = async (req, res) => {
   try {
-    const School = await School.findByIdAndUpdate(req.params.id, req.body, {
+    const school = await School.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
-    if (!School) {
+    if (!school) {
       return res.status(404).json({ error: "School not found" });
     }
-    res.json(School);
+    res.json(school);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -125,8 +118,8 @@ const updateSchool = async (req, res) => {
 // Delete School
 const deleteSchool = async (req, res) => {
   try {
-    const School = await School.findByIdAndDelete(req.params.id);
-    if (!School) {
+    const school = await School.findByIdAndDelete(req.params.id);
+    if (!school) {
       return res.status(404).json({ error: "School not found" });
     }
     res.json({ message: "School deleted successfully" });

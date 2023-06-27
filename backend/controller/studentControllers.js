@@ -138,6 +138,8 @@ const createStudent = async (req, res) => {
     const academicLevel = await AcademicLevel.findById(student.academicLevel);
     if (!academicLevel) {
       await Student.findByIdAndDelete(student._id);
+      await Address.findByIdAndDelete(address._id);
+      await ParentGuardian.findByIdAndDelete(parentGuardian._id);
       return res.status(400).json({ error: "Class Not Found" });
     }
     academicLevel.students.push(student);
@@ -148,10 +150,12 @@ const createStudent = async (req, res) => {
       student.subjects.push(academicLevelSubject);
     }
 
-    // Assign student subjects by Looping through Class or Academic Level Subjects
+    // Query for all student subjects in Subjects Database
     const subjects = await Subject.find({ _id: { $in: student.subjects } });
     if (!subjects) {
       await Student.findByIdAndDelete(student._id);
+      await Address.findByIdAndDelete(address._id);
+      await ParentGuardian.findByIdAndDelete(parentGuardian._id);
       return res.status(400).json({ error: "Subjects not found" });
     }
 
@@ -164,6 +168,8 @@ const createStudent = async (req, res) => {
     const saveStudent = await student.save();
     if (!saveStudent) {
       await Student.findByIdAndDelete(saveStudent._id);
+      await Address.findByIdAndDelete(address._id);
+      await ParentGuardian.findByIdAndDelete(parentGuardian._id);
       return res.status(500).json({ error: "Student Creation Failed" });
     }
 
@@ -180,6 +186,7 @@ const getAllStudents = async (req, res) => {
   try {
     const students = await Student.find();
     res.json(students);
+    console.log({ students });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

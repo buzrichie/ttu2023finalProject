@@ -24,6 +24,12 @@ const AcademicLevelSchema = new mongoose.Schema(
         ref: "Subject",
       },
     ],
+    teachers: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Teacher",
+      },
+    ],
   },
   { timestamps: true }
 );

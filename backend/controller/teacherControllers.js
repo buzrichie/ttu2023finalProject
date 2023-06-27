@@ -2,6 +2,8 @@ const Teacher = require("../models/teacherModel");
 const Subject = require("../models/subjectModel");
 const Address = require("../models/addressModel");
 const School = require("../models/schoolModel");
+const Application = require("../models/applicationModel");
+const AcademicLevel = require("../models/academicLevelModel");
 
 // Create or add Teacher
 const createTeacher = async (req, res) => {
@@ -11,6 +13,7 @@ const createTeacher = async (req, res) => {
       gender,
       _address,
       _School,
+      applicationNumber,
       email,
       phone,
       qualification,
@@ -32,6 +35,9 @@ const createTeacher = async (req, res) => {
     }
     if (!email) {
       return res.status(400).json({ error: "Email reqiured" });
+    }
+    if (!applicationNumber) {
+      return res.status(400).json({ error: "Application Number required" });
     }
     if (!phone) {
       return res.status(400).json({ error: "Phone Number required" });
@@ -67,58 +73,57 @@ const createTeacher = async (req, res) => {
       return res.status(400).json({ error: "Subject required" });
     }
 
-    // Query for School Data
-    const school = await School.findOne({
-      schoolName: _School,
-    });
-    if (!school) {
-      return res.status(400).json({ error: "School Invalid" });
+    // Query for Application Data
+    const application = await Application.findOne({ applicationNumber });
+    if (!application) {
+      return res.status(400).json({ error: "Invalid Application Number" });
     }
 
-    // Query for Admission Data
-    // const admission = await Admission.findOne({
-    //   admissionNumber: _AdmissionNumber,
-    // });
-    // if (!admission) {
-    //   return res.status(400).json({ error: "Admission Number Invalid" });
-    // }
-
-    // Query for Subject Data
-    const subject = await Subject.findOne({
-      code: _Subject,
-    });
-    if (!subject) {
-      return res
-        .status(400)
-        .json({ error: "Subject or Subjects Not Available" });
-    }
-
-    //Add Address to db
+    // Add Address to db
     const address = await Address.create(_address);
     if (!address) {
       return res.status(500).json({ error: "Teacher Creation Failed" });
     }
 
+    // Add Teacher to db
     const teacher = await Teacher.create({
-      subjects: subject,
+      application,
       address,
-      school,
+      school: application.school._id,
+      academicLevel: application.academicLevel
+        ? application.academicLevel._id
+        : null,
       ...req.body,
     });
     if (!teacher) {
       return res.status(500).json({ error: "Teacher Creation Failed" });
     }
-    //Update Models fields after Teacher Created
-    teacher.address = teacher._id;
-    address.teacher = teacher._id;
-    school.teachers = teacher._id;
+    // Query for School Data
+    const school = await School.findById(teacher.school);
+    if (!school) {
+      await Teacher.findByIdAndDelete(teacher._id);
+      return res.status(400).json({ error: "School Not Found" });
+    }
+    school.teachers.push(teacher);
     await school.save();
-    await subject.save();
-    const saveTeacher = await teacher.save();
-    const savedAddress = await address.save();
+    console.log(teacher);
+    console.log(teacher.academicLevel);
+    if (teacher.academicLevel) {
+      // Query for Academic Level Data
+      const academicLevel = await AcademicLevel.findById(teacher.academicLevel);
 
-    if (!(saveTeacher && savedAddress)) {
+      if (!academicLevel) {
+        await Teacher.findByIdAndDelete(teacher._id);
+        await Address.findByIdAndDelete(address._id);
+        return res.status(400).json({ error: "Class Not Found" });
+      }
+      academicLevel.teachers.push(teacher);
+      await academicLevel.save();
+    }
+    const saveTeacher = await teacher.save();
+    if (!saveTeacher) {
       await Teacher.findByIdAndDelete(saveTeacher._id);
+      await Address.findByIdAndDelete(address._id);
       return res.status(500).json({ error: "Teacher Creation Failed" });
     }
     res.status(201).json(teacher);
@@ -141,11 +146,11 @@ const getAllTeacher = async (req, res) => {
 //Get Single Teacher
 const getSingleTeacher = async (req, res) => {
   try {
-    const Teacher = await Teacher.findById(req.params.id);
-    if (!Teacher) {
+    const teacher = await Teacher.findById(req.params.id);
+    if (!teacher) {
       return res.status(404).json({ error: "Teacher not found" });
     }
-    res.json(Teacher);
+    res.json(teacher);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -154,13 +159,13 @@ const getSingleTeacher = async (req, res) => {
 //Update Teacher
 const updateTeacher = async (req, res) => {
   try {
-    const Teacher = await Teacher.findByIdAndUpdate(req.params.id, req.body, {
+    const teacher = await Teacher.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
-    if (!Teacher) {
+    if (!teacher) {
       return res.status(404).json({ error: "Teacher not found" });
     }
-    res.json(Teacher);
+    res.json(teacher);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -168,8 +173,8 @@ const updateTeacher = async (req, res) => {
 // Delete Teacher
 const deleteTeacher = async (req, res) => {
   try {
-    const Teacher = await Teacher.findByIdAndDelete(req.params.id);
-    if (!Teacher) {
+    const teacher = await Teacher.findByIdAndDelete(req.params.id);
+    if (!teacher) {
       return res.status(404).json({ error: "Teacher not found" });
     }
     res.json({ message: "Teacher deleted successfully" });

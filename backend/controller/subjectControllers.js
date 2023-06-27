@@ -1,7 +1,5 @@
 const Subject = require("../models/subjectModel");
 const AcademicLevel = require("../models/academicLevelModel");
-// const Student = require("../models/studentModel");
-// const Teacher = require("../models/teacherModel");
 const School = require("../models/schoolModel");
 
 // Create or add Subject
@@ -15,14 +13,11 @@ const createSubject = async (req, res) => {
     if (!code) {
       return res.status(400).json({ error: "Code required" });
     }
-    // if (!_School) {
-    //   return res.status(400).json({ error: "School required" });
-    // }
 
-    // Query for Subject Data only if provided in request body
+    // Query for School Data only if provided in request body
     const school = _School
       ? await School.findOne({
-          schoolName: _School,
+          _id: _School,
         })
       : null;
 
@@ -32,16 +27,16 @@ const createSubject = async (req, res) => {
     if (!subject) {
       return res.status(400).json({ error: "Subject Not Created" });
     }
-    console.log(subject);
+
     if (school) {
       school.subjects.push(subject);
       await school.save();
     }
 
-    // Update fields that relate to Class - Academic Level
+    // Update fields that relate to AcademicLevel - Subject
     if (_AcademicLevel) {
       const academicLevels = await AcademicLevel.find({
-        level: _AcademicLevel,
+        _id: _AcademicLevel,
       });
 
       if (academicLevels) {
@@ -56,18 +51,6 @@ const createSubject = async (req, res) => {
       }
     }
 
-    // if (student) {
-    //   subject.students.push(student);
-    //   student.subjects.push(subject);
-    //   await subject.save();
-    //   await student.save();
-    // }
-    // if (teacher) {
-    //   subject.teachers.push(teacher);
-    //   teacher.subjects.push(subject);
-    //   await subject.save();
-    //   await teacher.save();
-    // }
     //Submit Subject
     res.status(201).json(subject);
   } catch (error) {

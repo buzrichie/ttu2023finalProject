@@ -68,13 +68,13 @@ const getSingleFinance = async (req, res) => {
 //Update Finance
 const updateFinance = async (req, res) => {
   try {
-    const Finance = await Finance.findByIdAndUpdate(req.params.id, req.body, {
+    const finance = await Finance.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
-    if (!Finance) {
+    if (!finance) {
       return res.status(404).json({ error: "Finance not found" });
     }
-    res.json(Finance);
+    res.json(finance);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -82,8 +82,8 @@ const updateFinance = async (req, res) => {
 // Delete Finance
 const deleteFinance = async (req, res) => {
   try {
-    const Finance = await Finance.findByIdAndDelete(req.params.id);
-    if (!Finance) {
+    const finance = await Finance.findByIdAndDelete(req.params.id);
+    if (!finance) {
       return res.status(404).json({ error: "Finance not found" });
     }
     res.json({ message: "Finance deleted successfully" });

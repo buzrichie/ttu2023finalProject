@@ -21,7 +21,7 @@ const StudentSchema = new mongoose.Schema(
     admission: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Admission",
-      // unique: true,
+      unique: true,
       required: true,
     },
     gender: {

@@ -1,6 +1,6 @@
-const Admission = require("../models/admissionModel");
 const School = require("../models/schoolModel");
 const AcademicLevel = require("../models/academicLevelModel");
+const Admission = require("../models/admissionModel");
 
 // Create or add admission
 const createAdmission = async (req, res) => {
@@ -22,13 +22,14 @@ const createAdmission = async (req, res) => {
     }
 
     const school = await School.findOne({
-      schoolName: _School,
+      _id: _School,
     });
     if (!school) {
-      return res.status(400).json({ error: "School Invalid" });
+      return res.status(400).json({ error: "Invalid School" });
     }
+
     const academicLevel = await AcademicLevel.findOne({
-      level: _AcademicLevel,
+      _id: _AcademicLevel,
     });
 
     if (!academicLevel) {
@@ -44,7 +45,8 @@ const createAdmission = async (req, res) => {
     if (!admission) {
       return res.status(400).json({ error: "Admission Not Created" });
     }
-    //Submit Admission
+
+    // Submit Admission
     res.status(201).json(admission);
   } catch (error) {
     res.status(400).json(error);

@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 
 //Imported Route files
 const admissionRoutes = require("./routes/admissionRoutes");
+const applicationRoutes = require("./routes/applicationRoutes");
 const assessmentRoutes = require("./routes/assessmentRoutes");
 const attendanceRoutes = require("./routes/attendanceRoutes");
 const financeRoutes = require("./routes/financeRoutes");
@@ -49,6 +50,7 @@ app.use((req, res, next) => {
 
 //Routes
 app.use("/api/admission", admissionRoutes);
+app.use("/api/application", applicationRoutes);
 app.use("/api/assessment", assessmentRoutes);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/finance", financeRoutes);
