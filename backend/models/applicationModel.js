@@ -11,15 +11,15 @@ const ApplicationSchema = new mongoose.Schema(
     },
     applicationDate: {
       type: Date,
-      required: true,
+      // required: true,
     },
     teacher: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Student",
     },
-    academicLevel: {
+    subject: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "AcademicLevel",
+      ref: "Subject",
     },
     school: {
       type: mongoose.Schema.Types.ObjectId,

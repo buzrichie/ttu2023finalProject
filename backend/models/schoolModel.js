@@ -20,6 +20,7 @@ const SchoolSchema = new mongoose.Schema({
     required: true,
     trim: true,
     maxlength: 100,
+    lowercase: true,
     validate: {
       validator: function (value) {
         // Simple email validation regex
@@ -52,6 +53,12 @@ const SchoolSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Student",
+    },
+  ],
+  enrollment: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Enrollment",
     },
   ],
   academicLevels: [

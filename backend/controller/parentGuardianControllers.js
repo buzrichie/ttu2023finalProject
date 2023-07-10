@@ -11,7 +11,10 @@ const createParentGuardian = async (req, res) => {
       parentGuardianPhone,
       parentGuardianOccupation,
       _Student,
-      _Address,
+      street,
+      wpsAddress,
+      state,
+      city,
     } = req.body;
 
     if (!_Student) {
@@ -43,8 +46,8 @@ const createParentGuardian = async (req, res) => {
         .json({ error: "Parent or Guardian Occupation required" });
     }
 
-    if (!_Address) {
-      return res.status(400).json({ error: "Address required" });
+    if (!(street || wpsAddress || state || city)) {
+      return res.status(400).json({ error: "Address incomplete" });
     }
 
     // Query for Student Data using the provided ID
@@ -63,7 +66,10 @@ const createParentGuardian = async (req, res) => {
       email: parentGuardianEmail,
       phone: parentGuardianPhone,
       occupation: parentGuardianOccupation,
-      address: _Address,
+      street,
+      wpsAddress,
+      state,
+      city,
       student,
     });
 

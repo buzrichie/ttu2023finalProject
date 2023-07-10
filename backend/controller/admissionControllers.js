@@ -1,6 +1,7 @@
 const School = require("../models/schoolModel");
 const AcademicLevel = require("../models/academicLevelModel");
 const Admission = require("../models/admissionModel");
+const generateRandomPassword = require("../utils/passwordGenerator");
 
 // Create or add admission
 const createAdmission = async (req, res) => {
@@ -21,6 +22,7 @@ const createAdmission = async (req, res) => {
       return res.status(400).json({ error: "Class Required" });
     }
 
+    //Query for the Class provided in request body
     const school = await School.findOne({
       _id: _School,
     });
@@ -28,6 +30,7 @@ const createAdmission = async (req, res) => {
       return res.status(400).json({ error: "Invalid School" });
     }
 
+    //Query for the Class provided in request body
     const academicLevel = await AcademicLevel.findOne({
       _id: _AcademicLevel,
     });
@@ -36,9 +39,14 @@ const createAdmission = async (req, res) => {
       return res.status(400).json({ error: "Class Not Available" });
     }
 
+    //Generate Random password
+    const password = await generateRandomPassword("la");
+
+    //Create Admission
     const admission = await Admission.create({
       school,
       academicLevel,
+      password,
       ...req.body,
     });
 

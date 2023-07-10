@@ -8,11 +8,13 @@ const SubjectSchema = new mongoose.Schema(
       unique: true,
       trim: true,
       maxlength: 100,
+      uppercase: true,
     },
     code: {
       type: String,
       required: true,
       unique: true,
+      uppercase: true,
       trim: true,
       maxlength: 100,
     },

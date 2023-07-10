@@ -1,18 +1,33 @@
 const mongoose = require("mongoose");
+const hashPassword = require("../utils/passwordHash");
+const generateJWT = require("../utils/jwtGenerator");
 
 const StudentSchema = new mongoose.Schema(
   {
+    studentID: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      maxlength: 20,
+    },
+    password: {
+      type: String,
+      required: true,
+      trim: true,
+      minlength: 10,
+    },
     firstName: {
       type: String,
       required: true,
       trim: true,
-      maxlength: 100,
+      maxlength: 50,
     },
     surName: {
       type: String,
       required: true,
       trim: true,
-      maxlength: 100,
+      maxlength: 50,
     },
     dateOfBirth: {
       type: Date,
@@ -27,7 +42,7 @@ const StudentSchema = new mongoose.Schema(
     gender: {
       type: String,
       required: true,
-      enum: ["Male", "Female", "Other"],
+      enum: ["male", "female", "other"],
     },
     address: {
       type: mongoose.Schema.Types.ObjectId,
@@ -57,6 +72,27 @@ const StudentSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// Pre-Save Hook: This function will be executed before saving the student data
+StudentSchema.pre("save", async function (next) {
+  // Add any pre-processing logic or data validation here before saving
+  // For example, you can sanitize the input fields or perform additional validation checks
+  if (this.isModified("password")) {
+    try {
+      this.password = await hashPassword(this.password);
+    } catch (error) {
+      throw Error("Password hashing couldn't complete");
+    }
+  }
+  next(); // Call next() to proceed with the save operation
+});
+
+// Post-Save Hook: This function will be executed after saving the student data
+StudentSchema.post("save", function (doc, next) {
+  // Perform any post-processing tasks or additional operations here
+
+  next(); // Call next() to move to the next middleware in the save process
+});
 
 const Student = mongoose.model("Student", StudentSchema);
 

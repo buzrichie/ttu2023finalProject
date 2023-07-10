@@ -1,29 +1,64 @@
 const Student = require("../models/studentModel");
 const Subject = require("../models/subjectModel");
 const Admission = require("../models/admissionModel");
+const Enrollment = require("../models/enrollmentModel");
 const AcademicLevel = require("../models/academicLevelModel");
 const Address = require("../models/addressModel");
 const School = require("../models/schoolModel");
 const ParentGuardian = require("../models/parentGuardianModel");
+const generateRandomPassword = require("../utils/passwordGenerator");
+const generateNumericalString = require("../utils/numericalStringGenerator");
+const bcrypt = require("bcrypt");
+const generateJWT = require("../utils/jwtGenerator");
 
 // Create or add Student
 const createStudent = async (req, res) => {
   try {
+    // Request body field checks
+    const { admissionNumber, admissionStatus } = req.body;
+
+    if (!admissionNumber) {
+      return res.status(400).json({ error: "Admission Number Required" });
+    }
+    if (!admissionStatus) {
+      return res.status(400).json({ error: "Status Required" });
+    }
+
+    // Query for Admission Data
+    const admission = await Admission.findOne({ admissionNumber });
+    if (!admission) {
+      return res.status(400).json({ error: "Admission Not Available" });
+    }
+    if (admission.status === "approved") {
+      return res.status(400).json({ error: "Student Already Admitted" });
+    }
+
+    // Query for Enrolled Student Data
+    const enrolledStudent = await Enrollment.findOne(admission.enrollment._id);
+    if (!enrolledStudent) {
+      return res
+        .status(400)
+        .json({ error: "Student information not Available" });
+    }
+
+    // Extract Student required field from Enrolled Student Data
     const {
-      admissionNumber,
+      gender,
+      firstName,
+      surName,
+      dateOfBirth,
+      street,
+      wpsAddress,
+      state,
+      city,
       parentGuardianFirstName,
       parentGuardianSurName,
       parentGuardianEmail,
       parentGuardianPhone,
       parentGuardianOccupation,
-      gender,
-      _address,
-      firstName,
-      surName,
-      dateOfBirth,
-    } = req.body;
-    const { street, wpsAddress, country, state, city } = _address;
-    // Request body field checks
+    } = enrolledStudent;
+
+    // Enrolled Student Data field checks
     if (!firstName) {
       return res.status(400).json({ error: "Firstname required" });
     }
@@ -33,26 +68,8 @@ const createStudent = async (req, res) => {
     if (!dateOfBirth) {
       return res.status(400).json({ error: "Date of Birth required" });
     }
-    if (!admissionNumber) {
-      return res.status(400).json({ error: "Admission Number required" });
-    }
     if (!gender) {
       return res.status(400).json({ error: "Gender required" });
-    }
-    if (!street) {
-      return res.status(400).json({ error: "Street required" });
-    }
-    if (!country) {
-      return res.status(400).json({ error: "Country required" });
-    }
-    if (!state) {
-      return res.status(400).json({ error: "State required" });
-    }
-    if (!city) {
-      return res.status(400).json({ error: "City required" });
-    }
-    if (!wpsAddress) {
-      return res.status(400).json({ error: "WPS Address required" });
     }
     if (!parentGuardianFirstName) {
       return res
@@ -79,32 +96,53 @@ const createStudent = async (req, res) => {
         .status(400)
         .json({ error: "Parent or Guardian Occupation required" });
     }
-
-    // Query for Admission Data
-    const admission = await Admission.findOne({ admissionNumber });
-    if (!admission) {
-      return res.status(400).json({ error: "Invalid Admission Number" });
+    if (!street) {
+      return res.status(400).json({ error: "Street required" });
+    }
+    if (!state) {
+      return res.status(400).json({ error: "State required" });
+    }
+    if (!city) {
+      return res.status(400).json({ error: "City required" });
+    }
+    if (!wpsAddress) {
+      return res.status(400).json({ error: "WPS Address required" });
     }
 
-    // Add Address to db
-    const address = await Address.create(_address);
+    // Generate numerical string and password
+    const studentID = await generateNumericalString();
+    const password = await generateRandomPassword(10);
+
+    // Add Address to Database
+    const address = await Address.create({
+      street,
+      wpsAddress,
+      state,
+      city,
+    });
     if (!address) {
+      await Student.findByIdAndDelete(student._id);
       return res.status(500).json({ error: "Student Creation Failed" });
     }
-
-    // Add Student to db
+    // Add Student to Database
     const student = await Student.create({
-      admission,
+      firstName: enrolledStudent.firstName,
+      surName: enrolledStudent.surName,
+      dateOfBirth: enrolledStudent.dateOfBirth,
+      admission: enrolledStudent.admission,
+      gender: enrolledStudent.gender,
+      school: enrolledStudent.school,
+      academicLevel: enrolledStudent.academicLevel,
+      studentID,
+      password,
       address,
-      school: admission.school._id,
-      academicLevel: admission.academicLevel._id,
-      ...req.body,
     });
     if (!student) {
+      await Address.findByIdAndDelete(address._id);
       return res.status(500).json({ error: "Student Creation Failed" });
     }
 
-    // Add Parent/Guardian to db
+    // Add Parent/Guardian to Database
     const parentGuardian = await ParentGuardian.create({
       firstName: parentGuardianFirstName,
       surName: parentGuardianSurName,
@@ -119,7 +157,7 @@ const createStudent = async (req, res) => {
       return res.status(500).json({ error: "Student Creation Failed" });
     }
 
-    // Update Models fields after Student Created
+    // Update Models fields after Creating Student
     student.parentGuardian = parentGuardian._id;
     address.student = student._id;
     address.parentGuardian = parentGuardian._id;
@@ -148,6 +186,7 @@ const createStudent = async (req, res) => {
     // Assign student subjects by Looping through Class or Academic Level Subjects
     for (const academicLevelSubject of academicLevel.subjects) {
       student.subjects.push(academicLevelSubject);
+      await student.save();
     }
 
     // Query for all student subjects in Subjects Database
@@ -165,19 +204,61 @@ const createStudent = async (req, res) => {
       await subject.save();
     }
 
-    const saveStudent = await student.save();
-    if (!saveStudent) {
-      await Student.findByIdAndDelete(saveStudent._id);
+    admission.status = admissionStatus;
+    const saveAdmission = await admission.save();
+
+    if (!saveAdmission) {
+      await Student.findByIdAndDelete(student._id);
       await Address.findByIdAndDelete(address._id);
       await ParentGuardian.findByIdAndDelete(parentGuardian._id);
       return res.status(500).json({ error: "Student Creation Failed" });
     }
 
-    console.log(saveStudent);
-    res.status(201).json(saveStudent);
+    //Genete a jwt Token
+    const payload = { id: student._id, studentID: student.studentID };
+    const token = generateJWT(payload, process.env.SECRET);
+
+    // Send the student object without including the password
+    const studentWithoutPassword = { ...student._doc };
+    delete studentWithoutPassword.password;
+    return res
+      .status(201)
+      .json({ student: studentWithoutPassword, token, password });
   } catch (error) {
     res.status(400).json(error);
     console.log(error);
+  }
+};
+
+//Login
+const login = async (req, res) => {
+  try {
+    const { studentID, password } = req.body;
+    if (!studentID) {
+      return res.status(400).json({ error: "Student ID Number Required" });
+    }
+    if (!password) {
+      return res.status(400).json({ error: "Password Required" });
+    }
+    const student = await Student.findOne({ studentID });
+    if (!student) {
+      return res.status(201).json({ error: "Invalid Student ID number" });
+    }
+    //Authenticate the Password
+    const match = await bcrypt.compare(password, student.password);
+    if (!match) {
+      return res.status(201).json({ error: "Not a valid Password" });
+    }
+    //Genete a Jwt Token
+    const payload = { id: student._id, admission: student.admission };
+    const token = generateJWT(payload, process.env.SECRET);
+
+    // Send the student object without including the password
+    const studentWithoutPassword = { ...student._doc };
+    delete studentWithoutPassword.password;
+    return res.status(201).json({ student: studentWithoutPassword, token });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -235,6 +316,7 @@ const deleteStudent = async (req, res) => {
 
 module.exports = {
   createStudent,
+  login,
   getAllStudents,
   getSingleStudent,
   updateStudent,

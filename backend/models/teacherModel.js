@@ -1,6 +1,20 @@
 const mongoose = require("mongoose");
+const hashPassword = require("../utils/passwordHash");
 
 const TeacherSchema = new mongoose.Schema({
+  teacherID: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+    maxlength: 20,
+  },
+  password: {
+    type: String,
+    required: true,
+    trim: true,
+    minlength: 10,
+  },
   firstName: {
     type: String,
     required: true,
@@ -17,12 +31,6 @@ const TeacherSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  application: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Application",
-    unique: true,
-    required: true,
-  },
   gender: {
     type: String,
     required: true,
@@ -32,6 +40,8 @@ const TeacherSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
+    lowercase: true,
+    maxlength: 100,
     validate: {
       validator: function (value) {
         return /^[\w-]+(\.[\w-]+)*@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$/.test(
@@ -64,6 +74,12 @@ const TeacherSchema = new mongoose.Schema({
       message: "Please enter a valid teaching experience (a positive number).",
     },
   },
+  application: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Application",
+    unique: true,
+    required: true,
+  },
   subjects: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -85,6 +101,27 @@ const TeacherSchema = new mongoose.Schema({
     ref: "School",
     required: true,
   },
+});
+
+// Pre-Save Hook: This function will be executed before saving the teacher data
+TeacherSchema.pre("save", async function (next) {
+  // Add any pre-processing logic or data validation here before saving
+  // For example, you can sanitize the input fields or perform additional validation checks
+  if (this.isModified("password")) {
+    try {
+      this.password = await hashPassword(this.password);
+    } catch (error) {
+      throw Error("Password hashing couldn't complete");
+    }
+  }
+  next(); // Call next() to proceed with the save operation
+});
+
+// Post-Save Hook: This function will be executed after saving the teacher data
+TeacherSchema.post("save", function (doc, next) {
+  // Perform any post-processing tasks or additional operations here
+
+  next(); // Call next() to move to the next middleware in the save process
 });
 
 const Teacher = mongoose.model("Teacher", TeacherSchema);

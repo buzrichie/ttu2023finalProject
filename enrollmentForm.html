@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="enrollment-page">
+        <form>
+            <h2>Student Information</h2>
+            <label for="admissionNumber">Admission Number</label>
+            <input type="text" id="admissionNumber" name="admissionNumber" required value="">
+            <label for="firstName">FirstName</label>
+            <input type="text" id="firstName" name="firstName" required value="">
+            <label for="surName">Surname</label>
+            <input type="text" id="surName" name="surName" required value="">
+            <label for="dateOfBirth">Date ofBirth</label>
+            <input type="date" id="dateOfBirth" name="dateOfBirth" required value="">
+            <label for="gender">Gender</label>
+            <select id="gender" name="gender" required>
+                <option value="">Select</option>
+                <option value="male">MALE</option>
+                <option value="female">FEMALE</option>
+                <option value="other">Other</option>
+            </select>
+
+            <h2>Address</h2>
+            <label for="street">Street</label>
+            <input type="text" id="street" name="street" required value="">
+            <label for="wpsAddress">WPS Address</label>
+            <input type="text" id="wpsAddress" name="wpsAddress" required value="">
+            <label for="country">Country</label>
+            <input type="text" id="country" name="country" required value="">
+            <label for="state">State</label>
+            <input type="text" id="state" name="state" required value="">
+            <label for="city">City</label>
+            <input type="text" id="city" name="city" required value="">
+
+
+            <h2>Parent/Guardian Information</h2>
+            <label for="parentGuardianFirstName">First Name</label>
+            <input type="text" id="parentGuardianFirstName" name="parentGuardianFirstName" required value="">
+            <label for="parentGuardianSurName">Surname</label>
+            <input type="text" id="parentGuardianSurName" name="parentGuardianSurName" required value="">
+            <label for="parentGuardianEmail">Email</label>
+            <input type="email" id="parentGuardianEmail" name="parentGuardianEmail" required value="">
+            <label for="parentGuardianPhone">Phone</label>
+            <input type="tel" id="parentGuardianPhone" name="parentGuardianPhone" required value="">
+            <label for="parentGuardianOccupation">Occupation</label>
+            <input type="text" id="parentGuardianOccupation" name="parentGuardianOccupation" required value="">
+
+            <input type="submit" value="submit">
+        </form>
+    </div>
+</body>
+
+</html>

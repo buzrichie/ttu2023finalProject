@@ -4,6 +4,10 @@ const Address = require("../models/addressModel");
 const School = require("../models/schoolModel");
 const Application = require("../models/applicationModel");
 const AcademicLevel = require("../models/academicLevelModel");
+const generateRandomPassword = require("../utils/passwordGenerator");
+const generateNumericalString = require("../utils/numericalStringGenerator");
+const bcrypt = require("bcrypt");
+const generateJWT = require("../utils/jwtGenerator");
 
 // Create or add Teacher
 const createTeacher = async (req, res) => {
@@ -11,7 +15,10 @@ const createTeacher = async (req, res) => {
     const {
       _Subject,
       gender,
-      _address,
+      street,
+      wpsAddress,
+      state,
+      city,
       _School,
       applicationNumber,
       email,
@@ -22,7 +29,6 @@ const createTeacher = async (req, res) => {
       surName,
       dateOfBirth,
     } = req.body;
-    const { street, wpsAddress, country, state, city } = _address;
     //Request body field checks
     if (!firstName) {
       return res.status(400).json({ error: "Firstname required" });
@@ -35,9 +41,6 @@ const createTeacher = async (req, res) => {
     }
     if (!email) {
       return res.status(400).json({ error: "Email reqiured" });
-    }
-    if (!applicationNumber) {
-      return res.status(400).json({ error: "Application Number required" });
     }
     if (!phone) {
       return res.status(400).json({ error: "Phone Number required" });
@@ -52,9 +55,6 @@ const createTeacher = async (req, res) => {
       return res.status(400).json({ error: "Gender required" });
     }
     if (!street) {
-      return res.status(400).json({ error: "Street required" });
-    }
-    if (!country) {
       return res.status(400).json({ error: "Street required" });
     }
     if (!state) {
@@ -80,13 +80,19 @@ const createTeacher = async (req, res) => {
     }
 
     // Add Address to db
-    const address = await Address.create(_address);
+    const address = await Address.create({ street, wpsAddress, state, city });
     if (!address) {
       return res.status(500).json({ error: "Teacher Creation Failed" });
     }
 
+    // Generate numerical string and password
+    const teacherID = await generateNumericalString();
+    const password = await generateRandomPassword(10);
+    console.log(password);
     // Add Teacher to db
     const teacher = await Teacher.create({
+      teacherID,
+      password,
       application,
       address,
       school: application.school._id,
@@ -98,6 +104,7 @@ const createTeacher = async (req, res) => {
     if (!teacher) {
       return res.status(500).json({ error: "Teacher Creation Failed" });
     }
+    // Update Models fields after Creating Teacher
     // Query for School Data
     const school = await School.findById(teacher.school);
     if (!school) {
@@ -106,8 +113,7 @@ const createTeacher = async (req, res) => {
     }
     school.teachers.push(teacher);
     await school.save();
-    console.log(teacher);
-    console.log(teacher.academicLevel);
+
     if (teacher.academicLevel) {
       // Query for Academic Level Data
       const academicLevel = await AcademicLevel.findById(teacher.academicLevel);
@@ -126,18 +132,54 @@ const createTeacher = async (req, res) => {
       await Address.findByIdAndDelete(address._id);
       return res.status(500).json({ error: "Teacher Creation Failed" });
     }
-    res.status(201).json(teacher);
+
+    // Send the Teacher object without including the Hashed Password
+    const teacherWithoutPassword = { ...teacher._doc };
+    delete teacherWithoutPassword.password;
+    return res.status(201).json({ teacher: teacherWithoutPassword, password });
   } catch (error) {
     res.status(400).json(error);
     console.log(error);
   }
 };
 
+//Login
+const login = async (req, res) => {
+  try {
+    const { teacherID, password } = req.body;
+    if (!teacherID) {
+      return res.status(400).json({ error: "Teacher ID Number Required" });
+    }
+    if (!password) {
+      return res.status(400).json({ error: "Password Required" });
+    }
+    const teacher = await Teacher.findOne({ teacherID });
+    if (!teacher) {
+      return res.status(201).json({ error: "Invalid Teacher ID number" });
+    }
+    //Authenticate the Password
+    const match = await bcrypt.compare(password, teacher.password);
+    if (!match) {
+      return res.status(201).json({ error: "Not a valid Password" });
+    }
+    //Genete a Jwt Token
+    const payload = { id: teacher._id, application: teacher.application };
+    const token = generateJWT(payload, process.env.SECRET);
+    // Send the teacher object without including the password
+    const teacherWithoutPassword = { ...teacher._doc };
+    delete teacherWithoutPassword.password;
+    return res.status(201).json({ teacher: teacherWithoutPassword, token });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 //Get All Teacher
 const getAllTeacher = async (req, res) => {
   try {
-    const Teachers = await Teacher.find();
-    res.json(Teachers);
+    const teachers = await Teacher.find();
+    console.log({ Teachers: teachers });
+    res.json(teachers);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -184,6 +226,7 @@ const deleteTeacher = async (req, res) => {
 };
 module.exports = {
   createTeacher,
+  login,
   getAllTeacher,
   getSingleTeacher,
   updateTeacher,

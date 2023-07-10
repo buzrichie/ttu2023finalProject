@@ -17,9 +17,11 @@ const createSchool = async (req, res) => {
       phoneNumber,
       emailAddress,
       principal,
-      _Address,
+      street,
+      wpsAddress,
+      state,
+      city,
     } = req.body;
-    const { street, wpsAddress, country, state, city } = _Address;
 
     if (!schoolName) {
       return res.status(400).json({ error: "School Name required" });
@@ -49,7 +51,7 @@ const createSchool = async (req, res) => {
       return res.status(400).json({ error: "Street required" });
     }
     //Add Address to db
-    const address = await Address.create(_Address);
+    const address = await Address.create(street, wpsAddress, state, city);
     if (!address) {
       return res.status(500).json({ error: "Address Creation Failed" });
     }
@@ -73,6 +75,7 @@ const createSchool = async (req, res) => {
       student,
       teacher,
       address,
+      subject,
       ...req.body,
     });
 

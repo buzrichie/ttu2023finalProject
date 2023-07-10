@@ -22,7 +22,6 @@ const AddressSchema = new mongoose.Schema(
     },
     country: {
       type: String,
-      required: true,
       trim: true,
       maxlength: 50,
     },

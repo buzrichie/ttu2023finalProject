@@ -9,13 +9,24 @@ const AdmissionSchema = new mongoose.Schema(
       trim: true,
       maxlength: 20,
     },
-    admissionDate: {
-      type: Date,
+    password: {
+      type: String,
       required: true,
+      minlength: 8,
+    },
+    status: {
+      type: String,
+      enum: ["pending", "approved", "rejected"],
+      default: "pending",
+      lowercase: true,
     },
     student: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Student",
+    },
+    enrollment: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Enrollment",
     },
     academicLevel: {
       type: mongoose.Schema.Types.ObjectId,

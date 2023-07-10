@@ -18,6 +18,7 @@ const ParentGuardianSchema = new mongoose.Schema({
     required: true,
     unique: true,
     trim: true,
+    lowercase: true,
     maxlength: 100,
     validate: {
       validator: (value) => {
@@ -29,6 +30,7 @@ const ParentGuardianSchema = new mongoose.Schema({
   phone: {
     type: String,
     required: true,
+    unique: true,
     trim: true,
     maxlength: 20,
   },
@@ -45,6 +47,11 @@ const ParentGuardianSchema = new mongoose.Schema({
       required: true,
     },
   ],
+  address: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Address",
+    required: true,
+  },
 });
 
 const ParentGuardian = mongoose.model("ParentGuardian", ParentGuardianSchema);

@@ -1,18 +1,15 @@
 const School = require("../models/schoolModel");
-const AcademicLevel = require("../models/academicLevelModel");
+const Subject = require("../models/subjectModel");
 const Application = require("../models/applicationModel");
+const generateNumericalString = require("../utils/numericalStringGenerator");
 
 // Create or add application
 const createApplication = async (req, res) => {
   try {
-    const { _AcademicLevel, applicationDate, applicationNumber, _School } =
-      req.body;
+    const { _Subject, applicationDate, _School } = req.body;
 
     if (!_School) {
       return res.status(400).json({ error: "School Required" });
-    }
-    if (!applicationNumber) {
-      return res.status(400).json({ error: "Application Number Required" });
     }
     if (!applicationDate) {
       return res.status(400).json({ error: "Application Date Required" });
@@ -25,19 +22,23 @@ const createApplication = async (req, res) => {
       return res.status(400).json({ error: "Invalid School" });
     }
 
-    const academicLevel = _AcademicLevel
-      ? await AcademicLevel.findOne({
-          _id: _AcademicLevel,
+    const subject = _Subject
+      ? await Subject.findOne({
+          _id: _Subject,
         })
       : null;
 
-    if (_AcademicLevel && !academicLevel) {
+    if (_Subject && !subject) {
       return res.status(400).json({ error: "Class Not Available" });
     }
 
+    // Generate numerical string and password
+    const applicationNumber = await generateNumericalString();
+
     const application = await Application.create({
+      applicationNumber,
       school,
-      academicLevel,
+      subject,
       ...req.body,
     });
 

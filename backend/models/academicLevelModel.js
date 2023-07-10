@@ -7,10 +7,12 @@ const AcademicLevelSchema = new mongoose.Schema(
       required: true,
       unique: true,
       trim: true,
+      uppercase: true,
     },
     school: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "School",
+      required: true,
     },
     students: [
       {
