@@ -155,6 +155,7 @@ const createEnroll = async (req, res) => {
     // Send the student object without including the password
     const studentWithoutPassword = { ...enrolledStudent._doc };
     delete studentWithoutPassword.password;
+    console.log({ student: studentWithoutPassword, token, password });
     return res
       .status(201)
       .json({ student: studentWithoutPassword, token, password });
@@ -190,6 +191,7 @@ const login = async (req, res) => {
     // Send the student object without including the password
     const studentWithoutPassword = { ...student._doc };
     delete studentWithoutPassword.password;
+    console.log({ student: studentWithoutPassword, token });
     return res.status(201).json({ student: studentWithoutPassword, token });
   } catch (error) {
     res.status(500).json({ error: error.message });

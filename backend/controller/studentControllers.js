@@ -214,16 +214,11 @@ const createStudent = async (req, res) => {
       return res.status(500).json({ error: "Student Creation Failed" });
     }
 
-    //Genete a jwt Token
-    const payload = { id: student._id, studentID: student.studentID };
-    const token = generateJWT(payload, process.env.SECRET);
-
     // Send the student object without including the password
     const studentWithoutPassword = { ...student._doc };
     delete studentWithoutPassword.password;
-    return res
-      .status(201)
-      .json({ student: studentWithoutPassword, token, password });
+    console.log({ student: studentWithoutPassword, password });
+    return res.status(201).json({ student: studentWithoutPassword, password });
   } catch (error) {
     res.status(400).json(error);
     console.log(error);
@@ -256,6 +251,7 @@ const login = async (req, res) => {
     // Send the student object without including the password
     const studentWithoutPassword = { ...student._doc };
     delete studentWithoutPassword.password;
+    console.log({ student: studentWithoutPassword, token });
     return res.status(201).json({ student: studentWithoutPassword, token });
   } catch (error) {
     res.status(500).json({ error: error.message });

@@ -2,20 +2,17 @@ import React, { useState } from "react";
 
 const EnrollmentForm = () => {
   const [formData, setFormData] = useState({
-    admissionNumber: "",
+    _AcademicLevel: "",
     parentGuardianFirstName: "",
     parentGuardianSurName: "",
     parentGuardianEmail: "",
     parentGuardianPhone: "",
     parentGuardianOccupation: "",
     gender: "",
-    _address: {
-      street: "",
-      wpsAddress: "",
-      country: "",
-      state: "",
-      city: "",
-    },
+    street: "",
+    wpsAddress: "",
+    state: "",
+    city: "",
     firstName: "",
     surName: "",
     dateOfBirth: "",
@@ -26,17 +23,6 @@ const EnrollmentForm = () => {
     setFormData((formData) => ({
       ...formData,
       [name]: value,
-    }));
-  };
-
-  const handleAddressChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((formData) => ({
-      ...formData,
-      _address: {
-        ...formData._address,
-        [name]: value,
-      },
     }));
   };
 
@@ -66,6 +52,46 @@ const EnrollmentForm = () => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <h2>Student Information</h2>
+      <label htmlFor="_AcademicLevel">Admission Number</label>
+      <input
+        type="text"
+        id="_AcademicLevel"
+        name="_AcademicLevel"
+        value={formData._AcademicLevel}
+        onChange={handleChange}
+        required
+      />
+      <label htmlFor="firstName">First Name</label>
+      <input
+        type="text"
+        id="firstName"
+        name="firstName"
+        value={formData.firstName}
+        onChange={handleChange}
+        required
+      />
+
+      <label htmlFor="surName">Surname</label>
+      <input
+        type="text"
+        id="surName"
+        name="surName"
+        value={formData.surName}
+        onChange={handleChange}
+        required
+      />
+
+      <label htmlFor="dateOfBirth">Date of Birth</label>
+      <input
+        type="date"
+        id="dateOfBirth"
+        name="dateOfBirth"
+        value={formData.dateOfBirth}
+        onChange={handleChange}
+        required
+      />
+
       <h2>Parent/Guardian Information</h2>
       <label htmlFor="parentGuardianFirstName">First Name</label>
       <input
@@ -152,16 +178,6 @@ const EnrollmentForm = () => {
         required
       />
 
-      <label htmlFor="country">Country</label>
-      <input
-        type="text"
-        id="country"
-        name="country"
-        value={formData._address.country}
-        onChange={handleAddressChange}
-        required
-      />
-
       <label htmlFor="state">State</label>
       <input
         type="text"
@@ -179,46 +195,6 @@ const EnrollmentForm = () => {
         name="city"
         value={formData._address.city}
         onChange={handleAddressChange}
-        required
-      />
-
-      <h2>Student Information</h2>
-      <label htmlFor="admissionNumber">Admission Number</label>
-      <input
-        type="text"
-        id="admissionNumber"
-        name="admissionNumber"
-        value={formData.admissionNumber}
-        onChange={handleChange}
-        required
-      />
-      <label htmlFor="firstName">First Name</label>
-      <input
-        type="text"
-        id="firstName"
-        name="firstName"
-        value={formData.firstName}
-        onChange={handleChange}
-        required
-      />
-
-      <label htmlFor="surName">Surname</label>
-      <input
-        type="text"
-        id="surName"
-        name="surName"
-        value={formData.surName}
-        onChange={handleChange}
-        required
-      />
-
-      <label htmlFor="dateOfBirth">Date of Birth</label>
-      <input
-        type="date"
-        id="dateOfBirth"
-        name="dateOfBirth"
-        value={formData.dateOfBirth}
-        onChange={handleChange}
         required
       />
 

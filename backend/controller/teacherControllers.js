@@ -136,6 +136,7 @@ const createTeacher = async (req, res) => {
     // Send the Teacher object without including the Hashed Password
     const teacherWithoutPassword = { ...teacher._doc };
     delete teacherWithoutPassword.password;
+    console.log({ teacher: teacherWithoutPassword, password });
     return res.status(201).json({ teacher: teacherWithoutPassword, password });
   } catch (error) {
     res.status(400).json(error);
@@ -168,6 +169,7 @@ const login = async (req, res) => {
     // Send the teacher object without including the password
     const teacherWithoutPassword = { ...teacher._doc };
     delete teacherWithoutPassword.password;
+    console.log({ teacher: teacherWithoutPassword, token });
     return res.status(201).json({ teacher: teacherWithoutPassword, token });
   } catch (error) {
     res.status(500).json({ error: error.message });
