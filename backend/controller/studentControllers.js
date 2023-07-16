@@ -272,6 +272,8 @@ const getAllStudents = async (req, res) => {
 //Get Single Student
 const getSingleStudent = async (req, res) => {
   try {
+    console.log("in controller");
+    console.log(req.params.id);
     const student = await Student.findById(req.params.id);
     if (!student) {
       return res.status(404).json({ error: "Student not found" });

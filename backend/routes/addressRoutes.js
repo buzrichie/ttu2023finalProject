@@ -16,7 +16,7 @@ const {
 router.use(authenticateRoute);
 
 //Routes for various Addresss
-router.get("/", hasRole("admin") || isOwner, getAllAddress);
+router.get("/", isOwner, getAllAddress);
 router.post("/", hasRole("admin"), createAddress);
 router.get("/:id", hasRole("admin") || isOwner, getSingleAddress);
 router.put("/:id", hasRole("admin") || isOwner, updateAddress);

@@ -19,8 +19,8 @@ router.use(authenticateRoute);
 //Routes for various Students
 router.get("/", hasRole("admin"), getAllStudents);
 router.post("/", hasRole("admin"), createStudent);
-router.get("/:id", hasRole("admin") || isOwner, getSingleStudent);
-router.put("/:id", hasRole("admin") || isOwner, updateStudent);
+router.get("/:id", isOwner, getSingleStudent);
+router.put("/:id", isOwner || hasRole("admin"), updateStudent);
 router.delete("/:id", hasRole("admin"), deleteStudent);
 
 module.exports = router;
