@@ -1,10 +1,13 @@
-const Admin = require("../models/admintratorModel");
+const Admin = require("../models/administratorModel");
+const generateRandomPassword = require("../utils/passwordGenerator");
+const generateNumericalString = require("../utils/numericalStringGenerator");
 const bcrypt = require("bcrypt");
 const generateJWT = require("../utils/jwtGenerator");
 
 // Controller to create a new admin
 const createAdmin = async (req, res) => {
   try {
+    const { firstName, surName, email } = req.body;
     if (!firstName) {
       return res.status(400).json({ error: "Firstname required" });
     }
@@ -17,11 +20,19 @@ const createAdmin = async (req, res) => {
     // Generate numerical string and password
     const adminID = await generateNumericalString();
     const password = await generateRandomPassword(12);
-    const admin = await Admin.create({ ...req.body, adminID, password });
+    const admin = await Admin.create({
+      ...req.body,
+      adminID,
+      password,
+      role: "admin",
+    });
 
-    res.status(201).json(admin);
+    // Send the student object without including the password
+    const adminWithoutPassword = { ...admin._doc };
+    delete adminWithoutPassword.password;
+    return res.status(201).json({ admin: adminWithoutPassword, password });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 };
 

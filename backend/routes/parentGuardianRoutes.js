@@ -17,7 +17,7 @@ router.use(authenticateRoute);
 //Routes for various ParentGuardians
 router.get("/", hasRole("admin"), getAllParentGuardian);
 router.post("/", hasRole("admin"), createParentGuardian);
-router.get("/:id", hasRole("admin") || isOwner, getSingleParentGuardian);
+router.get("/:id", isOwner || hasRole("admin"), getSingleParentGuardian);
 router.put("/:id", hasRole("admin") || isOwner, updateParentGuardian);
 router.delete("/:id", hasRole("admin"), deleteParentGuardian);
 

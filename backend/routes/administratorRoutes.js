@@ -8,10 +8,11 @@ const {
   getSingleAdmin,
   updateAdmin,
   deleteAdmin,
-} = require("../controller/admistratorControllers");
+} = require("../controller/administratorControllers");
 
 // Define the routes
 router.post("/", createAdmin);
+router.post("/login", login);
 router.get("/", getAllAdmins);
 router.get("/:id", getSingleAdmin);
 router.put("/:id", updateAdmin);

@@ -15,9 +15,9 @@ const {
 
 router.use(authenticateRoute);
 //Routes for various Finances
-router.get("/", hasRole("admin") || isOwner, getAllFinance);
+router.get("/", hasRole("admin"), getAllFinance);
 router.post("/", hasRole("admin"), createFinance);
-router.get("/:id", hasRole("admin") || isOwner, getSingleFinance);
+router.get("/:id", isOwner || hasRole("admin"), getSingleFinance);
 router.put("/:id", hasRole("admin"), updateFinance);
 router.delete("/:id", hasRole("admin"), deleteFinance);
 

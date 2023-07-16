@@ -23,15 +23,19 @@ const authenticateRoute = (req, res, next) => {
     return res.status(500).json({ error: "Internal Server Error" });
   }
 };
+let k = 0;
 
 const hasRole = (roles) => {
-  if (!Array.isArray(roles)) {
-    roles = [roles];
-  }
-
-  const lowercasedRoles = roles.map((role) => role.toLowerCase());
-
   return (req, res, next) => {
+    if (!Array.isArray(roles)) {
+      roles = [roles];
+    }
+    console.log(`${roles} executed ${(k += 1)}`);
+    const lowercasedRoles = roles.map((role) => role.toLowerCase());
+
+    if (!req.user || !req.user.role) {
+      return res.status(403).json({ error: "Unauthorized" });
+    }
     // Convert the user's role to lowercase
     const userRoleLowercased = req.user.role.toLowerCase();
 
@@ -46,7 +50,7 @@ const hasRole = (roles) => {
 
 const isOwner = () => {
   return (req, res, next) => {
-    if (req.params.id !== req.user.id) {
+    if (!req.user || !req.user.id || req.params.id !== req.user.id) {
       return res.status(403).json({ error: "Unauthorized" });
     }
     next();

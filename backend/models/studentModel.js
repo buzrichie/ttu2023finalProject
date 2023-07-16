@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const hashPassword = require("../utils/passwordHash");
-const generateJWT = require("../utils/jwtGenerator");
 
 const StudentSchema = new mongoose.Schema(
   {
