@@ -133,6 +133,7 @@ const createStudent = async (req, res) => {
       gender: enrolledStudent.gender,
       school: enrolledStudent.school,
       academicLevel: enrolledStudent.academicLevel,
+      role: "STUDENT",
       studentID,
       password,
       address,

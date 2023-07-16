@@ -95,6 +95,7 @@ const createTeacher = async (req, res) => {
       password,
       application,
       address,
+      role: "TEACHER",
       school: application.school._id,
       academicLevel: application.academicLevel
         ? application.academicLevel._id
