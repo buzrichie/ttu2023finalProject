@@ -7,12 +7,18 @@ const {
   updateApplication,
   deleteApplication,
 } = require("../controller/applicationControllers");
+const {
+  authenticateRoute,
+  hasRole,
+  isOwner,
+} = require("../middleware/authenticateRoute");
 
-//Routes for various Applications
-router.get("/", getAllApplication);
 router.post("/", createApplication);
-router.get("/:id", getSingleApplication);
-router.put("/:id", updateApplication);
-router.delete("/:id", deleteApplication);
+router.use(authenticateRoute);
+//Routes for various Applications
+router.get("/", hasRole("admin"), getAllApplication);
+router.get("/:id", hasRole("admin") || isOwner, getSingleApplication);
+router.put("/:id", hasRole("admin") || isOwner, updateApplication);
+router.delete("/:id", hasRole("admin"), deleteApplication);
 
 module.exports = router;

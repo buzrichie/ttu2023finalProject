@@ -7,12 +7,18 @@ const {
   updateParentGuardian,
   deleteParentGuardian,
 } = require("../controller/parentGuardianControllers");
+const {
+  authenticateRoute,
+  hasRole,
+  isOwner,
+} = require("../middleware/authenticateRoute");
 
+router.use(authenticateRoute);
 //Routes for various ParentGuardians
-router.get("/", getAllParentGuardian);
-router.post("/", createParentGuardian);
-router.get("/:id", getSingleParentGuardian);
-router.put("/:id", updateParentGuardian);
-router.delete("/:id", deleteParentGuardian);
+router.get("/", hasRole("admin"), getAllParentGuardian);
+router.post("/", hasRole("admin"), createParentGuardian);
+router.get("/:id", hasRole("admin") || isOwner, getSingleParentGuardian);
+router.put("/:id", hasRole("admin") || isOwner, updateParentGuardian);
+router.delete("/:id", hasRole("admin"), deleteParentGuardian);
 
 module.exports = router;

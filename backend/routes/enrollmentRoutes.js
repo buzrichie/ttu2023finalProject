@@ -8,13 +8,19 @@ const {
   updateEnroll,
   deleteEnroll,
 } = require("../controller/enrollmentControllers");
+const {
+  authenticateRoute,
+  hasRole,
+  isOwner,
+} = require("../middleware/authenticateRoute");
 
-//Routes for various Enrolls
-router.get("/", getAllEnrolls);
 router.post("/", createEnroll);
 router.post("/login", login);
-router.get("/:id", getSingleEnroll);
-router.put("/:id", updateEnroll);
-router.delete("/:id", deleteEnroll);
+router.use(authenticateRoute);
+//Routes for various Enrolls
+router.get("/", hasRole("admin"), getAllEnrolls);
+router.get("/:id", hasRole("admin") || isOwner, getSingleEnroll);
+router.put("/:id", hasRole("admin") || isOwner, updateEnroll);
+router.delete("/:id", hasRole("admin"), deleteEnroll);
 
 module.exports = router;

@@ -8,13 +8,19 @@ const {
   updateTeacher,
   deleteTeacher,
 } = require("../controller/teacherControllers");
+const {
+  authenticateRoute,
+  hasRole,
+  isOwner,
+} = require("../middleware/authenticateRoute");
 
-//Routes for various Teachers
-router.get("/", getAllTeacher);
-router.post("/", createTeacher);
 router.post("/login", login);
+router.use(authenticateRoute);
+//Routes for various Teachers
+router.get("/", hasRole("admin"), getAllTeacher);
+router.post("/", hasRole("admin"), createTeacher);
 router.get("/:id", getSingleTeacher);
-router.put("/:id", updateTeacher);
-router.delete("/:id", deleteTeacher);
+router.put("/:id", hasRole("admin") || isOwner, updateTeacher);
+router.delete("/:id", hasRole("admin"), deleteTeacher);
 
 module.exports = router;

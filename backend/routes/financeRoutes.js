@@ -7,12 +7,18 @@ const {
   updateFinance,
   deleteFinance,
 } = require("../controller/financeControllers");
+const {
+  authenticateRoute,
+  hasRole,
+  isOwner,
+} = require("../middleware/authenticateRoute");
 
+router.use(authenticateRoute);
 //Routes for various Finances
-router.get("/", getAllFinance);
-router.post("/", createFinance);
-router.get("/:id", getSingleFinance);
-router.put("/:id", updateFinance);
-router.delete("/:id", deleteFinance);
+router.get("/", hasRole("admin") || isOwner, getAllFinance);
+router.post("/", hasRole("admin"), createFinance);
+router.get("/:id", hasRole("admin") || isOwner, getSingleFinance);
+router.put("/:id", hasRole("admin"), updateFinance);
+router.delete("/:id", hasRole("admin"), deleteFinance);
 
 module.exports = router;

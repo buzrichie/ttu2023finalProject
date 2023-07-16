@@ -7,12 +7,19 @@ const {
   updateAddress,
   deleteAddress,
 } = require("../controller/addressControllers");
+const {
+  authenticateRoute,
+  hasRole,
+  isOwner,
+} = require("../middleware/authenticateRoute");
+
+router.use(authenticateRoute);
 
 //Routes for various Addresss
-router.get("/", getAllAddress);
-router.post("/", createAddress);
-router.get("/:id", getSingleAddress);
-router.put("/:id", updateAddress);
-router.delete("/:id", deleteAddress);
+router.get("/", hasRole("admin") || isOwner, getAllAddress);
+router.post("/", hasRole("admin"), createAddress);
+router.get("/:id", hasRole("admin") || isOwner, getSingleAddress);
+router.put("/:id", hasRole("admin") || isOwner, updateAddress);
+router.delete("/:id", hasRole("admin"), deleteAddress);
 
 module.exports = router;

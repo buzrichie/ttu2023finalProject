@@ -24,24 +24,32 @@ const authenticateRoute = (req, res, next) => {
   }
 };
 
-const hasRole = (role) => {
+const hasRole = (roles) => {
+  if (!Array.isArray(roles)) {
+    roles = [roles];
+  }
+
+  const lowercasedRoles = roles.map((role) => role.toLowerCase());
+
   return (req, res, next) => {
-    if (req.user && req.user.role.toLowerCase() !== role.toLowerCase()) {
+    // Convert the user's role to lowercase
+    const userRoleLowercased = req.user.role.toLowerCase();
+
+    // Check if the user's role (converted to lowercase) is included in the allowed roles array (also converted to lowercase)
+    if (!lowercasedRoles.includes(userRoleLowercased)) {
       return res.status(403).json({ error: "Unauthorized" });
     }
+
     next();
   };
 };
 
 const isOwner = () => {
   return (req, res, next) => {
-    if (req.user.role === "admin") {
-      next();
-    } else if (req.params.id !== req.user.id) {
+    if (req.params.id !== req.user.id) {
       return res.status(403).json({ error: "Unauthorized" });
-    } else {
-      next();
     }
+    next();
   };
 };
 module.exports = { authenticateRoute, hasRole, isOwner };

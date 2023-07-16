@@ -11,15 +11,16 @@ const {
 const {
   authenticateRoute,
   hasRole,
+  isOwner,
 } = require("../middleware/authenticateRoute");
 
 router.post("/login", login);
 router.use(authenticateRoute);
 //Routes for various Students
 router.get("/", hasRole("admin"), getAllStudents);
-router.post("/", createStudent);
-router.get("/:id", getSingleStudent);
-router.put("/:id", updateStudent);
-router.delete("/:id", deleteStudent);
+router.post("/", hasRole("admin"), createStudent);
+router.get("/:id", hasRole("admin") || isOwner, getSingleStudent);
+router.put("/:id", hasRole("admin") || isOwner, updateStudent);
+router.delete("/:id", hasRole("admin"), deleteStudent);
 
 module.exports = router;

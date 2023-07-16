@@ -7,12 +7,17 @@ const {
   updateSubject,
   deleteSubject,
 } = require("../controller/subjectControllers");
+const {
+  authenticateRoute,
+  hasRole,
+} = require("../middleware/authenticateRoute");
 
+router.use(authenticateRoute);
 //Routes for various Subjects
 router.get("/", getAllSubjects);
-router.post("/", createSubject);
+router.post("/", hasRole("admin"), createSubject);
 router.get("/:id", getSingleSubject);
-router.put("/:id", updateSubject);
-router.delete("/:id", deleteSubject);
+router.put("/:id", hasRole("admin"), updateSubject);
+router.delete("/:id", hasRole("admin"), deleteSubject);
 
 module.exports = router;
