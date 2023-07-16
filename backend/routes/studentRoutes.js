@@ -8,11 +8,16 @@ const {
   updateStudent,
   deleteStudent,
 } = require("../controller/studentControllers");
+const {
+  authenticateRoute,
+  hasRole,
+} = require("../middleware/authenticateRoute");
 
-//Routes for various Students
-router.get("/", getAllStudents);
-router.post("/", createStudent);
 router.post("/login", login);
+router.use(authenticateRoute);
+//Routes for various Students
+router.get("/", hasRole("admin"), getAllStudents);
+router.post("/", createStudent);
 router.get("/:id", getSingleStudent);
 router.put("/:id", updateStudent);
 router.delete("/:id", deleteStudent);
