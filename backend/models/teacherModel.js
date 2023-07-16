@@ -27,6 +27,10 @@ const TeacherSchema = new mongoose.Schema({
     trim: true,
     maxlength: 100,
   },
+  role: {
+    type: String,
+    required: [true, "Please add the role"],
+  },
   dateOfBirth: {
     type: Date,
     required: true,

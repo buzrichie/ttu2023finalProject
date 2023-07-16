@@ -33,6 +33,10 @@ const StudentSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
+    role: {
+      type: String,
+      required: [true, "Please add the role"],
+    },
     admission: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Admission",
