@@ -19,8 +19,8 @@ const createAcademicLevel = async (req, res) => {
 
     // Create AcademicLevel depending on Data found
     const academicLevel = await AcademicLevel.create({
-      school: school ? school._id : null,
       ...req.body,
+      school: school ? school._id : null,
     });
 
     if (!academicLevel) {

@@ -36,10 +36,10 @@ const createApplication = async (req, res) => {
     const applicationNumber = await generateNumericalString();
 
     application = await Application.create({
+      ...req.body,
       applicationNumber,
       school,
       subject,
-      ...req.body,
     });
 
     if (!application) {

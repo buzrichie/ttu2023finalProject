@@ -32,8 +32,8 @@ const createFinance = async (req, res) => {
 
     // Create Payment
     const finance = await Finance.create({
-      student,
       ...req.body,
+      student,
     });
     res.status(201).json(finance);
   } catch (error) {

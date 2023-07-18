@@ -71,12 +71,12 @@ const createSchool = async (req, res) => {
 
     // Create School depending on Data found
     const school = await School.create({
+      ...req.body,
       academicLevel,
       student,
       teacher,
       address,
       subject,
-      ...req.body,
     });
 
     if (!school) {

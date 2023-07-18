@@ -119,11 +119,11 @@ const createEnroll = async (req, res) => {
 
     // Create Enrollment
     enrolledStudent = await Enrollment.create({
+      ...req.body,
       admissionNumber: admission.admissionNumber,
       admission: admission._id,
       academicLevel: academicLevel._id,
       school: admission.school._id,
-      ...req.body,
       gender: gender.toLowerCase(),
     });
 

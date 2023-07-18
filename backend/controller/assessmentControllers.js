@@ -46,10 +46,10 @@ const createAssessment = async (req, res) => {
     }
     // Create Assessment
     const assessment = await Assessment.create({
+      ...req.body,
       student,
       subject,
       teacher,
-      ...req.body,
     });
     res.status(201).json(assessment);
   } catch (error) {

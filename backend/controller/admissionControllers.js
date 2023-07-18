@@ -44,10 +44,10 @@ const createAdmission = async (req, res) => {
 
     //Create Admission
     const admission = await Admission.create({
+      ...req.body,
       school,
       academicLevel,
       password,
-      ...req.body,
     });
 
     if (!admission) {
