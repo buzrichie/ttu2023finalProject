@@ -8,6 +8,8 @@ const generateJWT = require("../utils/jwtGenerator");
 
 // Create or add Student
 const createEnroll = async (req, res) => {
+  let admission;
+  let enrolledStudent;
   try {
     const {
       firstName,
@@ -95,7 +97,7 @@ const createEnroll = async (req, res) => {
     const admissionNumber = await generateNumericalString();
     const password = await generateRandomPassword(8);
 
-    const admission = await Admission.create({
+    admission = await Admission.create({
       academicLevel,
       admissionNumber,
       password,
@@ -106,7 +108,7 @@ const createEnroll = async (req, res) => {
     }
     // Add Student to db
 
-    const enrolledStudent = await Enrollment.create({
+    enrolledStudent = await Enrollment.create({
       admissionNumber: admission.admissionNumber,
       admission: admission._id,
       academicLevel: academicLevel._id,
@@ -121,26 +123,25 @@ const createEnroll = async (req, res) => {
     }
 
     //Updating Fields
-    admission.enrollment = enrolledStudent._id;
-
     //Update Admission enrollment(Enrolled student) field
-    const saveAdmission = await admission.save();
-    if (!saveAdmission) {
+    admission.enrollment = enrolledStudent._id;
+    admission = await admission.save();
+    if (!admission) {
       await Enrollment.findByIdAndDelete(enrolledStudent._id);
       return res.status(500).json({ error: "Failed to Enroll Student" });
     }
 
     // Query for School Data
     const school = await School.findById(enrolledStudent.school);
-    if (!saveAdmission || !school) {
+    if (!school) {
       await Enrollment.findByIdAndDelete(enrolledStudent._id);
       return res.status(400).json({ error: "School Not Found" });
     }
     //Update Schools enrollment(Enrolled student) field
     school.enrollment.push(enrolledStudent);
-    const saveSchool = await school.save();
+    const savedSchool = await school.save();
 
-    if (!saveSchool) {
+    if (!savedSchool) {
       await Enrollment.findByIdAndDelete(enrolledStudent._id);
       return res.status(500).json({ error: "Failed to Enroll Student" });
     }
@@ -160,6 +161,14 @@ const createEnroll = async (req, res) => {
       .status(201)
       .json({ student: studentWithoutPassword, token, password });
   } catch (error) {
+    if (admission) {
+      // Delete the Addition record from the database
+      await Admission.findByIdAndDelete(admission._id);
+    }
+    if (enrolledStudent) {
+      // Delete the student record from the database
+      await Enrollment.findByIdAndDelete(enrolledStudent._id);
+    }
     console.log(error);
     res.status(400).json(error);
   }

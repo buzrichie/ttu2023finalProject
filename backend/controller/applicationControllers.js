@@ -5,6 +5,7 @@ const generateNumericalString = require("../utils/numericalStringGenerator");
 
 // Create or add application
 const createApplication = async (req, res) => {
+  let application;
   try {
     const { _Subject, applicationDate, _School } = req.body;
 
@@ -35,7 +36,7 @@ const createApplication = async (req, res) => {
     // Generate numerical string and password
     const applicationNumber = await generateNumericalString();
 
-    const application = await Application.create({
+    application = await Application.create({
       applicationNumber,
       school,
       subject,
@@ -49,8 +50,12 @@ const createApplication = async (req, res) => {
     // Submit Application
     res.status(201).json(application);
   } catch (error) {
-    res.status(400).json(error);
+    if (application) {
+      // Delete the Application record from the database
+      await Application.findByIdAndDelete(application._id);
+    }
     console.log(error);
+    return res.status(400).json(error);
   }
 };
 

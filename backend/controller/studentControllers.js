@@ -13,6 +13,9 @@ const generateJWT = require("../utils/jwtGenerator");
 
 // Create or add Student
 const createStudent = async (req, res) => {
+  let address;
+  let student;
+  let parentGuardian;
   try {
     // Request body field checks
     const { admissionNumber, admissionStatus } = req.body;
@@ -114,7 +117,7 @@ const createStudent = async (req, res) => {
     const password = await generateRandomPassword(10);
 
     // Add Address to Database
-    const address = await Address.create({
+    address = await Address.create({
       street,
       wpsAddress,
       state,
@@ -125,7 +128,7 @@ const createStudent = async (req, res) => {
       return res.status(500).json({ error: "Student Creation Failed" });
     }
     // Add Student to Database
-    const student = await Student.create({
+    student = await Student.create({
       firstName: enrolledStudent.firstName,
       surName: enrolledStudent.surName,
       dateOfBirth: enrolledStudent.dateOfBirth,
@@ -144,7 +147,7 @@ const createStudent = async (req, res) => {
     }
 
     // Add Parent/Guardian to Database
-    const parentGuardian = await ParentGuardian.create({
+    parentGuardian = await ParentGuardian.create({
       firstName: parentGuardianFirstName,
       surName: parentGuardianSurName,
       email: parentGuardianEmail,
@@ -162,7 +165,7 @@ const createStudent = async (req, res) => {
     student.parentGuardian = parentGuardian._id;
     address.student = student._id;
     address.parentGuardian = parentGuardian._id;
-    await address.save();
+    address = await address.save();
 
     // Query for School Data
     const school = await School.findById(student.school);
@@ -221,6 +224,18 @@ const createStudent = async (req, res) => {
     console.log({ student: studentWithoutPassword, password });
     return res.status(201).json({ student: studentWithoutPassword, password });
   } catch (error) {
+    if (address) {
+      // Delete the Address record from the database
+      await Address.findByIdAndDelete(address._id);
+    }
+    if (student) {
+      // Delete the Student record from the database
+      await Student.findByIdAndDelete(student._id);
+    }
+    if (parentGuardian) {
+      // Delete the ParentGuardian record from the database
+      await ParentGuardian.findByIdAndDelete(parentGuardian._id);
+    }
     res.status(400).json(error);
     console.log(error);
   }

@@ -11,6 +11,8 @@ const generateJWT = require("../utils/jwtGenerator");
 
 // Create or add Teacher
 const createTeacher = async (req, res) => {
+  let address;
+  let teacher;
   try {
     const {
       _Subject,
@@ -80,7 +82,7 @@ const createTeacher = async (req, res) => {
     }
 
     // Add Address to db
-    const address = await Address.create({ street, wpsAddress, state, city });
+    address = await Address.create({ street, wpsAddress, state, city });
     if (!address) {
       return res.status(500).json({ error: "Teacher Creation Failed" });
     }
@@ -90,7 +92,7 @@ const createTeacher = async (req, res) => {
     const password = await generateRandomPassword(10);
     console.log(password);
     // Add Teacher to db
-    const teacher = await Teacher.create({
+    teacher = await Teacher.create({
       teacherID,
       password,
       application,
@@ -127,9 +129,9 @@ const createTeacher = async (req, res) => {
       academicLevel.teachers.push(teacher);
       await academicLevel.save();
     }
-    const saveTeacher = await teacher.save();
-    if (!saveTeacher) {
-      await Teacher.findByIdAndDelete(saveTeacher._id);
+    teacher = await teacher.save();
+    if (!teacher) {
+      await Teacher.findByIdAndDelete(teacher._id);
       await Address.findByIdAndDelete(address._id);
       return res.status(500).json({ error: "Teacher Creation Failed" });
     }
@@ -140,6 +142,14 @@ const createTeacher = async (req, res) => {
     console.log({ teacher: teacherWithoutPassword, password });
     return res.status(201).json({ teacher: teacherWithoutPassword, password });
   } catch (error) {
+    if (address) {
+      // Delete the Address record from the database
+      await Address.findByIdAndDelete(address._id);
+    }
+    if (teacher) {
+      // Delete the Teacher record from the database
+      await Teacher.findByIdAndDelete(teacher._id);
+    }
     res.status(400).json(error);
     console.log(error);
   }

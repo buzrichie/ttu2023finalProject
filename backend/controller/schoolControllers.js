@@ -98,7 +98,7 @@ const getSingleSchool = async (req, res) => {
     if (!school) {
       return res.status(404).json({ error: "School not found" });
     }
-    res.json(school.populate);
+    res.json(school);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
