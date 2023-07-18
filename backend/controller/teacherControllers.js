@@ -9,7 +9,12 @@ const generateNumericalString = require("../utils/numericalStringGenerator");
 const bcrypt = require("bcrypt");
 const generateJWT = require("../utils/jwtGenerator");
 
-// Create or add Teacher
+/**
+ * Create a new teacher.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {void}
+ */
 const createTeacher = async (req, res) => {
   let address;
   let teacher;
@@ -31,67 +36,70 @@ const createTeacher = async (req, res) => {
       surName,
       dateOfBirth,
     } = req.body;
-    //Request body field checks
+
+    // Request body field checks
     if (!firstName) {
-      return res.status(400).json({ error: "Firstname required" });
+      return res.status(400).json({ error: "Firstname is required." });
     }
     if (!surName) {
-      return res.status(400).json({ error: "Surname required" });
+      return res.status(400).json({ error: "Surname is required." });
     }
     if (!dateOfBirth) {
-      return res.status(400).json({ error: "Date of Birth required" });
+      return res.status(400).json({ error: "Date of Birth is required." });
     }
     if (!email) {
-      return res.status(400).json({ error: "Email reqiured" });
+      return res.status(400).json({ error: "Email is required." });
     }
     if (!phone) {
-      return res.status(400).json({ error: "Phone Number required" });
+      return res.status(400).json({ error: "Phone Number is required." });
     }
     if (!qualification) {
-      return res.status(400).json({ error: "Occupation required" });
+      return res.status(400).json({ error: "Qualification is required." });
     }
     if (!teachingExperience) {
-      return res.status(400).json({ error: "Teaching Experience required" });
+      return res
+        .status(400)
+        .json({ error: "Teaching Experience is required." });
     }
     if (!gender) {
-      return res.status(400).json({ error: "Gender required" });
+      return res.status(400).json({ error: "Gender is required." });
     }
     if (!street) {
-      return res.status(400).json({ error: "Street required" });
+      return res.status(400).json({ error: "Street is required." });
     }
     if (!state) {
-      return res.status(400).json({ error: "Street required" });
+      return res.status(400).json({ error: "State is required." });
     }
     if (!city) {
-      return res.status(400).json({ error: "Street required" });
+      return res.status(400).json({ error: "City is required." });
     }
     if (!wpsAddress) {
-      return res.status(400).json({ error: "Street required" });
+      return res.status(400).json({ error: "WPS Address is required." });
     }
     if (!_School) {
-      return res.status(400).json({ error: "School required" });
+      return res.status(400).json({ error: "School is required." });
     }
     if (!_Subject) {
-      return res.status(400).json({ error: "Subject required" });
+      return res.status(400).json({ error: "Subject is required." });
     }
 
     // Query for Application Data
     const application = await Application.findOne({ applicationNumber });
     if (!application) {
-      return res.status(400).json({ error: "Invalid Application Number" });
+      return res.status(400).json({ error: "Invalid Application Number." });
     }
 
-    // Add Address to db
+    // Add Address to database
     address = await Address.create({ street, wpsAddress, state, city });
     if (!address) {
-      return res.status(500).json({ error: "Teacher Creation Failed" });
+      return res.status(500).json({ error: "Failed To Create Teacher." });
     }
 
     // Generate numerical string and password
     const teacherID = await generateNumericalString();
     const password = await generateRandomPassword(10);
-    console.log(password);
-    // Add Teacher to db
+
+    // Add Teacher to database
     teacher = await Teacher.create({
       teacherID,
       password,
@@ -105,14 +113,17 @@ const createTeacher = async (req, res) => {
       ...req.body,
     });
     if (!teacher) {
-      return res.status(500).json({ error: "Teacher Creation Failed" });
+      await Address.findByIdAndDelete(address._id);
+      return res.status(500).json({ error: "Failed To Create Teacher." });
     }
+
     // Update Models fields after Creating Teacher
     // Query for School Data
     const school = await School.findById(teacher.school);
     if (!school) {
       await Teacher.findByIdAndDelete(teacher._id);
-      return res.status(400).json({ error: "School Not Found" });
+      await Address.findByIdAndDelete(address._id);
+      return res.status(400).json({ error: "School Not Found." });
     }
     school.teachers.push(teacher);
     await school.save();
@@ -124,19 +135,13 @@ const createTeacher = async (req, res) => {
       if (!academicLevel) {
         await Teacher.findByIdAndDelete(teacher._id);
         await Address.findByIdAndDelete(address._id);
-        return res.status(400).json({ error: "Class Not Found" });
+        return res.status(400).json({ error: "Class Not Found." });
       }
       academicLevel.teachers.push(teacher);
       await academicLevel.save();
     }
-    teacher = await teacher.save();
-    if (!teacher) {
-      await Teacher.findByIdAndDelete(teacher._id);
-      await Address.findByIdAndDelete(address._id);
-      return res.status(500).json({ error: "Teacher Creation Failed" });
-    }
 
-    // Send the Teacher object without including the Hashed Password
+    // Send the Teacher object without including the hashed password
     const teacherWithoutPassword = { ...teacher._doc };
     delete teacherWithoutPassword.password;
     console.log({ teacher: teacherWithoutPassword, password });
@@ -150,8 +155,10 @@ const createTeacher = async (req, res) => {
       // Delete the Teacher record from the database
       await Teacher.findByIdAndDelete(teacher._id);
     }
-    res.status(400).json(error);
     console.log(error);
+    return res
+      .status(400)
+      .json({ error: "An error occurred while creating the teacher." });
   }
 };
 

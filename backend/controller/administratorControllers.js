@@ -4,22 +4,30 @@ const generateNumericalString = require("../utils/numericalStringGenerator");
 const bcrypt = require("bcrypt");
 const generateJWT = require("../utils/jwtGenerator");
 
-// Controller to create a new admin
+/**
+ * Create a new admin.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {void}
+ */
 const createAdmin = async (req, res) => {
   try {
     const { firstName, surName, email } = req.body;
+
     if (!firstName) {
-      return res.status(400).json({ error: "Firstname required" });
+      return res.status(400).json({ error: "Firstname is required." });
     }
     if (!surName) {
-      return res.status(400).json({ error: "Surname required" });
+      return res.status(400).json({ error: "Surname is required." });
     }
     if (!email) {
-      return res.status(400).json({ error: "Email reqiured" });
+      return res.status(400).json({ error: "Email is required." });
     }
+
     // Generate numerical string and password
     const adminID = await generateNumericalString();
     const password = await generateRandomPassword(12);
+
     const admin = await Admin.create({
       ...req.body,
       adminID,
@@ -27,14 +35,17 @@ const createAdmin = async (req, res) => {
       role: "admin",
     });
 
-    // Send the student object without including the password
+    // Send the admin object without including the password
     const adminWithoutPassword = { ...admin._doc };
     delete adminWithoutPassword.password;
+
     return res.status(201).json({ admin: adminWithoutPassword, password });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
+module.exports = { createAdmin };
 
 //Login
 const login = async (req, res) => {

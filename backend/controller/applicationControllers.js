@@ -3,37 +3,36 @@ const Subject = require("../models/subjectModel");
 const Application = require("../models/applicationModel");
 const generateNumericalString = require("../utils/numericalStringGenerator");
 
-// Create or add application
+/**
+ * Create a new application.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {void}
+ */
 const createApplication = async (req, res) => {
   let application;
   try {
     const { _Subject, applicationDate, _School } = req.body;
 
     if (!_School) {
-      return res.status(400).json({ error: "School Required" });
+      return res.status(400).json({ error: "School is required." });
     }
     if (!applicationDate) {
-      return res.status(400).json({ error: "Application Date Required" });
+      return res.status(400).json({ error: "Application Date is required." });
     }
 
-    const school = await School.findOne({
-      _id: _School,
-    });
+    const school = await School.findOne({ _id: _School });
     if (!school) {
-      return res.status(400).json({ error: "Invalid School" });
+      return res.status(400).json({ error: "Invalid School." });
     }
 
-    const subject = _Subject
-      ? await Subject.findOne({
-          _id: _Subject,
-        })
-      : null;
+    const subject = _Subject ? await Subject.findOne({ _id: _Subject }) : null;
 
     if (_Subject && !subject) {
-      return res.status(400).json({ error: "Class Not Available" });
+      return res.status(400).json({ error: "Class Not Available." });
     }
 
-    // Generate numerical string and password
+    // Generate numerical string for application number
     const applicationNumber = await generateNumericalString();
 
     application = await Application.create({
@@ -44,18 +43,19 @@ const createApplication = async (req, res) => {
     });
 
     if (!application) {
-      return res.status(400).json({ error: "Application Not Created" });
+      return res.status(500).json({ error: "Failed to create application." });
     }
 
-    // Submit Application
-    res.status(201).json(application);
+    return res.status(201).json(application);
   } catch (error) {
     if (application) {
-      // Delete the Application record from the database
+      // Delete the application record from the database
       await Application.findByIdAndDelete(application._id);
     }
     console.log(error);
-    return res.status(400).json(error);
+    return res
+      .status(500)
+      .json({ error: "An error occurred while creating the application." });
   }
 };
 
