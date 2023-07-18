@@ -16,8 +16,8 @@ const authenticateRoute = (req, res, next) => {
       return res.status(401).json({ error: "Invalid or expired token" });
     }
 
+    console.log("The decode", decode);
     req.user = decode;
-    console.log(decode);
     next();
   } catch (error) {
     console.log("Error:", error);
@@ -49,7 +49,7 @@ const hasRole = (roles) => {
 
 const isOwner = (req, res, next) => {
   if (!req.user) {
-    return res.status(403).json({ error: "U" });
+    return res.status(403).json({ error: "Unauthorized" });
   }
   if (req.params.id !== req.user.id) {
     return res.status(403).json({ error: "Unauthorized" });

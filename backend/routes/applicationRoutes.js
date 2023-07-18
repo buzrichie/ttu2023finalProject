@@ -17,8 +17,8 @@ router.post("/", createApplication);
 router.use(authenticateRoute);
 //Routes for various Applications
 router.get("/", hasRole("admin"), getAllApplication);
-router.get("/:id", hasRole("admin") || isOwner, getSingleApplication);
-router.put("/:id", hasRole("admin") || isOwner, updateApplication);
+router.get("/:id", isOwner || hasRole("admin"), getSingleApplication);
+router.put("/:id", isOwner || hasRole("admin"), updateApplication);
 router.delete("/:id", hasRole("admin"), deleteApplication);
 
 module.exports = router;

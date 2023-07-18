@@ -15,11 +15,11 @@ const {
 
 router.use(authenticateRoute);
 //Routes for various Assessments
-router.get("/", hasRole(["admin", "teacher"]) || isOwner, getAllAssessment);
+router.get("/", isOwner || hasRole(["admin", "teacher"]), getAllAssessment);
 router.post("/", hasRole(["admin", "teacher"]), createAssessment);
 router.get(
   "/:id",
-  hasRole(["admin", "teacher"]) || isOwner,
+  isOwner || hasRole(["admin", "teacher"]),
   getSingleAssessment
 );
 router.put("/:id", hasRole(["admin", "teacher"]), updateAssessment);

@@ -246,7 +246,7 @@ const login = async (req, res) => {
       return res.status(201).json({ error: "Not a valid Password" });
     }
     //Genete a Jwt Token
-    const payload = { id: student._id };
+    const payload = { id: student._id, role: student.role };
     const token = generateJWT(payload, process.env.SECRET);
 
     // Send the student object without including the password
@@ -290,11 +290,14 @@ const updateStudent = async (req, res) => {
     const student = await Student.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
+
     if (!student) {
       return res.status(404).json({ error: "Student not found" });
     }
+
     res.json(student);
   } catch (error) {
+    console.log(error);
     res.status(400).json({ error: error.message });
   }
 };

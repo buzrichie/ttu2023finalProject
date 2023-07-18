@@ -18,8 +18,8 @@ router.use(authenticateRoute);
 //Routes for various Addresss
 router.get("/", isOwner, getAllAddress);
 router.post("/", hasRole("admin"), createAddress);
-router.get("/:id", hasRole("admin") || isOwner, getSingleAddress);
-router.put("/:id", hasRole("admin") || isOwner, updateAddress);
+router.get("/:id", isOwner || hasRole("admin"), getSingleAddress);
+router.put("/:id", isOwner || hasRole("admin"), updateAddress);
 router.delete("/:id", hasRole("admin"), deleteAddress);
 
 module.exports = router;

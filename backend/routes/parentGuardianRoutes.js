@@ -18,7 +18,7 @@ router.use(authenticateRoute);
 router.get("/", hasRole("admin"), getAllParentGuardian);
 router.post("/", hasRole("admin"), createParentGuardian);
 router.get("/:id", isOwner || hasRole("admin"), getSingleParentGuardian);
-router.put("/:id", hasRole("admin") || isOwner, updateParentGuardian);
+router.put("/:id", isOwner || hasRole("admin"), updateParentGuardian);
 router.delete("/:id", hasRole("admin"), deleteParentGuardian);
 
 module.exports = router;

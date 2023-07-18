@@ -9,10 +9,17 @@ const {
   updateAdmin,
   deleteAdmin,
 } = require("../controller/administratorControllers");
+const {
+  authenticateRoute,
+  hasRole,
+} = require("../middleware/authenticateRoute");
 
 // Define the routes
+
 router.post("/", createAdmin);
 router.post("/login", login);
+router.use(authenticateRoute);
+router.use(hasRole("admin"));
 router.get("/", getAllAdmins);
 router.get("/:id", getSingleAdmin);
 router.put("/:id", updateAdmin);

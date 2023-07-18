@@ -18,7 +18,7 @@ router.use(authenticateRoute);
 //Routes for various Admissions
 router.get("/", hasRole("admin"), getAllAdmission);
 router.post("/", hasRole("admin"), createAdmission);
-router.get("/:id", hasRole("admin") || isOwner, getSingleAdmission);
+router.get("/:id", isOwner || hasRole("admin"), getSingleAdmission);
 router.put("/:id", hasRole("admin"), updateAdmission);
 router.delete("/:id", hasRole("admin"), deleteAdmission);
 

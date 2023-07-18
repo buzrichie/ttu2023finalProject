@@ -15,11 +15,11 @@ const {
 
 router.use(authenticateRoute);
 //Routes for various Attendances
-router.get("/", hasRole(["admin", "teacher"]) || isOwner, getAllAttendance);
+router.get("/", isOwner || hasRole(["admin", "teacher"]), getAllAttendance);
 router.post("/", hasRole(["admin", "teacher"]), createAttendance);
 router.get(
   "/:id",
-  hasRole(["admin", "teacher"]) || isOwner,
+  isOwner || hasRole(["admin", "teacher"]),
   getSingleAttendance
 );
 router.put("/:id", hasRole(["admin", "teacher"]), updateAttendance);

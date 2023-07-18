@@ -13,14 +13,22 @@ const {
   hasRole,
   isOwner,
 } = require("../middleware/authenticateRoute");
+const {
+  restrictUpdateFieldsMiddleware,
+} = require("../middleware/restrictUpdateFields");
 
+//Routes for various Teachers
 router.post("/login", login);
 router.use(authenticateRoute);
-//Routes for various Teachers
 router.get("/", hasRole("admin"), getAllTeacher);
 router.post("/", hasRole("admin"), createTeacher);
 router.get("/:id", getSingleTeacher);
-router.put("/:id", hasRole("admin") || isOwner, updateTeacher);
+router.put(
+  "/:id",
+  isOwner || hasRole("admin"),
+  restrictUpdateFieldsMiddleware,
+  updateTeacher
+);
 router.delete("/:id", hasRole("admin"), deleteTeacher);
 
 module.exports = router;
