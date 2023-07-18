@@ -30,7 +30,9 @@ const AdminSchema = new mongoose.Schema(
       maxlength: 255,
       validate: {
         validator: function (value) {
-          return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value);
+          return /^[a-zA-Z][a-zA-Z0-9]{3,}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/gi.test(
+            value
+          );
         },
         message: "Invalid email format",
       },

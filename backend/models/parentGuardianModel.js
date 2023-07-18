@@ -21,8 +21,10 @@ const ParentGuardianSchema = new mongoose.Schema({
     lowercase: true,
     maxlength: 100,
     validate: {
-      validator: (value) => {
-        return /^\S+@\S+\.\S+$/.test(value);
+      validator: function (value) {
+        return /^[a-zA-Z][a-zA-Z0-9]{3,}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/gi.test(
+          value
+        );
       },
       message: "Invalid email format",
     },

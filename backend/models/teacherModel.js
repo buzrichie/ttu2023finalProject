@@ -48,7 +48,7 @@ const TeacherSchema = new mongoose.Schema({
     maxlength: 100,
     validate: {
       validator: function (value) {
-        return /^[\w-]+(\.[\w-]+)*@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$/.test(
+        return /^[a-zA-Z][a-zA-Z0-9]{3,}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/gi.test(
           value
         );
       },

@@ -23,9 +23,9 @@ const SchoolSchema = new mongoose.Schema({
     lowercase: true,
     validate: {
       validator: function (value) {
-        // Simple email validation regex
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(value);
+        return /^[a-zA-Z][a-zA-Z0-9]{3,}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/gi.test(
+          value
+        );
       },
       message: "Invalid email format",
     },
