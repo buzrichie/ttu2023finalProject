@@ -1,8 +1,15 @@
+/**
+ * Middleware to restrict update fields based on user role.
+ * Only allows specific fields to be updated if the user role is not admin.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @param {Function} next - The next middleware function.
+ * @returns {void}
+ */
 const restrictUpdateFieldsMiddleware = (req, res, next) => {
   try {
     const { role } = req.user;
     const updateData = req.body;
-    // Specify the fields that are allowed to be updated
     const allowedFields = [
       "password",
       "firstName",
@@ -14,12 +21,15 @@ const restrictUpdateFieldsMiddleware = (req, res, next) => {
     const filteredData = {};
 
     if (!role) {
-      throw new Error("Unauthorized");
+      throw new Error("Unauthorized. User role is missing.");
     }
 
     if (role.toLowerCase() !== "admin") {
       for (const field in updateData) {
-        if (updateData.hasOwnProperty(field) && allowedFields.includes(field)) {
+        if (
+          Object.prototype.hasOwnProperty.call(updateData, field) &&
+          allowedFields.includes(field)
+        ) {
           filteredData[field] = updateData[field];
         }
       }
