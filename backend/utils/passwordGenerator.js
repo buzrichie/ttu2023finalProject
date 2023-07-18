@@ -1,5 +1,12 @@
+/**
+ * Generate a random password with the specified length.
+ * @param {number} length - The length of the password.
+ * @returns {Promise<string>} The generated random password.
+ * @throws {Error} If the length is not provided, is not a number, or is less than 8.
+ */
 async function generateRandomPassword(length) {
   try {
+    // Validate length parameter
     if (!length) {
       throw new Error("Length of password is required.");
     }
@@ -16,6 +23,7 @@ async function generateRandomPassword(length) {
       "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     let password = "";
 
+    // Generate random password characters
     for (let i = 0; i < length; i++) {
       password += charset.charAt(Math.floor(Math.random() * charset.length));
     }
