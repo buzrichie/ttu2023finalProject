@@ -12,13 +12,10 @@ const generateJWT = require("../utils/jwtGenerator");
  */
 const createAdmin = async (req, res) => {
   try {
-    const { firstName, surName, email } = req.body;
+    const { name, email } = req.body;
 
-    if (!firstName) {
-      return res.status(400).json({ error: "Firstname is required." });
-    }
-    if (!surName) {
-      return res.status(400).json({ error: "Surname is required." });
+    if (!name) {
+      return res.status(400).json({ error: "Name is required." });
     }
     if (!email) {
       return res.status(400).json({ error: "Email is required." });

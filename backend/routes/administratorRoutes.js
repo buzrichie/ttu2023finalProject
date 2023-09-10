@@ -16,7 +16,7 @@ const {
 
 // Define the routes
 
-router.post("/", createAdmin);
+router.post("/", authenticateRoute, hasRole("admin"), createAdmin);
 router.post("/login", login);
 router.use(authenticateRoute);
 router.use(hasRole("admin"));

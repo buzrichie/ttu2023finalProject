@@ -4,7 +4,9 @@ const AcademicLevel = require("../models/academicLevelModel");
 const Student = require("../models/studentModel");
 const Teacher = require("../models/teacherModel");
 const Address = require("../models/addressModel");
-
+const Admin = require("../models/administratorModel");
+const generateNumericalString = require("../utils/numericalStringGenerator");
+const generateRandomPassword = require("../utils/passwordGenerator");
 // Create or add School
 const createSchool = async (req, res) => {
   try {
@@ -35,9 +37,9 @@ const createSchool = async (req, res) => {
     if (!principal) {
       return res.status(400).json({ error: "School Principal required" });
     }
-    if (!country) {
-      return res.status(400).json({ error: "Street required" });
-    }
+    // if (!country) {
+    //   return res.status(400).json({ error: "Street required" });
+    // }
     if (!state) {
       return res.status(400).json({ error: "Street required" });
     }
@@ -51,7 +53,7 @@ const createSchool = async (req, res) => {
       return res.status(400).json({ error: "Street required" });
     }
     //Add Address to db
-    const address = await Address.create(street, wpsAddress, state, city);
+    const address = await Address.create({ street, wpsAddress, state, city });
     if (!address) {
       return res.status(500).json({ error: "Address Creation Failed" });
     }
@@ -83,7 +85,24 @@ const createSchool = async (req, res) => {
       return res.status(400).json({ error: "School Not Created" });
     }
 
-    res.status(201).json(school);
+    // Generate numerical string and password
+    const adminID = await generateNumericalString();
+    const password = await generateRandomPassword(12);
+
+    const admin = await Admin.create({
+      name: principal,
+      adminID,
+      password,
+      role: "admin",
+    });
+
+    // Send the admin object without including the password
+    const adminWithoutPassword = { ...admin._doc };
+    delete adminWithoutPassword.password;
+
+    // return res.status(201).json({ admin: adminWithoutPassword, password });
+
+    res.status(201).json({ school, admin: adminWithoutPassword, password });
   } catch (error) {
     res.status(400).json(error);
     console.log(error);

@@ -11,9 +11,9 @@ const {
   hasRole,
 } = require("../middleware/authenticateRoute");
 
-router.use(authenticateRoute);
 //Routes for various Schools
-router.post("/", hasRole("admin"), createSchool);
+router.post("/", createSchool);
+router.use(authenticateRoute);
 router.get("/:id", getSingleSchool);
 router.put("/:id", hasRole("admin"), updateSchool);
 router.delete("/:id", hasRole("admin"), deleteSchool);

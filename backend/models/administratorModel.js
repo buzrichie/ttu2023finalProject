@@ -10,21 +10,14 @@ const AdminSchema = new mongoose.Schema(
       trim: true,
       maxlength: 20,
     },
-    firstName: {
+    name: {
       type: String,
-      required: true,
       trim: true,
       maxlength: 100,
-    },
-    surName: {
-      type: String,
       required: true,
-      trim: true,
-      maxlength: 100,
     },
     email: {
       type: String,
-      required: true,
       unique: true,
       trim: true,
       maxlength: 255,
