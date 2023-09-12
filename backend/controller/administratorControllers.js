@@ -1,4 +1,5 @@
 const Admin = require("../models/administratorModel");
+const School = require("../models/schoolModel");
 const generateRandomPassword = require("../utils/passwordGenerator");
 const generateNumericalString = require("../utils/numericalStringGenerator");
 const bcrypt = require("bcrypt");
@@ -68,6 +69,7 @@ const login = async (req, res) => {
     const token = generateJWT(payload, process.env.SECRET);
 
     // Send the admin object without including the password
+    res.cookie("Authorization", token, { httpOnly: true });
     const adminWithoutPassword = { ...admin._doc };
     delete adminWithoutPassword.password;
     console.log({ admin: adminWithoutPassword, token });

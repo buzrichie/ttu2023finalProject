@@ -40,6 +40,11 @@ const AdminSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please add the Role"],
     },
+    school: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "School",
+      required: true,
+    },
   },
   { timestamps: true }
 );

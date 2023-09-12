@@ -43,6 +43,10 @@ const SchoolSchema = new mongoose.Schema({
     ref: "Address",
     required: true,
   },
+  admin: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Admin",
+  },
   teachers: [
     {
       type: mongoose.Schema.Types.ObjectId,

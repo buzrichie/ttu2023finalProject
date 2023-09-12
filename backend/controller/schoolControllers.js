@@ -93,15 +93,24 @@ const createSchool = async (req, res) => {
       name: principal,
       adminID,
       password,
+      school,
+      email: emailAddress,
       role: "admin",
     });
+
+    school.admin = admin._id;
 
     // Send the admin object without including the password
     const adminWithoutPassword = { ...admin._doc };
     delete adminWithoutPassword.password;
 
     // return res.status(201).json({ admin: adminWithoutPassword, password });
-
+    const updateSchool = await school.save();
+    if (!updateSchool) {
+      await School.findByIdAndDelete(school._id);
+      await Admin.findByIdAndDelete(admin._id);
+      throw new Error("Admin data could not be linked to school");
+    }
     res.status(201).json({ school, admin: adminWithoutPassword, password });
   } catch (error) {
     res.status(400).json(error);
