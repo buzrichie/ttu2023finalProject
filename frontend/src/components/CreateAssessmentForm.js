@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import useFetchPost from "../usePostRequest";
 
 function CreateAssessmentForm() {
   const [formData, setFormData] = useState({
@@ -31,6 +32,7 @@ function CreateAssessmentForm() {
     } catch (error) {
       console.error("Error:", error);
     }
+    const fetchData = useFetchPost("/api/assessment/", formData);
   };
 
   const handleChange = (e) => {

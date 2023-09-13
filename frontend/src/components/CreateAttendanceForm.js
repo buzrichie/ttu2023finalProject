@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import useFetchPost from "../usePostRequest";
 function CreateAttendanceForm() {
   const [formData, setFormData] = useState({
     _Student: "", // Assuming this represents Student's full name
@@ -10,26 +10,7 @@ function CreateAttendanceForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch("/api/attendance/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.status === 201) {
-        // Handle successful creation, e.g., show a success message
-        console.log("Attendance record created successfully!");
-      } else {
-        // Handle error response, e.g., display an error message
-        const data = await response.json();
-        console.error("Error:", data.error);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    const fetchData = useFetchPost("/api/attendance/", formData);
   };
 
   const handleChange = (e) => {

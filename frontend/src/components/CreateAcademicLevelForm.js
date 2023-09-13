@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import fetchData from "../fetchData";
 
 function CreateAcademicLevelForm() {
   const [formData, setFormData] = useState({
@@ -6,28 +7,17 @@ function CreateAcademicLevelForm() {
     level: "",
     _School: "", // Assuming this represents School ID
   });
+  const [data, setData] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch("/api/academic-level/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+    const user = JSON.parse(localStorage.getItem("user"));
 
-      if (response.status === 201) {
-        // Handle successful creation, e.g., show a success message
-        console.log("Academic level created successfully!");
-      } else {
-        // Handle error response, e.g., display an error message
-        const data = await response.json();
-        console.error("Error:", data.error);
-      }
-    } catch (error) {
-      console.error("Error:", error);
+    console.log(user);
+    let fData = await fetchData("/api/academicLevel/", formData, user.token);
+    if (fData) {
+      console.log(fData);
+      setData(fData);
     }
   };
 
@@ -40,37 +30,45 @@ function CreateAcademicLevelForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="_Subject">Subject ID:</label>
-        <input
-          type="text"
-          name="_Subject"
-          value={formData._Subject}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="level">Class:</label>
-        <input
-          type="text"
-          name="level"
-          value={formData.level}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="_School">School ID:</label>
-        <input
-          type="text"
-          name="_School"
-          value={formData._School}
-          onChange={handleChange}
-        />
-      </div>
-      <button type="submit">Create Academic Level</button>
-    </form>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="_Subject">Subject ID:</label>
+          <input
+            type="text"
+            name="_Subject"
+            value={formData._Subject}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="level">Class:</label>
+          <input
+            type="text"
+            name="level"
+            value={formData.level}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="_School">School ID:</label>
+          <input
+            type="text"
+            name="_School"
+            value={formData._School}
+            onChange={handleChange}
+          />
+        </div>
+        <button type="submit">Create Academic Level</button>
+      </form>
+      {data && (
+        <div>
+          <h2 key={data._id}></h2>
+          <p>{data.level}</p>
+        </div>
+      )}
+    </div>
   );
 }
 

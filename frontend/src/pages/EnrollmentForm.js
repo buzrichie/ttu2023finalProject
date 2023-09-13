@@ -31,23 +31,8 @@ const EnrollmentForm = () => {
 
     // Perform any additional logic or validation here
 
+    useFetchPost("/api/student", formData);
     // Send POST request
-    fetch("/api/student", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // Handle the response data
-        console.log(data);
-      })
-      .catch((error) => {
-        // Handle any errors
-        console.error("Error:", error);
-      });
   };
 
   return (

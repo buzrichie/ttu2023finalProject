@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import useFetchPost from "../usePostRequest";
 
 function CreateTeacherForm() {
   const [formData, setFormData] = useState({
@@ -36,7 +37,7 @@ function CreateTeacherForm() {
       [name]: value,
     }));
   };
-
+  const fetchData = useFetchPost("api/teacher/", formData);
   return (
     <form onSubmit={handleSubmit}>
       <div>
