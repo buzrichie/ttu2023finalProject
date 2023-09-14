@@ -1,41 +1,45 @@
 import { useState, useEffect } from "react";
 
-const useFetch = (url, formData) => {
-  const { data, setData } = useState(null);
-  const { isPending, setIsPending } = useState(true);
-  const { error, setError } = useState(null);
+// Fetch - Get - with Authorization Header
+const useFetch = (url, authToken) => {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [isPending, setIsPending] = useState(true);
 
   useEffect(() => {
-    const abortController = new AbortController();
-    // Make a POST request to the appropriate API endpoint
-    const fetchData = async () => {
+    const fetchDataGet = async () => {
       try {
         const response = await fetch(url, {
-          signal: abortController.signal,
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            // Authorization header with the authToken
+            Authorization: `Bearer ${authToken}`,
+          },
         });
-        if (!response) {
-          throw Error("Could not fetch data from that resource");
-        }
-        const data = await response.json();
+
         if (!response.ok) {
-          setIsPending(false);
-          setError(data);
-          console.error("Login Error:", error);
-        } else {
-          setIsPending(false);
-          setData(data);
-          console.log("Success:", data);
+          throw new Error("Could not fetch data");
         }
+
+        const json = await response.json();
+        setData(json);
+        setIsPending(false);
+        setError(null);
       } catch (error) {
-        console.error("Network Error:", error);
+        setIsPending(false);
+        setError(error.message);
       }
     };
-    fetchData();
 
-    return () => abortController.abort();
-  }, [url]);
+    fetchDataGet();
+  }, [url, authToken]); // Specify dependencies here
 
-  return { data, isPending, error };
+  return {
+    data,
+    isPending,
+    error,
+  };
 };
 
 export default useFetch;

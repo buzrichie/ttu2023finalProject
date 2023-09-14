@@ -1,6 +1,11 @@
 import React, { useState } from "react";
-import useFetchPost from "../usePostRequest";
+import usePostFetch from "../usePostFetch";
+
 function CreateAttendanceForm() {
+  const { token } = JSON.parse(localStorage.getItem("user"));
+  if (!token) {
+    return;
+  }
   const [formData, setFormData] = useState({
     _Student: "", // Assuming this represents Student's full name
     _Teacher: "", // Assuming this represents Teacher's full name
@@ -8,9 +13,17 @@ function CreateAttendanceForm() {
     date: "",
   });
 
+  const { data, loading, error, postData } = usePostFetch(
+    "/api/attendance/",
+    token
+  );
+
+  if (data) {
+    console.log(data);
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const fetchData = useFetchPost("/api/attendance/", formData);
+    postData(formData);
   };
 
   const handleChange = (e) => {

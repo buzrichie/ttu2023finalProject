@@ -1,7 +1,11 @@
 import React, { useState } from "react";
-import useFetchPost from "../usePostRequest";
+import usePostFetch from "../usePostFetch";
 
 function CreateSubjectForm() {
+  const { token } = JSON.parse(localStorage.getItem("user"));
+  if (!token) {
+    return;
+  }
   const [formData, setFormData] = useState({
     name: "",
     code: "",
@@ -9,9 +13,17 @@ function CreateSubjectForm() {
     _AcademicLevel: "", // Assuming this represents AcademicLevel ID
   });
 
+  const { data, loading, error, postData } = usePostFetch(
+    "/api/subject/",
+    token
+  );
+
+  if (data) {
+    console.log(data);
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const fetchData = useFetchPost("/api/subject/", formData);
+    postData(formData);
   };
 
   const handleChange = (e) => {

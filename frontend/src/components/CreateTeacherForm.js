@@ -1,7 +1,11 @@
 import React, { useState } from "react";
-import useFetchPost from "../usePostRequest";
+import usePostFetch from "../usePostFetch";
 
 function CreateTeacherForm() {
+  const { token } = JSON.parse(localStorage.getItem("user"));
+  if (!token) {
+    return;
+  }
   const [formData, setFormData] = useState({
     firstName: "",
     surName: "",
@@ -19,15 +23,17 @@ function CreateTeacherForm() {
     _Subject: "", // Assuming this represents Subject ID
   });
 
+  const { data, loading, error, postData } = usePostFetch(
+    "/api/teacher/",
+    token
+  );
+
+  if (data) {
+    console.log(data);
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      // Your fetch request to the API goes here
-      // Include the logic for generating teacherID, password, and other complex operations
-      // Handle the response accordingly
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    postData(formData);
   };
 
   const handleChange = (e) => {

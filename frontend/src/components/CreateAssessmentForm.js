@@ -1,7 +1,11 @@
 import React, { useState } from "react";
-import useFetchPost from "../usePostRequest";
+import usePostFetch from "../usePostFetch";
 
 function CreateAssessmentForm() {
+  const { token } = JSON.parse(localStorage.getItem("user"));
+  if (!token) {
+    return;
+  }
   const [formData, setFormData] = useState({
     _Subject: "", // Assuming this represents Subject name
     _Student: "", // Assuming this represents Student's full name
@@ -10,29 +14,17 @@ function CreateAssessmentForm() {
     score: "",
   });
 
+  const { data, loading, error, postData } = usePostFetch(
+    "/api/assessment/",
+    token
+  );
+
+  if (data) {
+    console.log(data);
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch("/api/assessment/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.status === 201) {
-        // Handle successful creation, e.g., show a success message
-        console.log("Assessment created successfully!");
-      } else {
-        // Handle error response, e.g., display an error message
-        const data = await response.json();
-        console.error("Error:", data.error);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-    const fetchData = useFetchPost("/api/assessment/", formData);
+    postData(formData);
   };
 
   const handleChange = (e) => {

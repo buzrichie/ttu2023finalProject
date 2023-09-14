@@ -1,28 +1,29 @@
 import React, { useState } from "react";
-import fetchDataPost from "../fetchDataPost";
+import usePostFetch from "../usePostFetch";
 
 function CreateAcademicLevelForm() {
+  const { token } = JSON.parse(localStorage.getItem("user"));
+  if (!token) {
+    return;
+  }
+
   const [formData, setFormData] = useState({
     _Subject: "", // Assuming this represents Subject ID
     level: "",
     _School: "", // Assuming this represents School ID
   });
-  const [data, setData] = useState(null);
 
+  const { data, loading, error, postData } = usePostFetch(
+    "/api/academicLevel/",
+    token
+  );
+
+  if (data) {
+    console.log(data);
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const user = JSON.parse(localStorage.getItem("user"));
-
-    console.log(user);
-    let fData = await fetchDataPost(
-      "/api/academicLevel/",
-      formData,
-      user.token
-    );
-    if (fData) {
-      console.log(fData);
-      setData(fData);
-    }
+    postData(formData);
   };
 
   const handleChange = (e) => {
