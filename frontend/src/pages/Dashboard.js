@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Database from "../components/Database";
 import UserProfile from "../components/UserProfile";
 
-function Dashboard() {
+function Home() {
   const [database, setDatabase] = useState(null);
   const [data, setData] = useState(null);
   const { admin, token } = JSON.parse(localStorage.getItem("user"));
@@ -140,4 +140,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default Home;

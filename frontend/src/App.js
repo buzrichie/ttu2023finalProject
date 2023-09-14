@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 // Import Pages and Component
 import Login from "./pages/Login";
 import EnrollmentForm from "./pages/EnrollmentForm";
-import Dashboard from "./pages/Dashboard";
+import Home from "./pages/Dashboard";
 import CreateAcademicLevelForm from "./components/CreateAcademicLevelForm";
 import Database from "./components/Database";
 
@@ -19,7 +19,7 @@ function App() {
             <Route
               path={"/"}
               element={
-                localStorageUser ? <Dashboard /> : <Navigate to="/auth/admin" />
+                localStorageUser ? <Home /> : <Navigate to="/auth/admin" />
               }
             />
             <Route

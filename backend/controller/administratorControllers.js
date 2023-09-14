@@ -57,12 +57,12 @@ const login = async (req, res) => {
     }
     const admin = await Admin.findOne({ adminID });
     if (!admin) {
-      return res.status(201).json({ error: "Invalid Admin ID number" });
+      return res.status(400).json({ error: "Invalid Admin ID number" });
     }
     //Authenticate the Password
     const match = await bcrypt.compare(password, admin.password);
     if (!match) {
-      return res.status(201).json({ error: "Not a valid Password" });
+      return res.status(400).json({ error: "Not a valid Password" });
     }
     //Genete a Jwt Token
     const payload = { id: admin._id, role: admin.role };
@@ -82,7 +82,7 @@ const login = async (req, res) => {
 const getAllAdmins = async (req, res) => {
   try {
     const admins = await Admin.find();
-    res.json(admins);
+    res.status(201).json(admins);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -95,7 +95,7 @@ const getSingleAdmin = async (req, res) => {
     if (!admin) {
       return res.status(404).json({ error: "Admin not found" });
     }
-    res.json(admin);
+    res.status(201).json(admin);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -110,7 +110,7 @@ const updateAdmin = async (req, res) => {
     if (!admin) {
       return res.status(404).json({ error: "Admin not found" });
     }
-    res.json(admin);
+    res.status(201).json(admin);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -123,7 +123,7 @@ const deleteAdmin = async (req, res) => {
     if (!admin) {
       return res.status(404).json({ error: "Admin not found" });
     }
-    res.sendStatus(204);
+    res.status(201).json({ Deleted: admin });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
