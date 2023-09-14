@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 // Import Pages and Component
 import Login from "./pages/Login";
 import EnrollmentForm from "./pages/EnrollmentForm";
-import Home from "./pages/Dashboard";
+import Home from "./pages/Home";
 import CreateAcademicLevelForm from "./components/CreateAcademicLevelForm";
 import Database from "./components/Database";
 
