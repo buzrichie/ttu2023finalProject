@@ -41,8 +41,6 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("hi");
-
     if (!formData[userRole] || !formData.password) {
       return setError("Both fields are required.");
     } else {

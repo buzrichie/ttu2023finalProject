@@ -1,9 +1,9 @@
 import React from "react";
 
-function Database() {
+function Database({ database, title }) {
   return (
     <div className="database-container">
-      <h2>Database</h2>
+      <h2 style={{ marginTop: "1rem" }}>{title}</h2>
       <ul className="tabs">
         <li className="active">Students</li>
         <li>Teachers</li>
@@ -11,6 +11,7 @@ function Database() {
         <li>Enroll</li>
         <li>Staff</li>
       </ul>
+
       <table className="user-table">
         <thead>
           <tr>
@@ -24,7 +25,7 @@ function Database() {
         </thead>
         <tbody>
           {/* Sample user data */}
-          <tr className="odd">
+          <tr>
             <td>John Doe</td>
             <td>12345</td>
             <td>Grade 10</td>
@@ -32,6 +33,11 @@ function Database() {
             <td>Male</td>
             <td>john@example.com</td>
           </tr>
+          {database.academicLevels.map((academicLevel) => (
+            <tr key={academicLevel}>
+              <td>{academicLevel}</td>
+            </tr>
+          ))}
           <tr>
             <td>Jane Smith</td>
             <td>67890</td>

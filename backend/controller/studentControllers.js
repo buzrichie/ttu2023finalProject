@@ -273,12 +273,12 @@ const login = async (req, res) => {
     }
     const student = await Student.findOne({ studentID });
     if (!student) {
-      return res.status(201).json({ error: "Invalid Student ID number" });
+      return res.status(400).json({ error: "Invalid Student ID number" });
     }
     //Authenticate the Password
     const match = await bcrypt.compare(password, student.password);
     if (!match) {
-      return res.status(201).json({ error: "Not a valid Password" });
+      return res.status(400).json({ error: "Not a valid Password" });
     }
     //Genete a Jwt Token
     const payload = { id: student._id, role: student.role };

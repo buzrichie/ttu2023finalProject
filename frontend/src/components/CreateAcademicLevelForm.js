@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import fetchData from "../fetchData";
+import fetchDataPost from "../fetchDataPost";
 
 function CreateAcademicLevelForm() {
   const [formData, setFormData] = useState({
@@ -14,7 +14,11 @@ function CreateAcademicLevelForm() {
     const user = JSON.parse(localStorage.getItem("user"));
 
     console.log(user);
-    let fData = await fetchData("/api/academicLevel/", formData, user.token);
+    let fData = await fetchDataPost(
+      "/api/academicLevel/",
+      formData,
+      user.token
+    );
     if (fData) {
       console.log(fData);
       setData(fData);

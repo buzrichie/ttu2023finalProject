@@ -17,40 +17,22 @@ function App() {
         <div className="pages">
           <Routes>
             <Route
-              path={"/admin/dashboard"}
+              path={"/"}
               element={
                 localStorageUser ? <Dashboard /> : <Navigate to="/auth/admin" />
               }
             />
             <Route
               path={"/auth/admin"}
-              element={
-                !localStorageUser ? (
-                  <Login />
-                ) : (
-                  <Navigate to="/admin/dashboard" />
-                )
-              }
+              element={!localStorageUser ? <Login /> : <Navigate to="/" />}
             />
             <Route
               path={"/auth/student"}
-              element={
-                !localStorageUser ? (
-                  <Login />
-                ) : (
-                  <Navigate to="/admin/dashboard" />
-                )
-              }
+              element={!localStorageUser ? <Login /> : <Navigate to="/" />}
             />
             <Route
               path={"/auth/teacher"}
-              element={
-                !localStorageUser ? (
-                  <Login />
-                ) : (
-                  <Navigate to="/admin/dashboard" />
-                )
-              }
+              element={!localStorageUser ? <Login /> : <Navigate to="/" />}
             />
             <Route
               path={"/academicLevel"}

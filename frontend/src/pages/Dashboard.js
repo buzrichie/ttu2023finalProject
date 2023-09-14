@@ -1,4 +1,69 @@
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import Database from "../components/Database";
+import UserProfile from "../components/UserProfile";
+
 function Dashboard() {
+  const [database, setDatabase] = useState(null);
+  const [data, setData] = useState(null);
+  const { admin, token } = JSON.parse(localStorage.getItem("user"));
+  const { _id, role } = admin;
+  if (!admin || !token) {
+    return;
+  }
+
+  useEffect(() => {
+    //Fetch -Get- with Authorization Header
+    const getData = async () => {
+      const response = await fetch(`/api/${role}/${_id}`, {
+        headers: {
+          method: "GET",
+          "Content-Type": "application/json",
+          // Authorization header with the authToken
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const json = await response.json();
+      if (!response.ok) {
+        throw Error(json);
+      }
+      if (response.ok) {
+        console.log("successful fetched data ", json);
+        setData(json);
+      }
+    };
+    getData();
+  }, []);
+
+  //Fetch -Get- with Authorization Header
+  const fetchData = async () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    try {
+      const response = await fetch("/api/school/6500bd2c639c040ead8d5378", {
+        headers: {
+          method: "GET",
+          "Content-Type": "application/json",
+          // Authorization header with the authToken
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      const json = await response.json();
+      if (!response.ok) {
+        console.log(json.error);
+      }
+      if (response.ok) {
+        setDatabase(json);
+        console.log(json);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    fetchData();
+  };
   return (
     <div className="container">
       <div className="sidebar">
@@ -12,9 +77,9 @@ function Dashboard() {
             </a>
           </li>
           <li>
-            <a href="#">
+            <Link to="#" onClick={handleClick}>
               <i className="fas fa-user"></i> Userbase
-            </a>
+            </Link>
           </li>
           <li>
             <a href="#">
@@ -64,7 +129,13 @@ function Dashboard() {
           {/* Replace with the user's name */}
         </div>
       </div>
-      <div className="main-content">{/* Add your main content here */}</div>
+      <div className="main-content">
+        {/* Add your main content here */}
+        {data && <UserProfile />}
+        {database && (
+          <Database key={database._id} database={database} title="Student" />
+        )}
+      </div>
     </div>
   );
 }
