@@ -18,6 +18,7 @@ const subjectRoutes = require("./routes/subjectRoutes");
 const teacherRoutes = require("./routes/teacherRoutes");
 const academicLevelRoutes = require("./routes/academicLevelRoutes");
 const addressRoutes = require("./routes/addressRoutes");
+const questionGenrationRoute = require("./routes/questionGenerationRoutes");
 
 //Express App
 const app = express();
@@ -58,6 +59,7 @@ app.use("/api/admission", admissionRoutes);
 app.use("/api/enroll", enrollmentRoutes);
 app.use("/api/application", applicationRoutes);
 app.use("/api/assessment", assessmentRoutes);
+app.use("/api/genQue", questionGenrationRoute);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/finance", financeRoutes);
 app.use("/api/parent-Guardian", parentGuardianRoutes);
