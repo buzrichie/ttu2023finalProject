@@ -1,27 +1,41 @@
 import React, { useState } from "react";
+import fetchDataPost from "../usePostFetch";
+import GenerateQuestionForm from "./GenerateQuestionForm";
 
-function MessageTextarea() {
-  const [message, setMessage] = useState("");
+function GenerateQuestion() {
+  const [formData, setFormData] = useState({
+    _Subject: "", // Assuming this represents Subject ID
+    level: "",
+    _School: "", // Assuming this represents School ID
+  });
+  const [data, setData] = useState(null);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    console.log(user);
+    let fData = await fetchDataPost("/api/generate/", formData, user.token);
+    if (fData) {
+      console.log(fData);
+      setData(fData);
+    }
+  };
 
   const handleChange = (e) => {
-    setMessage(e.target.value);
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   return (
-    <textarea
-      id="prompt-textarea"
-      tabIndex="0"
-      rows="1"
-      placeholder="Send a message"
-      value={message}
-      onChange={handleChange}
-      style={{
-        maxHeight: "200px",
-        height: "24px",
-        overflowY: "hidden",
-      }}
-    ></textarea>
+    <div>
+      <h1>Generate Question</h1>
+      <GenerateQuestionForm />
+    </div>
   );
 }
 
-export default MessageTextarea;
+export default GenerateQuestion;
