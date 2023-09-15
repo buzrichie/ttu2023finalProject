@@ -24,7 +24,10 @@ const generateQuestion = async (req, res) => {
     ],
     max_tokens: 100,
   });
-
+  console.log({
+    Qusetions: questions.data.choices[0].message,
+    answers: answers.data.choices[0].message,
+  });
   res.status(200).json({
     Qusetions: questions.data.choices[0].message,
     answers: answers.data.choices[0].message,

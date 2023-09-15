@@ -62,7 +62,7 @@ app.use("/api/assessment", assessmentRoutes);
 app.use("/api/genQue", questionGenrationRoute);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/finance", financeRoutes);
-app.use("/api/parent-Guardian", parentGuardianRoutes);
+app.use("/api/parentguardian", parentGuardianRoutes);
 app.use("/api/school", schoolRoutes);
 app.use("/api/student", studentRoutes);
 app.use("/api/subject", subjectRoutes);
