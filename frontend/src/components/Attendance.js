@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import fetchDataPost from "../usePostFetch";
-import CreateAttendanceForm from "./CreateAcademicLevelForm";
+import CreateAttendanceForm from "./CreateAttendanceForm";
 
 function Attendance() {
   const [formData, setFormData] = useState({
@@ -15,11 +15,7 @@ function Attendance() {
     const user = JSON.parse(localStorage.getItem("user"));
 
     console.log(user);
-    let fData = await fetchDataPost(
-      "/api/academicLevel/",
-      formData,
-      user.token
-    );
+    let fData = fetchDataPost("/api/attendance/", formData, user.token);
     if (fData) {
       console.log(fData);
       setData(fData);

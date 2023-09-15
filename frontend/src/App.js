@@ -12,7 +12,7 @@ import Attendance from "./components/Attendance";
 import Subject from "./components/Subject";
 import Teacher from "./components/Teacher";
 import Assessment from "./components/Assessment";
-import GenerateQuestion from "./components/GenerateQuestion";
+import GenerateQuestion from "./components/QuestionGenerator";
 
 function App() {
   // const [user, setUser] = useState(null);
