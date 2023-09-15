@@ -27,15 +27,15 @@ function QuestionGeneratorForm() {
 
       const data = await response.json();
       console.log({ data });
-      setQuestions(data.Questions.content);
-      setAnswers(data.answers.content);
+      setQuestions(data.Qusetions);
+      setAnswers(data.answers);
     } catch (error) {
       console.error(error);
     }
   };
 
   return (
-    <div>
+    <div className="question-generator-container">
       <h2>Question Generator</h2>
       <textarea
         rows="4"
@@ -50,15 +50,15 @@ function QuestionGeneratorForm() {
 
       {questions && (
         <div>
-          <h3>Generated Question:</h3>
-          <p>{questions}</p>
+          <h3>Questions:</h3>
+          <p>{questions.content}</p>
         </div>
       )}
 
       {answers && (
         <div>
-          <h3>Generated Answer:</h3>
-          <p>{answers}</p>
+          <h3>Answers:</h3>
+          <p>{answers.content}</p>
         </div>
       )}
     </div>

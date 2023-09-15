@@ -12,7 +12,7 @@ function SubjectTable() {
   return (
     <div>
       <h2>Subject Table</h2>
-      <table>
+      <table className="table">
         <thead>
           <tr>
             <th>CODE</th>

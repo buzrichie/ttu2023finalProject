@@ -1,42 +1,25 @@
 import React from "react";
 
-function AdministratorTable() {
-  // Sample administrator data
-  const administratorRecords = [
-    {
-      "Admin ID": "ADM123",
-      Name: "John Doe",
-      Email: "john.doe@example.com",
-      Role: "Super Admin",
-    },
-    {
-      "Admin ID": "ADM456",
-      Name: "Jane Smith",
-      Email: "jane.smith@example.com",
-      Role: "Admin",
-    },
-    // Add more administrator records as needed
-  ];
+function AdministratorTable(props) {
+  const { data } = props;
 
   return (
     <div>
       <h2>Administrator Table</h2>
-      <table>
+      <table className="table">
         <thead>
           <tr>
             <th>Admin ID</th>
             <th>Name</th>
             <th>Email</th>
-            <th>Role</th>
           </tr>
         </thead>
         <tbody>
-          {administratorRecords.map((record, index) => (
-            <tr key={index}>
-              <td>{record["Admin ID"]}</td>
-              <td>{record.Name}</td>
-              <td>{record.Email}</td>
-              <td>{record.Role}</td>
+          {data.map((admin) => (
+            <tr key={admin._id} role={admin.role} school={admin.school}>
+              <td>{admin.adminID}</td>
+              <td>{admin.name}</td>
+              <td>{admin.email}</td>
             </tr>
           ))}
         </tbody>

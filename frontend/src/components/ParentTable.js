@@ -1,31 +1,12 @@
 import React from "react";
 
-function ParentTable() {
-  // Sample parent data
-  const parentRecords = [
-    {
-      "First Name": "John",
-      Surname: "Doe",
-      Email: "john.doe@example.com",
-      Phone: "+1234567890",
-      Occupation: "Engineer",
-      "Student ID": "ST12345",
-    },
-    {
-      "First Name": "Jane",
-      Surname: "Smith",
-      Email: "jane.smith@example.com",
-      Phone: "+9876543210",
-      Occupation: "Teacher",
-      "Student ID": "ST67890",
-    },
-    // Add more parent records as needed
-  ];
+function ParentTable(props) {
+  const { data } = props;
 
   return (
     <div>
       <h2>Parent Table</h2>
-      <table>
+      <table className="table">
         <thead>
           <tr>
             <th>First Name</th>
@@ -37,14 +18,13 @@ function ParentTable() {
           </tr>
         </thead>
         <tbody>
-          {parentRecords.map((record, index) => (
-            <tr key={index}>
-              <td>{record["First Name"]}</td>
-              <td>{record.Surname}</td>
-              <td>{record.Email}</td>
-              <td>{record.Phone}</td>
-              <td>{record.Occupation}</td>
-              <td>{record["Student ID"]}</td>
+          {data.map((parentguardian) => (
+            <tr key={parentguardian._id}>
+              <td>{parentguardian.firstName}</td>
+              <td>{parentguardian.surName}</td>
+              <td>{parentguardian.email}</td>
+              <td>{parentguardian.phone}</td>
+              <td>{parentguardian.occupation}</td>
             </tr>
           ))}
         </tbody>

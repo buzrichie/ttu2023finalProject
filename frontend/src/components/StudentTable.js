@@ -1,31 +1,11 @@
 import React from "react";
 
-function StudentTable() {
-  // Sample student data
-  const studentRecords = [
-    {
-      "First Name": "Alice",
-      Surname: "Johnson",
-      "Date of Birth": "2005-03-10",
-      Class: "Grade 7",
-      Gender: "Female",
-      "Parent/Guardian": "John Johnson",
-    },
-    {
-      "First Name": "Bob",
-      Surname: "Smith",
-      "Date of Birth": "2006-07-15",
-      Class: "Grade 8",
-      Gender: "Male",
-      "Parent/Guardian": "Mary Smith",
-    },
-    // Add more student records as needed
-  ];
-
+function StudentTable(props) {
+  const { data } = props;
   return (
     <div>
       <h2>Student Table</h2>
-      <table>
+      <table className="table">
         <thead>
           <tr>
             <th>First Name</th>
@@ -37,14 +17,14 @@ function StudentTable() {
           </tr>
         </thead>
         <tbody>
-          {studentRecords.map((record, index) => (
-            <tr key={index}>
-              <td>{record["First Name"]}</td>
-              <td>{record.Surname}</td>
-              <td>{record["Date of Birth"]}</td>
-              <td>{record.Class}</td>
-              <td>{record.Gender}</td>
-              <td>{record["Parent/Guardian"]}</td>
+          {data.map((user) => (
+            <tr key={user._id}>
+              <td>{user.firstName}</td>
+              <td>{user.surName}</td>
+              <td>{user.dateOfBirth}</td>
+              <td>{user.academicLevel}</td>
+              <td>{user.gender}</td>
+              <td>{user.parentGuardian}</td>
             </tr>
           ))}
         </tbody>

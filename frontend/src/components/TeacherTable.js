@@ -1,35 +1,11 @@
 import React from "react";
 
-function TeacherTable() {
-  // Sample teacher data
-  const teacherRecords = [
-    {
-      "First Name": "John",
-      Surname: "Doe",
-      "Date of Birth": "1990-05-15",
-      Email: "john.doe@example.com",
-      Phone: "+1 (123) 456-7890",
-      Qualification: "Bachelor of Education",
-      "Teaching Experience": "5 years",
-      Gender: "Male",
-    },
-    {
-      "First Name": "Jane",
-      Surname: "Smith",
-      "Date of Birth": "1985-08-20",
-      Email: "jane.smith@example.com",
-      Phone: "+1 (987) 654-3210",
-      Qualification: "Master of Education",
-      "Teaching Experience": "8 years",
-      Gender: "Female",
-    },
-    // Add more teacher records as needed
-  ];
-
+function TeacherTable(props) {
+  const { data } = props;
   return (
     <div>
       <h2>Teacher Table</h2>
-      <table>
+      <table className="table">
         <thead>
           <tr>
             <th>First Name</th>
@@ -43,16 +19,16 @@ function TeacherTable() {
           </tr>
         </thead>
         <tbody>
-          {teacherRecords.map((record, index) => (
-            <tr key={index}>
-              <td>{record["First Name"]}</td>
-              <td>{record.Surname}</td>
-              <td>{record["Date of Birth"]}</td>
-              <td>{record.Email}</td>
-              <td>{record.Phone}</td>
-              <td>{record.Qualification}</td>
-              <td>{record["Teaching Experience"]}</td>
-              <td>{record.Gender}</td>
+          {data.map((teacher) => (
+            <tr key={teacher._id}>
+              <td>{teacher.firstName}</td>
+              <td>{teacher.surName}</td>
+              <td>{teacher.dateOfBirth}</td>
+              <td>{teacher.email}</td>
+              <td>{teacher.phone}</td>
+              <td>{teacher.qualification}</td>
+              <td>{teacher.teachingExperience}</td>
+              <td>{teacher.gender}</td>
             </tr>
           ))}
         </tbody>

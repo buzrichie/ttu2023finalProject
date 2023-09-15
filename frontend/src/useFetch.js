@@ -19,7 +19,7 @@ const useFetch = (url, authToken) => {
         });
 
         if (!response.ok) {
-          throw new Error("Could not fetch data");
+          throw Error(response.error);
         }
 
         const json = await response.json();
@@ -28,7 +28,7 @@ const useFetch = (url, authToken) => {
         setError(null);
       } catch (error) {
         setIsPending(false);
-        setError(error.message);
+        setError(error);
       }
     };
 

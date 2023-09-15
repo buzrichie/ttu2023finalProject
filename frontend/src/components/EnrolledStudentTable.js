@@ -1,31 +1,9 @@
 import React from "react";
 
-function EnrolledStudentTable() {
-  // Sample enrolled student data
-  const enrolledStudentRecords = [
-    {
-      "Admission Number": "ADM001",
-      "First Name": "John",
-      Surname: "Doe",
-      "Date of Birth": "1995-08-15",
-      Class: "Grade 10",
-      Gender: "Male",
-      "Parent/Guardian": "Alice Doe",
-    },
-    {
-      "Admission Number": "ADM002",
-      "First Name": "Jane",
-      Surname: "Smith",
-      "Date of Birth": "1998-07-20",
-      Class: "Grade 12",
-      Gender: "Female",
-      "Parent/Guardian": "Bob Smith",
-    },
-    // Add more enrolled student records as needed
-  ];
-
+function EnrolledStudentTable(props) {
+  const { data } = props;
   return (
-    <div>
+    <div className="table">
       <h2>Enrolled Student Table</h2>
       <table>
         <thead>
@@ -40,15 +18,15 @@ function EnrolledStudentTable() {
           </tr>
         </thead>
         <tbody>
-          {enrolledStudentRecords.map((record, index) => (
-            <tr key={index}>
-              <td>{record["Admission Number"]}</td>
-              <td>{record["First Name"]}</td>
-              <td>{record.Surname}</td>
-              <td>{record["Date of Birth"]}</td>
-              <td>{record.Class}</td>
-              <td>{record.Gender}</td>
-              <td>{record["Parent/Guardian"]}</td>
+          {data.map((student) => (
+            <tr key={student._id}>
+              <td>{student.admission}</td>
+              <td>{student.firstName}</td>
+              <td>{student.surName}</td>
+              <td>{student.dateOfBirth}</td>
+              <td>{student.academicLevel}</td>
+              <td>{student.gender}</td>
+              <td>{student.parentGuardianFirstName}</td>
             </tr>
           ))}
         </tbody>

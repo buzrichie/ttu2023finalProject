@@ -1,66 +1,101 @@
-import React from "react";
-import useFetch from "../useFetch";
+import React, { useState, useEffect } from "react";
 import UserProfile from "./UserProfile";
+import TeacherTable from "./TeacherTable";
+import StudentTable from "./StudentTable";
+import ParentTable from "./ParentTable";
+import AdministratorTable from "./AdministratorTable";
+import EnrolledStudentTable from "./EnrolledStudentTable";
 
 function Database({ database, title }) {
-  const { admin, token } = JSON.parse(localStorage.getItem("user"));
+  const { token } = JSON.parse(localStorage.getItem("user"));
+  const [activeTab, setActiveTab] = useState("Student"); // Default active tab
+  const [data, setData] = useState(null);
+  const [isPending, setIsPending] = useState(false);
+  const [error, setError] = useState(null);
 
-  if (!admin || !token) {
-    return;
-  }
-  const { data, isPending, error } = useFetch(
-    "/api/school/6500bd2c639c040ead8d5378",
-    token
-  );
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsPending(true);
+      setError(null);
 
-  if (data) {
-    console.log(data);
-  }
+      try {
+        // Construct the API endpoint based on the selected tab
+        const apiUrl = `/api/${activeTab.toLowerCase()}`;
+
+        const response = await fetch(apiUrl, {
+          headers: {
+            method: "GET",
+            "Content-Type": "application/json",
+            // Authorization header with the authToken
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Could not fetch data");
+        }
+
+        const jsonData = await response.json();
+        setIsPending(false);
+        setData(jsonData);
+      } catch (error) {
+        setIsPending(false);
+        setError(error);
+      }
+    };
+
+    fetchData();
+  }, [activeTab, token]);
+
+  const tabClickHandler = (tab) => {
+    setActiveTab(tab);
+  };
+
   return (
     <div className="database-container">
       <div>
         <h2 style={{ marginTop: "1rem" }}>Database</h2>
         <ul className="tabs">
-          <li className="active">Students</li>
-          <li>Teachers</li>
-          <li>Parents</li>
-          <li>Enroll</li>
-          <li>Staff</li>
+          <li
+            className={activeTab === "Student" ? "active" : ""}
+            onClick={() => tabClickHandler("Student")}
+          >
+            Students
+          </li>
+          <li
+            className={activeTab === "Teacher" ? "active" : ""}
+            onClick={() => tabClickHandler("Teacher")}
+          >
+            Teachers
+          </li>
+          <li
+            className={activeTab === "ParentGuardian" ? "active" : ""}
+            onClick={() => tabClickHandler("ParentGuardian")}
+          >
+            Parents
+          </li>
+          <li
+            className={activeTab === "Enroll" ? "active" : ""}
+            onClick={() => tabClickHandler("Enroll")}
+          >
+            Enroll
+          </li>
+          <li
+            className={activeTab === "Admin" ? "active" : ""}
+            onClick={() => tabClickHandler("Admin")}
+          >
+            Administrator
+          </li>
         </ul>
+        {/* Conditionally render the table component based on the active tab */}
+        {activeTab === "Student" && data && <StudentTable data={data} />}
+        {activeTab === "Teacher" && data && <TeacherTable data={data} />}
+        {activeTab === "ParentGuardian" && data && <ParentTable data={data} />}
+        {activeTab === "Enroll" && data && <EnrolledStudentTable data={data} />}
+        {activeTab === "Admin" && data && <AdministratorTable data={data} />}
 
-        <table className="user-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>ID</th>
-              <th>Class</th>
-              <th>Age</th>
-              <th>Gender</th>
-              <th>Email</th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* Sample user data */}
-            <tr>
-              <td>John Doe</td>
-              <td>12345</td>
-              <td>Grade 10</td>
-              <td>16</td>
-              <td>Male</td>
-              <td>john@example.com</td>
-            </tr>
-
-            <tr>
-              <td>Jane Smith</td>
-              <td>67890</td>
-              <td>Grade 8</td>
-              <td>14</td>
-              <td>Female</td>
-              <td>jane@example.com</td>
-            </tr>
-            {/* Add more user data as needed */}
-          </tbody>
-        </table>
+        {isPending && <p>Loading...</p>}
+        {error && <p>{error.message}</p>}
       </div>
       <UserProfile />
     </div>
