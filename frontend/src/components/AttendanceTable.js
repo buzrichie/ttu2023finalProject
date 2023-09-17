@@ -8,19 +8,19 @@ function AttendanceTable(props) {
       <table className="table">
         <thead>
           <tr>
-            <th>STUDENT'S FULL NAME</th>
-            <th>TEACHER'S FULL NAME</th>
-            <th>STATUS</th>
             <th>DATE</th>
+            <th>STUDENT</th>
+            <th>TEACHER</th>
+            <th>STATUS</th>
           </tr>
         </thead>
         <tbody>
           {data.map((attendance) => (
             <tr key={attendance._id}>
-              <td>{attendance["STUDENT'S FULL NAME"]}</td>
-              <td>{attendance["TEACHER'S FULL NAME"]}</td>
-              <td>{attendance.status}</td>
               <td>{attendance.date}</td>
+              <td>{attendance.student}</td>
+              <td>{attendance.teacher}</td>
+              <td>{attendance.status}</td>
             </tr>
           ))}
         </tbody>

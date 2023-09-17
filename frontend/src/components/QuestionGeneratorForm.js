@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import usePostFetch from "../usePostFetch";
 
 function QuestionGeneratorForm() {
   const { token } = JSON.parse(localStorage.getItem("user"));
@@ -8,8 +7,8 @@ function QuestionGeneratorForm() {
   }
 
   const [questionContext, setQuestionContext] = useState("");
-  const [questions, setQuestions] = useState("");
-  const [answers, setAnswers] = useState("");
+  const [questions, setQuestions] = useState({});
+  const [answers, setAnswers] = useState({});
 
   const handleGenerate = async () => {
     try {

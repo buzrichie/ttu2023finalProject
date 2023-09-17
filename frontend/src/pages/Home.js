@@ -15,7 +15,7 @@ function Home() {
   const { data, error, isPending } = useFetch(url, token);
 
   return (
-    <div className="content">
+    <div>
       {/* Add your main content here */}
       <div>
         {data && <UserProfile />}

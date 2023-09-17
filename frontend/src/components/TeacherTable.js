@@ -3,8 +3,7 @@ import React from "react";
 function TeacherTable(props) {
   const { data } = props;
   return (
-    <div>
-      <h2>Teacher Table</h2>
+    <>
       <table className="table">
         <thead>
           <tr>
@@ -33,7 +32,7 @@ function TeacherTable(props) {
           ))}
         </tbody>
       </table>
-    </div>
+    </>
   );
 }
 

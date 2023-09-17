@@ -19,7 +19,7 @@ const useFetch = (url, authToken) => {
         });
 
         if (!response.ok) {
-          throw Error(response.error);
+          throw Error("Could not process request");
         }
 
         const json = await response.json();

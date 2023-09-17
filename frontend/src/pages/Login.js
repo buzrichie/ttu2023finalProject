@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-
+import { Link } from "react-router-dom";
+Link;
 function Login() {
   let role = ""; // Initialize the role variable
 
@@ -136,7 +137,7 @@ function Login() {
 
             <div className="dregis">
               <p className="s_n">New Student?</p>
-              <a className="s_n" href="#">
+              <a className="s_n" href="/enroll">
                 Register
               </a>
             </div>

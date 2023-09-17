@@ -4,8 +4,7 @@ function ParentTable(props) {
   const { data } = props;
 
   return (
-    <div>
-      <h2>Parent Table</h2>
+    <>
       <table className="table">
         <thead>
           <tr>
@@ -29,7 +28,7 @@ function ParentTable(props) {
           ))}
         </tbody>
       </table>
-    </div>
+    </>
   );
 }
 

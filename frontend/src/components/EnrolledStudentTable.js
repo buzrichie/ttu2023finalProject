@@ -3,9 +3,8 @@ import React from "react";
 function EnrolledStudentTable(props) {
   const { data } = props;
   return (
-    <div className="table">
-      <h2>Enrolled Student Table</h2>
-      <table>
+    <>
+      <table className="table">
         <thead>
           <tr>
             <th>Admission Number</th>
@@ -31,7 +30,7 @@ function EnrolledStudentTable(props) {
           ))}
         </tbody>
       </table>
-    </div>
+    </>
   );
 }
 

@@ -1,14 +1,7 @@
 import React from "react";
 
-function SubjectTable() {
-  // Sample subject data
-  const subjects = [
-    { CODE: "Math101", NAME: "Mathematics" },
-    { CODE: "Sci102", NAME: "Science" },
-    { CODE: "Eng103", NAME: "English" },
-    // Add more subject data as needed
-  ];
-
+function SubjectTable(props) {
+  const { data } = props;
   return (
     <div>
       <h2>Subject Table</h2>
@@ -20,10 +13,10 @@ function SubjectTable() {
           </tr>
         </thead>
         <tbody>
-          {subjects.map((subject, index) => (
-            <tr key={index}>
-              <td>{subject.CODE}</td>
-              <td>{subject.NAME}</td>
+          {data.map((subject) => (
+            <tr key={subject._id}>
+              <td>{subject.name}</td>
+              <td>{subject._id}</td>
             </tr>
           ))}
         </tbody>

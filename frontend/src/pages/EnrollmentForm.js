@@ -148,8 +148,8 @@ const EnrollmentForm = () => {
         type="text"
         id="street"
         name="street"
-        value={formData._address.street}
-        onChange={handleAddressChange}
+        value={formData.street}
+        onChange={handleChange}
         required
       />
 
@@ -158,8 +158,8 @@ const EnrollmentForm = () => {
         type="text"
         id="wpsAddress"
         name="wpsAddress"
-        value={formData._address.wpsAddress}
-        onChange={handleAddressChange}
+        value={formData.wpsAddress}
+        onChange={handleChange}
         required
       />
 
@@ -168,8 +168,8 @@ const EnrollmentForm = () => {
         type="text"
         id="state"
         name="state"
-        value={formData._address.state}
-        onChange={handleAddressChange}
+        value={formData.state}
+        onChange={handleChange}
         required
       />
 
@@ -178,8 +178,8 @@ const EnrollmentForm = () => {
         type="text"
         id="city"
         name="city"
-        value={formData._address.city}
-        onChange={handleAddressChange}
+        value={formData.city}
+        onChange={handleChange}
         required
       />
 
