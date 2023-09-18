@@ -7,7 +7,8 @@
     "react-icons": "^4.3.1",
     "react-router-dom": "^6.15.0",
     "react-scripts": "^5.0.1",
-    "@syncfusion/ej2-react-popups": "^19.4.52"
+    "@syncfusion/ej2-react-popups": "^19.4.52",
+    "@syncfusion/ej2-react-grids": "^19.4.50"
   },
   "scripts": {
     "start": "react-scripts start"
