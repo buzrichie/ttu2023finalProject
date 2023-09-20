@@ -24,6 +24,10 @@ const EnrollmentSchema = new mongoose.Schema({
     required: true,
     enum: ["male", "female", "other"],
   },
+  role: {
+    type: String,
+    required: [true, "Please add the role"],
+  },
   dateOfBirth: {
     type: Date,
     required: true,

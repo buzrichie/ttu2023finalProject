@@ -39,6 +39,24 @@ const createStudent = async (req, res) => {
     if (!admission) {
       return res.status(400).json({ error: "Admission not available." });
     }
+    if (admissionStatus === "declined" && admission.status === "declined") {
+      return res.status(400).json({ error: "Student already declined." });
+    }
+
+    // Decline Admission
+    if (admissionStatus === "declined") {
+      admission.status = "declined";
+      const declined = await admission.save();
+      if (!declined) {
+        return res
+          .status(400)
+          .json({ error: "Student Admission Decline failed" });
+      }
+      return res
+        .status(201)
+        .json({ message: "Student Admission Declined", student });
+    }
+
     if (admission.status === "approved") {
       return res.status(400).json({ error: "Student already admitted." });
     }
@@ -121,7 +139,7 @@ const createStudent = async (req, res) => {
     }
 
     // Generate numerical string and password
-    const studentID = await generateNumericalString();
+    const id = await generateNumericalString("ST");
     const password = await generateRandomPassword(10);
 
     // Create Address
@@ -146,7 +164,7 @@ const createStudent = async (req, res) => {
       school: enrolledStudent.school,
       academicLevel: enrolledStudent.academicLevel,
       role: "STUDENT",
-      studentID,
+      id,
       password,
       address,
     });
@@ -264,14 +282,14 @@ const createStudent = async (req, res) => {
 //Login
 const login = async (req, res) => {
   try {
-    const { studentID, password } = req.body;
-    if (!studentID) {
+    const { id, password } = req.body;
+    if (!id) {
       return res.status(400).json({ error: "Student ID Number Required" });
     }
     if (!password) {
       return res.status(400).json({ error: "Password Required" });
     }
-    const student = await Student.findOne({ studentID });
+    const student = await Student.findOne({ id });
     if (!student) {
       return res.status(400).json({ error: "Invalid Student ID number" });
     }
@@ -288,7 +306,7 @@ const login = async (req, res) => {
     const studentWithoutPassword = { ...student._doc };
     delete studentWithoutPassword.password;
     console.log({ student: studentWithoutPassword, token });
-    return res.status(201).json({ student: studentWithoutPassword, token });
+    return res.status(201).json({ token });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -297,7 +315,9 @@ const login = async (req, res) => {
 //Get All Students
 const getAllStudents = async (req, res) => {
   try {
-    const students = await Student.find();
+    const students = await Student.find().populate(
+      "admission address school academicLevel subjects parentGuardian"
+    );
     return res.status(201).json(students);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -307,13 +327,15 @@ const getAllStudents = async (req, res) => {
 //Get Single Student
 const getSingleStudent = async (req, res) => {
   try {
-    console.log("in controller");
-    console.log(req.params.id);
-    const student = await Student.findById(req.params.id);
+    const student = await Student.findById(req.params.id).populate(
+      "admission address school academicLevel subjects parentGuardian"
+    );
     if (!student) {
       return res.status(404).json({ error: "Student not found" });
     }
-    res.json(student);
+    const studentWithoutPassword = { ...student._doc };
+    delete studentWithoutPassword.password;
+    res.status(201).json({ student: studentWithoutPassword });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

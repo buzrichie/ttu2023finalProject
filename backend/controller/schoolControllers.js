@@ -86,12 +86,12 @@ const createSchool = async (req, res) => {
     }
 
     // Generate numerical string and password
-    const adminID = await generateNumericalString();
+    const id = await generateNumericalString("AD");
     const password = await generateRandomPassword(12);
 
     const admin = await Admin.create({
       name: principal,
-      adminID,
+      id,
       password,
       school,
       email: emailAddress,

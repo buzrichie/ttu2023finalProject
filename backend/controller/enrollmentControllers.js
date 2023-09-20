@@ -25,7 +25,6 @@ const createEnroll = async (req, res) => {
       gender,
       street,
       wpsAddress,
-      country,
       state,
       city,
       _AcademicLevel,
@@ -80,9 +79,6 @@ const createEnroll = async (req, res) => {
     if (!street) {
       return res.status(400).json({ error: "Street is required." });
     }
-    if (!country) {
-      return res.status(400).json({ error: "Country is required." });
-    }
     if (!state) {
       return res.status(400).json({ error: "State is required." });
     }
@@ -125,6 +121,7 @@ const createEnroll = async (req, res) => {
       academicLevel: academicLevel._id,
       school: admission.school._id,
       gender: gender.toLowerCase(),
+      role: "ENROLLED",
     });
 
     if (!enrolledStudent) {
@@ -150,7 +147,7 @@ const createEnroll = async (req, res) => {
     }
 
     // Update School enrollment field
-    school.enrollment.push(enrolledStudent);
+    school.enrollment = enrolledStudent._id;
     const savedSchool = await school.save();
 
     if (!savedSchool) {
@@ -162,6 +159,7 @@ const createEnroll = async (req, res) => {
     const payload = {
       id: enrolledStudent._id,
       admission: enrolledStudent.admission,
+      role: enrolledStudent.role,
     };
     const token = generateJWT(payload, process.env.SECRET);
 
@@ -226,9 +224,11 @@ const login = async (req, res) => {
 //Get All Students
 const getAllEnrolls = async (req, res) => {
   try {
-    const students = await Enrollment.find();
-    res.json(students);
+    const students = await Enrollment.find().populate(
+      "school academicLevel admission"
+    );
     console.log({ students });
+    res.status(201).json(students);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -237,10 +237,13 @@ const getAllEnrolls = async (req, res) => {
 //Get Single Student
 const getSingleEnroll = async (req, res) => {
   try {
-    const student = await Enrollment.findById(req.params.id);
+    const student = await Enrollment.findById(req.params.id).populate(
+      "admission address school academicLevel subjects parentGuardian"
+    );
     if (!student) {
       return res.status(404).json({ error: "Student not found" });
     }
+    console.log(student);
     res.json(student);
   } catch (error) {
     res.status(500).json({ error: error.message });

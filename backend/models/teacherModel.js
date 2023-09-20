@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const hashPassword = require("../utils/passwordHash");
 
 const TeacherSchema = new mongoose.Schema({
-  teacherID: {
+  id: {
     type: String,
     required: true,
     unique: true,

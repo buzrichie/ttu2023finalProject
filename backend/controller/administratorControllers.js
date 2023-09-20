@@ -23,12 +23,12 @@ const createAdmin = async (req, res) => {
     }
 
     // Generate numerical string and password
-    const adminID = await generateNumericalString();
+    const id = await generateNumericalString();
     const password = await generateRandomPassword(12);
 
     const admin = await Admin.create({
       ...req.body,
-      adminID,
+      id,
       password,
       role: "admin",
     });
@@ -48,14 +48,14 @@ module.exports = { createAdmin };
 //Login
 const login = async (req, res) => {
   try {
-    const { adminID, password } = req.body;
-    if (!adminID) {
+    const { id, password } = req.body;
+    if (!id) {
       return res.status(400).json({ error: "Admin ID Number Required" });
     }
     if (!password) {
       return res.status(400).json({ error: "Password Required" });
     }
-    const admin = await Admin.findOne({ adminID });
+    const admin = await Admin.findOne({ id });
     if (!admin) {
       return res.status(400).json({ error: "Invalid Admin ID number" });
     }
@@ -70,10 +70,8 @@ const login = async (req, res) => {
 
     // Send the admin object without including the password
     res.cookie("Authorization", token, { httpOnly: true });
-    const adminWithoutPassword = { ...admin._doc };
-    delete adminWithoutPassword.password;
-    console.log({ admin: adminWithoutPassword, token });
-    return res.status(201).json({ admin: adminWithoutPassword, token });
+
+    return res.status(201).json({ token });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -81,7 +79,7 @@ const login = async (req, res) => {
 // Controller to get all admins
 const getAllAdmins = async (req, res) => {
   try {
-    const admins = await Admin.find();
+    const admins = await Admin.find().populate("school");
     res.status(201).json(admins);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -91,11 +89,14 @@ const getAllAdmins = async (req, res) => {
 // Controller to get a single admin by ID
 const getSingleAdmin = async (req, res) => {
   try {
-    const admin = await Admin.findById(req.params.id);
+    // const admins = await Admin.find().populate('school');
+    const admin = await Admin.findById(req.params.id).populate("school");
     if (!admin) {
       return res.status(404).json({ error: "Admin not found" });
     }
-    res.status(201).json(admin);
+    const adminWithoutPassword = { ...admin._doc };
+    delete adminWithoutPassword.password;
+    res.status(201).json({ admin: adminWithoutPassword });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

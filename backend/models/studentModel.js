@@ -3,7 +3,7 @@ const hashPassword = require("../utils/passwordHash");
 
 const StudentSchema = new mongoose.Schema(
   {
-    studentID: {
+    id: {
       type: String,
       required: true,
       unique: true,

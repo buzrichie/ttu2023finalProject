@@ -96,12 +96,12 @@ const createTeacher = async (req, res) => {
     }
 
     // Generate numerical string and password
-    const teacherID = await generateNumericalString();
+    const id = await generateNumericalString("TE");
     const password = await generateRandomPassword(10);
 
     // Add Teacher to database
     teacher = await Teacher.create({
-      teacherID,
+      id,
       password,
       application,
       address,
@@ -165,14 +165,14 @@ const createTeacher = async (req, res) => {
 //Login
 const login = async (req, res) => {
   try {
-    const { teacherID, password } = req.body;
-    if (!teacherID) {
+    const { id, password } = req.body;
+    if (!id) {
       return res.status(400).json({ error: "Teacher ID Number Required" });
     }
     if (!password) {
       return res.status(400).json({ error: "Password Required" });
     }
-    const teacher = await Teacher.findOne({ teacherID });
+    const teacher = await Teacher.findOne({ id });
     if (!teacher) {
       return res.status(201).json({ error: "Invalid Teacher ID number" });
     }
@@ -197,9 +197,10 @@ const login = async (req, res) => {
 //Get All Teacher
 const getAllTeacher = async (req, res) => {
   try {
-    const teachers = await Teacher.find();
-    console.log({ Teachers: teachers });
-    res.json(teachers);
+    const teachers = await Teacher.find().populate(
+      "subjects address academicLevel school"
+    );
+    res.status(201).json(teachers);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -208,7 +209,10 @@ const getAllTeacher = async (req, res) => {
 //Get Single Teacher
 const getSingleTeacher = async (req, res) => {
   try {
-    const teacher = await Teacher.findById(req.params.id);
+    const teacher = await Teacher.findById(req.params.id).populate(
+      "subjects address academicLevel school"
+    );
+
     if (!teacher) {
       return res.status(404).json({ error: "Teacher not found" });
     }

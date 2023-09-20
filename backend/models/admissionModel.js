@@ -16,7 +16,7 @@ const AdmissionSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["pending", "approved", "rejected"],
+      enum: ["pending", "approved", "declined"],
       default: "pending",
       lowercase: true,
     },

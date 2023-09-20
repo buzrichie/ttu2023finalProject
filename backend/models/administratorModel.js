@@ -3,7 +3,7 @@ const hashPassword = require("../utils/passwordHash");
 
 const AdminSchema = new mongoose.Schema(
   {
-    adminID: {
+    id: {
       type: String,
       required: true,
       unique: true,
