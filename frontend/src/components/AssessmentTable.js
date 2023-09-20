@@ -18,11 +18,50 @@ function AssessmentTable(props) {
         <tbody>
           {data.map((subject) => (
             <tr key={subject._id}>
-              <td>{subject.level}</td>
-              {/* <td>{subject["STUDENT'S FULL NAME"]}</td>
-              <td>{subject["TEACHER'S FULL NAME"]}</td>
-              <td>{subject["ASSESSMENT NAME"]}</td>
-              <td>{subject["ASSESSMENT SCORE"]}</td> */}
+              <td>
+                {editedRows[subject._id] ? (
+                  <input
+                    type="type"
+                    name="name"
+                    value={editedRows[subject._id].name || ""}
+                    onChange={(e) =>
+                      handleChange(subject._id, "name", e.target.value)
+                    }
+                  />
+                ) : (
+                  subject.name
+                )}
+              </td>
+              <td>
+                {editedRows[subject._id] ? (
+                  <input
+                    type="text"
+                    name="score"
+                    value={editedRows[subject._id].score || ""}
+                    onChange={(e) =>
+                      handleChange(subject._id, "score", e.target.value)
+                    }
+                  />
+                ) : (
+                  subject.score
+                )}
+              </td>
+              <td>
+                {editedRows[subject._id] ? (
+                  <button
+                    onClick={(e) => handleSaveClick(subject._id, e.target)}
+                  >
+                    Save
+                  </button>
+                ) : (
+                  <button onClick={(e) => handleEditClick(data, subject._id)}>
+                    Edit
+                  </button>
+                )}
+                <button onClick={(e) => handleDeleteClick(subject._id)}>
+                  Delete
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
