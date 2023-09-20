@@ -63,7 +63,7 @@ const createSubject = async (req, res) => {
 const getAllSubjects = async (req, res) => {
   try {
     const subjects = await Subject.find();
-    res.json(subjects);
+    res.status(201).json(subjects).sort({ createdAt: -1 });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -76,7 +76,7 @@ const getSingleSubject = async (req, res) => {
     if (!subject) {
       return res.status(404).json({ error: "Subject not found" });
     }
-    res.json(Subject);
+    res.status(201).json(subject);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -91,7 +91,7 @@ const updateSubject = async (req, res) => {
     if (!subject) {
       return res.status(404).json({ error: "Subject not found" });
     }
-    res.json(Subject);
+    res.status(201).json(subject);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

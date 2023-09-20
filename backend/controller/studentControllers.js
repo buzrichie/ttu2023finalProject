@@ -315,9 +315,11 @@ const login = async (req, res) => {
 //Get All Students
 const getAllStudents = async (req, res) => {
   try {
-    const students = await Student.find().populate(
-      "admission address school academicLevel subjects parentGuardian"
-    );
+    const students = await Student.find()
+      .populate(
+        "admission address school academicLevel subjects parentGuardian"
+      )
+      .sort({ createdAt: -1 });
     return res.status(201).json(students);
   } catch (error) {
     res.status(500).json({ error: error.message });

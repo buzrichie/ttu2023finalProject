@@ -87,8 +87,8 @@ const createParentGuardian = async (req, res) => {
 //Get All ParentGuardian
 const getAllParentGuardian = async (req, res) => {
   try {
-    const parentGuardians = await ParentGuardian.find();
-    res.json(parentGuardians);
+    const parentGuardians = await ParentGuardian.find().sort({ createdAt: -1 });
+    return res.status(201).json(parentGuardians);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -101,7 +101,7 @@ const getSingleParentGuardian = async (req, res) => {
     if (!parentGuardian) {
       return res.status(404).json({ error: "ParentGuardian not found" });
     }
-    res.json(parentGuardian);
+    return res.status(201).json(parentGuardian);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -118,7 +118,7 @@ const updateParentGuardian = async (req, res) => {
     if (!parentGuardian) {
       return res.status(404).json({ error: "ParentGuardian not found" });
     }
-    res.json(parentGuardian);
+    return res.status(201).json(parentGuardian);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -132,7 +132,9 @@ const deleteParentGuardian = async (req, res) => {
     if (!parentGuardian) {
       return res.status(404).json({ error: "ParentGuardian not found" });
     }
-    res.json({ message: "ParentGuardian deleted successfully" });
+    return res
+      .status(201)
+      .json({ message: "ParentGuardian deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

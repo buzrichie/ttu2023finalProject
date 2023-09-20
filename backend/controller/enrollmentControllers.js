@@ -224,10 +224,10 @@ const login = async (req, res) => {
 //Get All Students
 const getAllEnrolls = async (req, res) => {
   try {
-    const students = await Enrollment.find().populate(
-      "school academicLevel admission"
-    );
-    console.log({ students });
+    const students = await Enrollment.find()
+      .populate("school academicLevel admission")
+      .sort({ createdAt: -1 });
+
     res.status(201).json(students);
   } catch (error) {
     res.status(500).json({ error: error.message });

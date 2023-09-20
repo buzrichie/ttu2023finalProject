@@ -45,8 +45,8 @@ const createFinance = async (req, res) => {
 //Get All Finance
 const getAllFinance = async (req, res) => {
   try {
-    const Finances = await Finance.find();
-    res.json(Finances);
+    const finances = await Finance.find().sort({ createdAt: -1 });
+    return res.status(201).json(finances);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -55,11 +55,11 @@ const getAllFinance = async (req, res) => {
 //Get Single Finance
 const getSingleFinance = async (req, res) => {
   try {
-    const Finance = await Finance.findById(req.params.id);
-    if (!Finance) {
+    const finance = await Finance.findById(req.params.id);
+    if (!finance) {
       return res.status(404).json({ error: "Finance not found" });
     }
-    res.json(Finance);
+    return res.status(201).json(finance);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -74,7 +74,7 @@ const updateFinance = async (req, res) => {
     if (!finance) {
       return res.status(404).json({ error: "Finance not found" });
     }
-    res.json(finance);
+    return res.status(201).json(finance);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -86,7 +86,7 @@ const deleteFinance = async (req, res) => {
     if (!finance) {
       return res.status(404).json({ error: "Finance not found" });
     }
-    res.json({ message: "Finance deleted successfully" });
+    return res.status(201).json({ message: "Finance deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

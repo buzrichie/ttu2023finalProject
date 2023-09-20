@@ -63,7 +63,7 @@ const createApplication = async (req, res) => {
 const getAllApplication = async (req, res) => {
   try {
     const applications = await Application.find();
-    res.json(applications);
+    return res.status(201).json(applications).sort({ createdAt: -1 });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -76,7 +76,7 @@ const getSingleApplication = async (req, res) => {
     if (!application) {
       return res.status(404).json({ error: "Application not found" });
     }
-    res.json(application);
+    return res.status(201).json(application);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -93,7 +93,7 @@ const updateApplication = async (req, res) => {
     if (!application) {
       return res.status(404).json({ error: "Application not found" });
     }
-    res.json(application);
+    return res.status(201).json(application);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -105,7 +105,9 @@ const deleteApplication = async (req, res) => {
     if (!application) {
       return res.status(404).json({ error: "Application not found" });
     }
-    res.json({ message: "Application deleted successfully" });
+    return res
+      .status(201)
+      .json({ message: "Application deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

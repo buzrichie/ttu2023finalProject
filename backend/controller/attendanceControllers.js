@@ -56,7 +56,7 @@ const createAttendance = async (req, res) => {
 const getAllAttendance = async (req, res) => {
   try {
     const attendances = await Attendance.find();
-    res.json(attendances);
+    return res.status(201).json(attendances).sort({ createdAt: -1 });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -69,7 +69,7 @@ const getSingleAttendance = async (req, res) => {
     if (!attendance) {
       return res.status(404).json({ error: "Attendance not found" });
     }
-    res.json(attendance);
+    return res.status(201).json(attendance);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -86,7 +86,7 @@ const updateAttendance = async (req, res) => {
     if (!attendance) {
       return res.status(404).json({ error: "Attendance not found" });
     }
-    res.json(attendance);
+    return res.status(201).json(attendance);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -98,7 +98,7 @@ const deleteAttendance = async (req, res) => {
     if (!attendance) {
       return res.status(404).json({ error: "Attendance not found" });
     }
-    res.json({ message: "Attendance deleted successfully" });
+    return res.status(201).json({ message: "Attendance deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

@@ -126,7 +126,7 @@ const getSingleSchool = async (req, res) => {
     if (!school) {
       return res.status(404).json({ error: "School not found" });
     }
-    res.json(school);
+    res.status(201).json(school);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -141,7 +141,7 @@ const updateSchool = async (req, res) => {
     if (!school) {
       return res.status(404).json({ error: "School not found" });
     }
-    res.json(school);
+    res.status(201).json(school);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -153,7 +153,7 @@ const deleteSchool = async (req, res) => {
     if (!school) {
       return res.status(404).json({ error: "School not found" });
     }
-    res.json({ message: "School deleted successfully" });
+    res.status(201).json({ message: "School deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

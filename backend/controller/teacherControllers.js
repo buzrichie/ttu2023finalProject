@@ -197,9 +197,9 @@ const login = async (req, res) => {
 //Get All Teacher
 const getAllTeacher = async (req, res) => {
   try {
-    const teachers = await Teacher.find().populate(
-      "subjects address academicLevel school"
-    );
+    const teachers = await Teacher.find()
+      .populate("subjects address academicLevel school")
+      .sort({ createdAt: -1 });
     res.status(201).json(teachers);
   } catch (error) {
     res.status(500).json({ error: error.message });

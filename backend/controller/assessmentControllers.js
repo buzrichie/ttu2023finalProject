@@ -61,7 +61,7 @@ const createAssessment = async (req, res) => {
 const getAllAssessment = async (req, res) => {
   try {
     const assessments = await Assessment.find();
-    res.json(assessments);
+    return res.status(201).json(assessments).sort({ createdAt: -1 });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -74,7 +74,7 @@ const getSingleAssessment = async (req, res) => {
     if (!assessment) {
       return res.status(404).json({ error: "Assessment not found" });
     }
-    res.json(assessment);
+    return res.status(201).json(assessment);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -91,7 +91,7 @@ const updateAssessment = async (req, res) => {
     if (!assessment) {
       return res.status(404).json({ error: "Assessment not found" });
     }
-    res.json(assessment);
+    return res.status(201).json(assessment);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -103,7 +103,7 @@ const deleteAssessment = async (req, res) => {
     if (!assessment) {
       return res.status(404).json({ error: "Assessment not found" });
     }
-    res.json({ message: "Assessment deleted successfully" });
+    return res.status(201).json({ message: "Assessment deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

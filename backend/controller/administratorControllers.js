@@ -80,7 +80,7 @@ const login = async (req, res) => {
 const getAllAdmins = async (req, res) => {
   try {
     const admins = await Admin.find().populate("school");
-    res.status(201).json(admins);
+    res.status(201).json(admins).sort({ createdAt: -1 });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

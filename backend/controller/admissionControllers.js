@@ -66,7 +66,7 @@ const createAdmission = async (req, res) => {
 const getAllAdmission = async (req, res) => {
   try {
     const admissions = await Admission.find();
-    res.json(admissions);
+    return res.status(201).json(admissions);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -79,7 +79,7 @@ const getSingleAdmission = async (req, res) => {
     if (!admission) {
       return res.status(404).json({ error: "Admission not found" });
     }
-    res.json(admission);
+    return res.status(201).json(admission).sort({ createdAt: -1 });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -96,7 +96,7 @@ const updateAdmission = async (req, res) => {
     if (!admission) {
       return res.status(404).json({ error: "Admission not found" });
     }
-    res.json(admission);
+    return res.status(201).json(admission);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -108,7 +108,7 @@ const deleteAdmission = async (req, res) => {
     if (!admission) {
       return res.status(404).json({ error: "Admission not found" });
     }
-    res.json({ message: "Admission deleted successfully" });
+    return res.status(201).json({ message: "Admission deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

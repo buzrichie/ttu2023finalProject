@@ -59,7 +59,7 @@ const createAcademicLevel = async (req, res) => {
 const getAllAcademicLevel = async (req, res) => {
   try {
     const academicLevels = await AcademicLevel.find();
-    res.status(201).json(academicLevels);
+    res.status(201).json(academicLevels).sort({ createdAt: -1 });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
