@@ -41,8 +41,8 @@ const createAddress = async (req, res) => {
 //Get All Address
 const getAllAddress = async (req, res) => {
   try {
-    const addresss = await Address.find();
-    res.status(201).json(addresss).sort({ createdAt: -1 });
+    const addresss = await Address.find().sort({ createdAt: -1 });
+    res.status(201).json(addresss);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

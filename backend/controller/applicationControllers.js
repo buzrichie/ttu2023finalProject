@@ -62,8 +62,8 @@ const createApplication = async (req, res) => {
 //Get All Application
 const getAllApplication = async (req, res) => {
   try {
-    const applications = await Application.find();
-    return res.status(201).json(applications).sort({ createdAt: -1 });
+    const applications = await Application.find().sort({ createdAt: -1 });
+    return res.status(201).json(applications);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

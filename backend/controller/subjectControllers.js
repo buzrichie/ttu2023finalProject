@@ -62,8 +62,8 @@ const createSubject = async (req, res) => {
 //Get All Subject
 const getAllSubjects = async (req, res) => {
   try {
-    const subjects = await Subject.find();
-    res.status(201).json(subjects).sort({ createdAt: -1 });
+    const subjects = await Subject.find().sort({ createdAt: -1 });
+    res.status(201).json(subjects);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

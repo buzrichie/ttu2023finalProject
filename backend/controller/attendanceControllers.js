@@ -55,8 +55,8 @@ const createAttendance = async (req, res) => {
 //Get All Attendance
 const getAllAttendance = async (req, res) => {
   try {
-    const attendances = await Attendance.find();
-    return res.status(201).json(attendances).sort({ createdAt: -1 });
+    const attendances = await Attendance.find().sort({ createdAt: -1 });
+    return res.status(201).json(attendances);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

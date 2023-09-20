@@ -65,7 +65,7 @@ const createAdmission = async (req, res) => {
 //Get All Admission
 const getAllAdmission = async (req, res) => {
   try {
-    const admissions = await Admission.find();
+    const admissions = await Admission.find().sort({ createdAt: -1 });
     return res.status(201).json(admissions);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -79,7 +79,7 @@ const getSingleAdmission = async (req, res) => {
     if (!admission) {
       return res.status(404).json({ error: "Admission not found" });
     }
-    return res.status(201).json(admission).sort({ createdAt: -1 });
+    return res.status(201).json(admission);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

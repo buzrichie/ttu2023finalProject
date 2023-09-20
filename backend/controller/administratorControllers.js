@@ -79,8 +79,10 @@ const login = async (req, res) => {
 // Controller to get all admins
 const getAllAdmins = async (req, res) => {
   try {
-    const admins = await Admin.find().populate("school");
-    res.status(201).json(admins).sort({ createdAt: -1 });
+    const admins = await Admin.find()
+      .populate("school")
+      .sort({ createdAt: -1 });
+    res.status(201).json(admins);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

@@ -60,8 +60,8 @@ const createAssessment = async (req, res) => {
 //Get All Assessment
 const getAllAssessment = async (req, res) => {
   try {
-    const assessments = await Assessment.find();
-    return res.status(201).json(assessments).sort({ createdAt: -1 });
+    const assessments = await Assessment.find().sort({ createdAt: -1 });
+    return res.status(201).json(assessments);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
