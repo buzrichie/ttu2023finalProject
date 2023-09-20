@@ -79,7 +79,7 @@ function UserProfile(props) {
         </div>
         <div className="user-info flex flex-col justify-center">
           <p className="text-lg font-semibold">
-            Name:{" "}
+            Name:
             {isEditing ? (
               <input
                 type="text"
