@@ -6,7 +6,7 @@ import { MdKeyboardArrowDown } from 'react-icons/md';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 import { useStateContext } from '../contexts/ContextProvider';
 import avatar from '../data/avatar.jpg';
-
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
@@ -25,10 +25,14 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
       </button>
     </TooltipComponent>
   );
-
-const Navbar = () => {
+const logOut=()=>{
+  localStorage.removeItem("user")
+  const navigate = useNavigate();
+  navigate.push("/login"); 
+}
+const Navbar = (props) => {
     const { currentColor, activeMenu, setActiveMenu, handleClick, isClicked, setScreenSize, screenSize } = useStateContext();
-
+  const {user} = props
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
 
@@ -50,6 +54,8 @@ const Navbar = () => {
   const handleActiveMenu = () => setActiveMenu(!activeMenu);
 
   return (
+    <>{user ?
+    <>
     <div className="flex justify-between p-2 md:ml-6 md:mr-6 relative">
 
       <NavButton title="Menu" customFunc={handleActiveMenu} color={currentColor} icon={<AiOutlineMenu />} />
@@ -76,9 +82,40 @@ const Navbar = () => {
             <MdKeyboardArrowDown className="text-gray-400 text-14" />
           </div>
         </TooltipComponent>
-
+        
+        {user?<Link to="#" onClick={()=>{logOut()}} className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-5 w-50 hover:text-white rounded">LogOut</Link>:<Link to="auth/*" className="text-gray-400 font-bold ml-1 text-14">LogIn</Link>}
       </div>
     </div>
+    </>:<> <nav className="bg-white p-4" style={{zIndex: "1000001", position:"fixed", top:"0", left:"0", width:"100%"}}>
+      <div className="container mx-auto flex justify-between items-center">
+      <div className="flex text-black items-center font-bold text-xl">
+        {/* Your brand name */}
+        <img src="images/NavLogo.png" className="w-12 h-12"/>
+        <Link to="/">SchoolMaster</Link>
+      </div>
+        <div>
+          {user ? (
+            // If user is logged in, show logout button
+            <button
+              onClick={handleLogout}
+              className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded"
+            >
+              Logout
+            </button>
+          ) : (
+            // If user is not logged in, show login button
+            <Link
+              to="/login"
+              className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-5 w-50 hover:text-white rounded"
+            >
+              Login
+            </Link>
+          )}
+        </div>
+      </div>
+    </nav>
+    </>}
+    </>
   );
 };
 

@@ -8,7 +8,7 @@ import AcademicLevel from "./components/AcademicLevel";
 import Database from "./components/Database";
 import NoticeBoard from "./components/NoticeBoard";
 import NavBarSideBar from "./components/NavBarSideBar";
-import Sidebar from "./components/SideBar";
+import Sidebar from "./components/Sidebar";
 import Navbar from "./components/NavBar";
 import Attendance from "./components/Attendance";
 import Subject from "./components/Subject";
@@ -17,6 +17,8 @@ import Assessment from "./components/Assessment";
 import GenerateQuestion from "./components/QuestionGenerator";
 
 import { useStateContext } from "./contexts/ContextProvider";
+import UserProfile from "./components/UserProfile";
+import TemporalNavBar from "./components/NavBarTemp";
 
 function App() {
   // const [user, setUser] = useState(null);
@@ -45,11 +47,11 @@ function App() {
         <div className="flex relative dark:bg-main-dark-bg">
           {activeMenu ? (
             <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
-              {localStorageUser && <Sidebar />}
+              {localStorageUser && <Sidebar user={localStorageUser} />}
             </div>
           ) : (
             <div className="w-0 dark:bg-secondary-dark-bg">
-              {localStorageUser && <Sidebar />}
+              {localStorageUser && <Sidebar user={localStorageUser} />}
             </div>
           )}
           {/* {localStorageUser && <NavBarSideBar />} */}
@@ -61,7 +63,7 @@ function App() {
             }
           >
             <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full ">
-              {localStorageUser && <Navbar />}
+              {localStorageUser && <Navbar user={localStorageUser} />}
             </div>
             <div>
               {/* Add your main content here */}
@@ -70,31 +72,23 @@ function App() {
                 <Route
                   path={"/"}
                   element={
-                    localStorageUser ? <Home /> : <Navigate to={<Login />} />
+                    localStorageUser ? <Home /> : <Navigate to="/login" />
                   }
                 />
                 <Route
-                  path={"/auth/admin"}
-                  element={!localStorageUser ? <Login /> : <Navigate to="/" />}
-                />
-                <Route
-                  path={"/auth/student"}
-                  element={!localStorageUser ? <Login /> : <Navigate to="/" />}
-                />
-                <Route
-                  path={"/auth/teacher"}
+                  path={"/login"}
                   element={!localStorageUser ? <Login /> : <Navigate to="/" />}
                 />
                 <Route
                   path={"/teacher"}
                   element={
-                    localStorageUser ? <Teacher /> : <Navigate to={<Login />} />
+                    localStorageUser ? <Teacher /> : <Navigate to="/login" />
                   }
                 />
                 <Route
                   path={"/subject"}
                   element={
-                    localStorageUser ? <Subject /> : <Navigate to={<Login />} />
+                    localStorageUser ? <Subject /> : <Navigate to="/login" />
                   }
                 />
                 <Route
@@ -103,28 +97,20 @@ function App() {
                     localStorageUser ? (
                       <AcademicLevel />
                     ) : (
-                      <Navigate to={<Login />} />
+                      <Navigate to="/login" />
                     )
                   }
                 />
                 <Route
                   path={"/attendance"}
                   element={
-                    localStorageUser ? (
-                      <Attendance />
-                    ) : (
-                      <Navigate to={<Login />} />
-                    )
+                    localStorageUser ? <Attendance /> : <Navigate to="/login" />
                   }
                 />
                 <Route
                   path={"/assessment"}
                   element={
-                    localStorageUser ? (
-                      <Assessment />
-                    ) : (
-                      <Navigate to={<Login />} />
-                    )
+                    localStorageUser ? <Assessment /> : <Navigate to="/login" />
                   }
                 />
                 <Route
@@ -133,13 +119,15 @@ function App() {
                     localStorageUser ? (
                       <GenerateQuestion />
                     ) : (
-                      <Navigate to={<Login />} />
+                      <Navigate to="/login" />
                     )
                   }
                 />
+                <Route path={"/userprofile/:id"} element={<UserProfile />} />
                 <Route path={"/enroll"} element={<EnrollmentForm />} />
                 <Route path={"/noticeboard"} element={<NoticeBoard />} />
                 <Route path={"/userbase"} element={<Database />} />
+                <Route path={"/temporalnavbar"} element={<TemporalNavBar />} />
                 <Route path={"*"} element={"404..Page"} />
               </Routes>
             </div>

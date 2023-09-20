@@ -16,7 +16,7 @@ function AcademicLevel() {
       <h1>Class</h1>
       <CreateAcademicLevelForm />
       {data && <AcademicLevelTable data={data} />}
-      {isPending && <p>Loading...</p>}
+      {isPending && <p> Loading... </p>}
       {error && <p>{error.message}</p>}
     </div>
   );

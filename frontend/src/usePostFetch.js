@@ -20,15 +20,15 @@ const usePostFetch = (url, authToken) => {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to submit data");
+        throw new Error(error);
       }
 
       const responseData = await response.json();
       setData(responseData);
       setLoading(false);
     } catch (err) {
-      setError(err);
       setLoading(false);
+      setError(err);
     }
   };
 

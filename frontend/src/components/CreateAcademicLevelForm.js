@@ -8,9 +8,9 @@ function CreateAcademicLevelForm() {
   }
 
   const [formData, setFormData] = useState({
-    _Subject: "", // Assuming this represents Subject ID
+    _Subject: "",
     level: "",
-    _School: "", // Assuming this represents School ID
+    _School: "",
   });
 
   const { data, loading, error, postData } = usePostFetch(

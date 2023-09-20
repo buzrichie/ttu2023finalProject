@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import Navbar from "../components/NavBar";
+import { useNavigate } from "react-router-dom";
 
 const EnrollmentForm = () => {
   const [formData, setFormData] = useState({
@@ -26,165 +28,235 @@ const EnrollmentForm = () => {
     }));
   };
 
+  const fetchData = async () => {
+    try {
+      const response = await fetch("/api/enroll", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        const json = await response.json();
+        localStorage.setItem("newuser", JSON.stringify(json));
+        setUser(json);
+        console.log("Success:", json);
+        const navigate = useNavigate();
+        navigate.push("/temporalnavbar");
+      } else {
+        const errorData = await response.json(); // Parse error response
+        console.error("Login Error:", errorData.error);
+      }
+    } catch (error) {
+      console.error("Network Error:", error.error);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    fetchData();
 
     // Perform any additional logic or validation here
 
-    useFetchPost("/api/student", formData);
     // Send POST request
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Student Information</h2>
-      <label htmlFor="_AcademicLevel">Admission Number</label>
-      <input
-        type="text"
-        id="_AcademicLevel"
-        name="_AcademicLevel"
-        value={formData._AcademicLevel}
-        onChange={handleChange}
-        required
-      />
-      <label htmlFor="firstName">First Name</label>
-      <input
-        type="text"
-        id="firstName"
-        name="firstName"
-        value={formData.firstName}
-        onChange={handleChange}
-        required
-      />
+    <>
+      <Navbar />
+      <div className="enrollment">
+        <div className="enrollment-page">
+          <div className="enrollment-bg">
+            {/* The background image or content here */}
+            <span
+              style={{
+                display: "inline-block",
+                maxWidth: "70%",
+                margin: "0 auto",
+              }}
+            >
+              <img src="./FormLogo.png" width="100%" alt="School Logo" />
+            </span>
+            <p>SCHOOL MASTER</p>
+          </div>
 
-      <label htmlFor="surName">Surname</label>
-      <input
-        type="text"
-        id="surName"
-        name="surName"
-        value={formData.surName}
-        onChange={handleChange}
-        required
-      />
+          <div className="enrollment-form">
+            <div className="enrollment-form-info">
+              {/* <h2>Register</h2> */}
+              <p>IT'S COMPLETELY FREE</p>
+            </div>
 
-      <label htmlFor="dateOfBirth">Date of Birth</label>
-      <input
-        type="date"
-        id="dateOfBirth"
-        name="dateOfBirth"
-        value={formData.dateOfBirth}
-        onChange={handleChange}
-        required
-      />
-
-      <h2>Parent/Guardian Information</h2>
-      <label htmlFor="parentGuardianFirstName">First Name</label>
-      <input
-        type="text"
-        id="parentGuardianFirstName"
-        name="parentGuardianFirstName"
-        value={formData.parentGuardianFirstName}
-        onChange={handleChange}
-        required
-      />
-
-      <label htmlFor="parentGuardianSurName">Surname</label>
-      <input
-        type="text"
-        id="parentGuardianSurName"
-        name="parentGuardianSurName"
-        value={formData.parentGuardianSurName}
-        onChange={handleChange}
-        required
-      />
-
-      <label htmlFor="parentGuardianEmail">Email</label>
-      <input
-        type="email"
-        id="parentGuardianEmail"
-        name="parentGuardianEmail"
-        value={formData.parentGuardianEmail}
-        onChange={handleChange}
-        required
-      />
-
-      <label htmlFor="parentGuardianPhone">Phone</label>
-      <input
-        type="tel"
-        id="parentGuardianPhone"
-        name="parentGuardianPhone"
-        value={formData.parentGuardianPhone}
-        onChange={handleChange}
-        required
-      />
-
-      <label htmlFor="parentGuardianOccupation">Occupation</label>
-      <input
-        type="text"
-        id="parentGuardianOccupation"
-        name="parentGuardianOccupation"
-        value={formData.parentGuardianOccupation}
-        onChange={handleChange}
-        required
-      />
-
-      <label htmlFor="gender">Gender</label>
-      <select
-        id="gender"
-        name="gender"
-        value={formData.gender}
-        onChange={handleChange}
-        required
-      >
-        <option value="">Select</option>
-        <option value="male">MALE</option>
-        <option value="female">FEMALE</option>
-        <option value="other">Other</option>
-      </select>
-
-      <h2>Address</h2>
-      <label htmlFor="street">Street</label>
-      <input
-        type="text"
-        id="street"
-        name="street"
-        value={formData.street}
-        onChange={handleChange}
-        required
-      />
-
-      <label htmlFor="wpsAddress">WPS Address</label>
-      <input
-        type="text"
-        id="wpsAddress"
-        name="wpsAddress"
-        value={formData.wpsAddress}
-        onChange={handleChange}
-        required
-      />
-
-      <label htmlFor="state">State</label>
-      <input
-        type="text"
-        id="state"
-        name="state"
-        value={formData.state}
-        onChange={handleChange}
-        required
-      />
-
-      <label htmlFor="city">City</label>
-      <input
-        type="text"
-        id="city"
-        name="city"
-        value={formData.city}
-        onChange={handleChange}
-        required
-      />
-
-      <button type="submit">Submit</button>
-    </form>
+            {/* Enrollment Form */}
+            <form onSubmit={handleSubmit}>
+              <h2>Student Information</h2>
+              <div className="e-inline">
+                <label htmlFor="firstName">Firstname</label>
+                <input
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  required
+                  value={formData.firstName}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="e-inline">
+                <label htmlFor="surName">Surname</label>
+                <input
+                  type="text"
+                  id="surName"
+                  name="surName"
+                  required
+                  value={formData.surName}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="e-inline">
+                <label htmlFor="dateOfBirth">DOB</label>
+                <input
+                  type="date"
+                  id="dateOfBirth"
+                  name="dateOfBirth"
+                  required
+                  value={formData.dateOfBirth}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="e-inline">
+                <label htmlFor="gender">Gender</label>
+                <select
+                  id="gender"
+                  name="gender"
+                  required
+                  value={formData.gender}
+                  onChange={handleChange}
+                >
+                  <option value="" disabled>
+                    Select
+                  </option>
+                  <option value="male">MALE</option>
+                  <option value="female">FEMALE</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div className="e-inline">
+                <label htmlFor="_AcademicLevel">Class</label>
+                <input
+                  type="text"
+                  id="_AcademicLevel"
+                  name="_AcademicLevel"
+                  required
+                  value={formData._AcademicLevel}
+                  onChange={handleChange}
+                />
+              </div>
+              <h2>Parent/Guardian Information</h2>
+              <div className="e-inline">
+                <label htmlFor="parentGuardianFirstName">Firstname</label>
+                <input
+                  type="text"
+                  id="parentGuardianFirstName"
+                  name="parentGuardianFirstName"
+                  required
+                  value={formData.parentGuardianFirstName}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="e-inline">
+                <label htmlFor="parentGuardianSurName">Surname</label>
+                <input
+                  type="text"
+                  id="parentGuardianSurName"
+                  name="parentGuardianSurName"
+                  required
+                  value={formData.parentGuardianSurName}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="e-inline">
+                <label htmlFor="parentGuardianEmail">Email</label>
+                <input
+                  type="email"
+                  id="parentGuardianEmail"
+                  name="parentGuardianEmail"
+                  required
+                  value={formData.parentGuardianEmail}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="e-inline">
+                <label htmlFor="parentGuardianPhone">Phone</label>
+                <input
+                  type="tel"
+                  id="parentGuardianPhone"
+                  name="parentGuardianPhone"
+                  required
+                  value={formData.parentGuardianPhone}
+                  onChange={handleChange}
+                />
+              </div>
+              <label htmlFor="parentGuardianOccupation">Occupation</label>
+              <input
+                type="text"
+                id="parentGuardianOccupation"
+                name="parentGuardianOccupation"
+                required
+                value={formData.parentGuardianOccupation}
+                onChange={handleChange}
+              />
+              <h2>Address</h2>
+              <div className="e-inline">
+                <label htmlFor="wpsAddress">WPS-Address</label>
+                <input
+                  type="text"
+                  id="wpsAddress"
+                  name="wpsAddress"
+                  required
+                  value={formData.wpsAddress}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="e-inline">
+                <label htmlFor="state">Region</label>
+                <input
+                  type="text"
+                  id="state"
+                  name="state"
+                  required
+                  value={formData.state}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="e-inline">
+                <label htmlFor="city">City</label>
+                <input
+                  type="text"
+                  id="city"
+                  name="city"
+                  required
+                  value={formData.city}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="e-inline">
+                <label htmlFor="street">Street</label>
+                <input
+                  type="text"
+                  id="street"
+                  name="street"
+                  required
+                  value={formData.street}
+                  onChange={handleChange}
+                />
+              </div>
+              <input type="submit" value="REGISTER" />
+            </form>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 

@@ -16,7 +16,7 @@ function Subject() {
       <CreateSubjectForm />
       {data && <SubjectTable data={data} />}
       {isPending && <p>Loading...</p>}
-      {error && <p>{error}</p>}
+      {error && <p>{error.message}</p>}
     </div>
   );
 }

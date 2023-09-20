@@ -1,32 +1,46 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import Database from "../components/Database";
-import UserProfile from "../components/UserProfile";
 import useFetch from "../useFetch";
-import NoticeBoard from "../components/NoticeBoard";
+import jwt_decode from "jwt-decode";
+import Dashboard from "../components/Dashboard";
 
 function Home() {
-  const { admin, token } = JSON.parse(localStorage.getItem("user"));
-  const { _id, role } = admin;
-  if (!admin || !token) {
-    return;
-  }
-  const url = `/api/${role}/${_id}`;
-  const { data, error, isPending } = useFetch(url, token);
+  const { token } = JSON.parse(localStorage.getItem("user"));
 
+  if (!token) {
+    throw new Error("Autorization token not found");
+  }
+  let role;
+  let id;
+  if (token) {
+    const decodedToken = jwt_decode(token);
+    // Access the user's role from the decoded token
+    role = decodedToken.role;
+    id = decodedToken.id;
+  } else {
+    throw new Error("Authorization failed.");
+  }
+  const url = `/api/${role}/${id}`;
+  const { data, error, isPending } = useFetch(url, token);
+  if (data) {
+    console.log(data);
+  }
   return (
-    <div>
-      {/* Add your main content here */}
-      <div>
-        {data && <UserProfile />}
-        <NoticeBoard />
-      </div>
-      <div>
-        <p>hello</p>
-      </div>
+    // <div>
+    //   {/* Add your main content here */}
+    //   <div>
+    //     {data && <UserProfile />}
+    //     <NoticeBoard />
+    //   </div>
+    //   <div>
+    //     <p>hello</p>
+    //   </div>
+    //   {isPending && <p>Loading...</p>}
+    //   {error && <p>{error.message}</p>}
+    // </div>
+    <>
+      {data && <Dashboard />}
       {isPending && <p>Loading...</p>}
       {error && <p>{error.message}</p>}
-    </div>
+    </>
   );
 }
 
