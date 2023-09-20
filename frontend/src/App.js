@@ -19,6 +19,7 @@ import GenerateQuestion from "./components/QuestionGenerator";
 import { useStateContext } from "./contexts/ContextProvider";
 import UserProfile from "./components/UserProfile";
 import TemporalNavBar from "./components/NavBarTemp";
+import Application from "./components/Application";
 
 function App() {
   // const [user, setUser] = useState(null);
@@ -114,6 +115,16 @@ function App() {
                   }
                 />
                 <Route
+                  path={"/application"}
+                  element={
+                    localStorageUser ? (
+                      <Application />
+                    ) : (
+                      <Navigate to="/login" />
+                    )
+                  }
+                />
+                <Route
                   path={"/generate"}
                   element={
                     localStorageUser ? (
@@ -123,7 +134,7 @@ function App() {
                     )
                   }
                 />
-                <Route path={"/userprofile/:id"} element={<UserProfile />} />
+                <Route path={"/userprofile"} element={<UserProfile />} />
                 <Route path={"/enroll"} element={<EnrollmentForm />} />
                 <Route path={"/noticeboard"} element={<NoticeBoard />} />
                 <Route path={"/userbase"} element={<Database />} />

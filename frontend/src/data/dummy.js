@@ -24,6 +24,10 @@ export const links = [
     href: "attendance",
   },
   {
+    title: "Application",
+    href: "application",
+  },
+  {
     title: "Generate",
     href: "generate",
   },

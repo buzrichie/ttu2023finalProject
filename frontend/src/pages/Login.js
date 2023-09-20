@@ -4,7 +4,7 @@ import Navbar from "../components/NavBar";
 
 function Login() {
   // let role = ""; // Initialize the role variable
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   // const { pathname } = window.location;
 
   // Extract the role from the URL path
@@ -54,9 +54,9 @@ function Login() {
         localStorage.setItem("user", JSON.stringify(json));
         setUser(json);
         console.log("Success:", json);
-        if (user) {
-          navigate.push("/");
-        }
+        // if (user) {
+        //   navigate.push("/");
+        // }
       } else {
         const errorData = await response.json(); // Parse error response
         console.error("Login Error:", errorData.error);
