@@ -6,45 +6,44 @@ import ParentTable from "./ParentTable";
 import AdministratorTable from "./AdministratorTable";
 import EnrolledStudentTable from "./EnrolledStudentTable";
 
-function Database(props) {
+function Database() {
   const { token } = JSON.parse(localStorage.getItem("user"));
   const [activeTab, setActiveTab] = useState("Student"); // Default active tab
   const [data, setData] = useState(null);
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState(null);
 
-  const { userData } = props;
-  const fetchData = async () => {
-    setIsPending(true);
-    setError(null);
-
-    try {
-      // Construct the API endpoint based on the selected tab
-      const apiUrl = `/api/${activeTab.toLowerCase()}`;
-
-      const response = await fetch(apiUrl, {
-        headers: {
-          method: "GET",
-          "Content-Type": "application/json",
-          // Authorization header with the authToken
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Could not fetch data");
-      }
-
-      const jsonData = await response.json();
-      setIsPending(false);
-      setData(jsonData);
-    } catch (error) {
-      setIsPending(false);
-      setError(error);
-    }
-  };
-
   useEffect(() => {
+    const fetchData = async () => {
+      setIsPending(true);
+      setError(null);
+
+      try {
+        // Construct the API endpoint based on the selected tab
+        const apiUrl = `/api/${activeTab.toLowerCase()}`;
+
+        const response = await fetch(apiUrl, {
+          headers: {
+            method: "GET",
+            "Content-Type": "application/json",
+            // Authorization header with the authToken
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Could not fetch data");
+        }
+
+        const jsonData = await response.json();
+        setIsPending(false);
+        setData(jsonData);
+      } catch (error) {
+        setIsPending(false);
+        setError(error);
+      }
+    };
+
     fetchData();
   }, [activeTab, token]);
 

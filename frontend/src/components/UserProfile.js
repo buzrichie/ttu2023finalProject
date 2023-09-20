@@ -1,26 +1,53 @@
 import React, { useState } from "react";
 import usePostFetch from "../usePostFetch";
+import useHttpPut from "../useHttpPut";
 
 function UserProfile(props) {
   const { userData } = props;
   const [isEditing, setIsEditing] = useState(false);
+  const [editedData, setEditedData] = useState({ ...userData });
 
-  const handleEditClick = () => {
-    setIsEditing(!isEditing);
-  };
   const { token } = JSON.parse(localStorage.getItem("user"));
   if (!token) {
     return;
   }
+  console.log(editedData);
+  const url = "/api/student/";
+  const uem = `${url}${editedData._id}`;
 
-  const { data, loading, error, postData } = usePostFetch(
-    "/api/student/",
-    token
-  );
+  const {
+    data: putData,
+    loading: putIsLoadin,
+    error: putError,
+    sendPutRequest,
+  } = useHttpPut(uem, token);
 
-  if (data) {
-    console.log(data);
+  if (putData) {
+    console.log(putData);
   }
+  const handleEditClick = () => {
+    if (isEditing) {
+      // Save the edited data with a PUT request
+      sendPutRequest({
+        firstName: editedData.firstName,
+      });
+
+      setIsEditing(false);
+    } else {
+      setIsEditing(true);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditedData({
+      ...editedData,
+      [name]: value,
+    });
+  };
+
+  const { data, loading, error, postData } = usePostFetch(url, token);
+
   const handleApproveClick = (e) => {
     e.preventDefault();
     postData({
@@ -42,7 +69,7 @@ function UserProfile(props) {
       className="bg-white rounded-lg shadow-md relative p-4"
       style={{ minHeight: "500px" }}
     >
-      <div className=" items-center">
+      <div className="items-center">
         <div className="mb-4 lg:mb-0 lg:mr-4">
           <img
             src="user_avatar.jpg"
@@ -52,11 +79,33 @@ function UserProfile(props) {
         </div>
         <div className="user-info flex flex-col justify-center">
           <p className="text-lg font-semibold">
-            Name: {userData ? userData.firstName : "Nope"}
+            Name:{" "}
+            {isEditing ? (
+              <input
+                type="text"
+                name="firstName"
+                value={editedData.firstName}
+                onChange={handleInputChange}
+              />
+            ) : (
+              userData.firstName
+            )}
           </p>
           <p className="text-md">Class: Grade 10</p>
           <p className="text-md">Role: Student</p>
-          <p className="text-md">Email: john@example.com</p>
+          <p className="text-md">
+            Email:{" "}
+            {isEditing ? (
+              <input
+                type="email"
+                name="email"
+                value={editedData.email}
+                onChange={handleInputChange}
+              />
+            ) : (
+              userData.email
+            )}
+          </p>
           {/* Add more user info as needed */}
         </div>
         <div className="contact-info flex flex-col">
@@ -73,12 +122,11 @@ function UserProfile(props) {
         </p>
       </div>
       {/* Buttons */}
-      <div
-        className="flex mt-4 space-x-4 p-2"
-        // style={{ position: "absolute", bottom: "0", left: "0" }}
-      >
+      <div className="flex mt-4 space-x-4 p-2">
         <button
-          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
+          className={`bg-${isEditing ? "green" : "blue"}-500 hover:bg-${
+            isEditing ? "green" : "blue"
+          }-600 text-white px-4 py-2 rounded-md`}
           onClick={handleEditClick}
         >
           {isEditing ? "Save" : "Edit"}
@@ -102,8 +150,6 @@ function UserProfile(props) {
           </>
         )}
       </div>
-      {loading && <p> Loading... </p>}
-      {error && <p>{error.message}</p>}
     </div>
   );
 }

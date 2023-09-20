@@ -14,7 +14,7 @@ function AdministratorTable(props) {
           <thead>
             <tr>
               <th>Admin ID</th>
-              <th>Name</th>
+              <th>Principal</th>
               <th>Email</th>
             </tr>
           </thead>
@@ -26,7 +26,7 @@ function AdministratorTable(props) {
                 school={admin.school}
                 onClick={() => selectUser(admin)}
               >
-                <td>{admin.adminID}</td>
+                <td>{admin.adminID || admin.id}</td>
                 <td>{admin.name}</td>
                 <td>{admin.email}</td>
               </tr>

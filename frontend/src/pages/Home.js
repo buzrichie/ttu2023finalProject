@@ -24,18 +24,6 @@ function Home() {
     console.log(data);
   }
   return (
-    // <div>
-    //   {/* Add your main content here */}
-    //   <div>
-    //     {data && <UserProfile />}
-    //     <NoticeBoard />
-    //   </div>
-    //   <div>
-    //     <p>hello</p>
-    //   </div>
-    //   {isPending && <p>Loading...</p>}
-    //   {error && <p>{error.message}</p>}
-    // </div>
     <>
       {data && <Dashboard />}
       {isPending && <p>Loading...</p>}

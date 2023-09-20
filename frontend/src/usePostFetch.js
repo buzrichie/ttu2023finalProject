@@ -7,6 +7,7 @@ const usePostFetch = (url, authToken) => {
 
   const postData = async (formData) => {
     setLoading(true);
+    setError(null);
 
     try {
       const response = await fetch(url, {
@@ -26,9 +27,9 @@ const usePostFetch = (url, authToken) => {
       const responseData = await response.json();
       setData(responseData);
       setLoading(false);
-    } catch (err) {
+    } catch (error) {
+      setError(error);
       setLoading(false);
-      setError(err);
     }
   };
 
