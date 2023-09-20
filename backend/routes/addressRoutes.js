@@ -10,16 +10,16 @@ const {
 const {
   authenticateRoute,
   hasRole,
-  isOwner,
+  isOwnerOrAdmin,
 } = require("../middleware/authenticateRoute");
 
 router.use(authenticateRoute);
 
 //Routes for various Addresss
-router.get("/", isOwner, getAllAddress);
+router.get("/", isOwnerOrAdmin, getAllAddress);
 router.post("/", hasRole("admin"), createAddress);
-router.get("/:id", isOwner || hasRole("admin"), getSingleAddress);
-router.put("/:id", isOwner || hasRole("admin"), updateAddress);
+router.get("/:id", isOwnerOrAdmin, getSingleAddress);
+router.put("/:id", isOwnerOrAdmin, updateAddress);
 router.delete("/:id", hasRole("admin"), deleteAddress);
 
 module.exports = router;

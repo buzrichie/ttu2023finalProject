@@ -82,4 +82,69 @@ const isOwner = (req, res, next) => {
   next();
 };
 
-module.exports = { authenticateRoute, hasRole, isOwner };
+/**
+ * Middleware to check if the user is the owner based on the ID in the request params
+ * or has an admin role.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @param {Function} next - The next middleware function.
+ * @returns {void}
+ */
+const isOwnerOrAdmin = (req, res, next) => {
+  if (!req.user) {
+    return res
+      .status(403)
+      .json({ error: "Unauthorized. User is not authenticated." });
+  }
+
+  const isAdmin = req.user.role === "admin"; // Check if the user has the "admin" role
+  const isOwner = req.params.id === req.user.id;
+
+  if (isAdmin || isOwner) {
+    // User is either an admin or the owner, so they are authorized.
+    next();
+  } else {
+    // User does not have admin role and is not the owner.
+    res.status(403).json({
+      error: "Unauthorized. User is not the owner or does not have admin role.",
+    });
+  }
+};
+/**
+ * Middleware to check if the user is the owner based on the ID in the request params
+ * or has an admin role.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @param {Function} next - The next middleware function.
+ * @returns {void}
+ */
+const isOwnerOrAdminOrTeacher = (req, res, next) => {
+  if (!req.user) {
+    return res
+      .status(403)
+      .json({ error: "Unauthorized. User is not authenticated." });
+  }
+
+  const isAdmin = req.user.role === "admin"; // Check if the user has the "admin" role
+  const isTeacher = req.user.role === "teacher"; // Check if the user has the "admin" role
+  const isOwner = req.params.id === req.user.id;
+
+  if (isAdmin || isOwner || isTeacher) {
+    // User is either an admin or the owner, so they are authorized.
+    next();
+  } else {
+    // User does not have admin role and is not the owner.
+    res.status(403).json({
+      error:
+        "Unauthorized. User is not the owner or does not have admin or teacher role.",
+    });
+  }
+};
+
+module.exports = {
+  authenticateRoute,
+  hasRole,
+  isOwner,
+  isOwnerOrAdmin,
+  isOwnerOrAdminOrTeacher,
+};

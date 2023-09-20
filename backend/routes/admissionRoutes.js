@@ -10,7 +10,7 @@ const {
 const {
   authenticateRoute,
   hasRole,
-  isOwner,
+  isOwnerOrAdmin,
 } = require("../middleware/authenticateRoute");
 
 router.use(authenticateRoute);
@@ -18,7 +18,7 @@ router.use(authenticateRoute);
 //Routes for various Admissions
 router.get("/", hasRole("admin"), getAllAdmission);
 router.post("/", hasRole("admin"), createAdmission);
-router.get("/:id", isOwner || hasRole("admin"), getSingleAdmission);
+router.get("/:id", isOwnerOrAdmin, getSingleAdmission);
 router.put("/:id", hasRole("admin"), updateAdmission);
 router.delete("/:id", hasRole("admin"), deleteAdmission);
 

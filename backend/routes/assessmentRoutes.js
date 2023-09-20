@@ -10,18 +10,14 @@ const {
 const {
   authenticateRoute,
   hasRole,
-  isOwner,
+  isOwnerOrAdminOrTeacher,
 } = require("../middleware/authenticateRoute");
 
 router.use(authenticateRoute);
 //Routes for various Assessments
-router.get("/", isOwner || hasRole(["admin", "teacher"]), getAllAssessment);
+router.get("/", isOwnerOrAdminOrTeacher, getAllAssessment);
 router.post("/", hasRole(["admin", "teacher"]), createAssessment);
-router.get(
-  "/:id",
-  isOwner || hasRole(["admin", "teacher"]),
-  getSingleAssessment
-);
+router.get("/:id", isOwnerOrAdminOrTeacher, getSingleAssessment);
 router.put("/:id", hasRole(["admin", "teacher"]), updateAssessment);
 router.delete("/:id", hasRole(["admin", "teacher"]), deleteAssessment);
 

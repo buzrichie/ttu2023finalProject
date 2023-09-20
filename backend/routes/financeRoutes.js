@@ -10,14 +10,14 @@ const {
 const {
   authenticateRoute,
   hasRole,
-  isOwner,
+  isOwnerOrAdmin,
 } = require("../middleware/authenticateRoute");
 
 router.use(authenticateRoute);
 //Routes for various Finances
 router.get("/", hasRole("admin"), getAllFinance);
 router.post("/", hasRole("admin"), createFinance);
-router.get("/:id", isOwner || hasRole("admin"), getSingleFinance);
+router.get("/:id", isOwnerOrAdmin, getSingleFinance);
 router.put("/:id", hasRole("admin"), updateFinance);
 router.delete("/:id", hasRole("admin"), deleteFinance);
 

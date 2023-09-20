@@ -10,18 +10,14 @@ const {
 const {
   authenticateRoute,
   hasRole,
-  isOwner,
+  isOwnerOrAdminOrTeacher,
 } = require("../middleware/authenticateRoute");
 
 router.use(authenticateRoute);
 //Routes for various Attendances
-router.get("/", isOwner || hasRole(["admin", "teacher"]), getAllAttendance);
+router.get("/", isOwnerOrAdminOrTeacher, getAllAttendance);
 router.post("/", hasRole(["admin", "teacher"]), createAttendance);
-router.get(
-  "/:id",
-  isOwner || hasRole(["admin", "teacher"]),
-  getSingleAttendance
-);
+router.get("/:id", isOwnerOrAdminOrTeacher, getSingleAttendance);
 router.put("/:id", hasRole(["admin", "teacher"]), updateAttendance);
 router.delete("/:id", hasRole("admin"), deleteAttendance);
 

@@ -11,7 +11,7 @@ const {
 const {
   authenticateRoute,
   hasRole,
-  isOwner,
+  isOwnerOrAdmin,
 } = require("../middleware/authenticateRoute");
 const {
   restrictUpdateFieldsMiddleware,
@@ -25,7 +25,7 @@ router.post("/", hasRole("admin"), createTeacher);
 router.get("/:id", getSingleTeacher);
 router.put(
   "/:id",
-  isOwner || hasRole("admin"),
+  isOwnerOrAdmin,
   restrictUpdateFieldsMiddleware,
   updateTeacher
 );
