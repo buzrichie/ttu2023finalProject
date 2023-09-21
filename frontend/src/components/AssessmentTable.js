@@ -8,11 +8,11 @@ function AssessmentTable(props) {
       <table className="table">
         <thead>
           <tr>
-            <th>SUBJECT NAME</th>
-            <th>STUDENT'S FULL NAME</th>
-            <th>TEACHER'S FULL NAME</th>
-            <th>ASSESSMENT NAME</th>
-            <th>ASSESSMENT SCORE</th>
+            <th>SUBJECT</th>
+            <th>STUDENT</th>
+            <th>TEACHER</th>
+            <th>ASSTYPE</th>
+            <th>SCORE</th>
           </tr>
         </thead>
         <tbody>

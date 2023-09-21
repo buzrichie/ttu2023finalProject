@@ -77,7 +77,7 @@ const EnrollmentForm = () => {
                 margin: "0 auto",
               }}
             >
-              <img src="./FormLogo.png" width="100%" alt="School Logo" />
+              <img src="images/FormLogo.png" width="100%" alt="School Logo" />
             </span>
             <p>SCHOOL MASTER</p>
           </div>

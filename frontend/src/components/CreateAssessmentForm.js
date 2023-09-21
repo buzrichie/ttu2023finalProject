@@ -42,7 +42,7 @@ function CreateAssessmentForm() {
           htmlFor="_Subject"
           className="block text-sm font-medium leading-2 text-gray-900"
         >
-          Subject Name:
+          Subject:
         </label>
         <input
           type="text"
@@ -58,7 +58,7 @@ function CreateAssessmentForm() {
           htmlFor="_Student"
           className="block text-sm font-medium leading-2 text-gray-900"
         >
-          Student's Full Name:
+          Student:
         </label>
         <input
           type="text"
@@ -74,7 +74,7 @@ function CreateAssessmentForm() {
           htmlFor="_Teacher"
           className="block text-sm font-medium leading-2 text-gray-900"
         >
-          Teacher's Full Name:
+          Teacher:
         </label>
         <input
           type="text"
@@ -90,7 +90,7 @@ function CreateAssessmentForm() {
           htmlFor="name"
           className="block text-sm font-medium leading-2 text-gray-900"
         >
-          Assessment Name:
+          AssName:
         </label>
         <input
           type="text"
@@ -106,7 +106,7 @@ function CreateAssessmentForm() {
           htmlFor="score"
           className="block text-sm font-medium leading-2 text-gray-900"
         >
-          Assessment Score:
+          Score:
         </label>
         <input
           type="number"

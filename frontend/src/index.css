@@ -70,7 +70,7 @@ img{
 }
 .enrollment-bg{
   flex-basis: 35%;
-  /* background: url("./Background\ -\ Blue\ 1.png"); */
+  background: url("./Background\ -\ Blue\ 1.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
