@@ -26,6 +26,7 @@ function Home() {
   return (
     <>
       {data && <Dashboard />}
+      {/* {<Dashboard />} */}
       {isPending && <p>Loading...</p>}
       {error && <p>{error.message}</p>}
     </>

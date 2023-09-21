@@ -11,16 +11,18 @@ function UserProfile(props) {
   if (!token) {
     return;
   }
-  console.log(editedData);
+  if (userData) {
+    console.log(editedData);
+  }
   const url = "/api/student/";
-  const uem = `${url}${editedData._id}`;
+  const urlIndex = `${url}${editedData._id}`;
 
   const {
     data: putData,
     loading: putIsLoadin,
     error: putError,
     sendPutRequest,
-  } = useHttpPut(uem, token);
+  } = useHttpPut(urlIndex, token);
 
   if (putData) {
     console.log(putData);
@@ -84,11 +86,13 @@ function UserProfile(props) {
               <input
                 type="text"
                 name="firstName"
-                value={editedData.firstName}
+                value={editedData ? editedData.firstName : ""}
                 onChange={handleInputChange}
               />
-            ) : (
+            ) : userData ? (
               userData.firstName
+            ) : (
+              ""
             )}
           </p>
           <p className="text-md">Class: Grade 10</p>
@@ -102,8 +106,10 @@ function UserProfile(props) {
                 value={editedData.email}
                 onChange={handleInputChange}
               />
-            ) : (
+            ) : userData ? (
               userData.email
+            ) : (
+              ""
             )}
           </p>
           {/* Add more user info as needed */}

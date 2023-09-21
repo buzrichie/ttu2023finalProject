@@ -4,12 +4,13 @@ function ApplicationTable(props) {
   const { data } = props;
   return (
     <div>
-      <h2>Application Table</h2>
-      <table className="table">
+      <table className="w-full border-collapse  border-gray-300">
         <thead>
-          <tr>
-            <th>applicationNumber</th>
-            <th>Date</th>
+          <tr className="bg-gray-100">
+            <th className="py-2 px-4 text-center font-medium">
+              applicationNumber
+            </th>
+            <th className="py-2 px-4 text-center font-medium">Date</th>
           </tr>
         </thead>
         <tbody>

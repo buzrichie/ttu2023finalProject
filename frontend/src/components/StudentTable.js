@@ -27,27 +27,30 @@ function StudentTable(props) {
             </tr>
           </thead>
           <tbody>
-            {data.map((student) => (
-              <tr
-                key={student._id}
-                onClick={() => selectUser(student)} // Call the function when a row is clicked
-                style={{ cursor: "pointer" }} // Change cursor to pointer to indicate it's clickable
-              >
-                <td>
-                  {student.admission
-                    ? student.admission.admissionNumber
-                    : "N/A"}
-                </td>
-                <td>{student.firstName}</td>
-                <td>{student.surName}</td>
-                <td>{new Date(student.dateOfBirth).toLocaleDateString()}</td>
-                <td>
-                  {student.academicLevel ? student.academicLevel.level : "N/A"}
-                </td>
-                <td>{student.gender}</td>
-                <td>{student.parentGuardianEmail}</td>
-              </tr>
-            ))}
+            {data &&
+              data.map((student) => (
+                <tr
+                  key={student._id}
+                  onClick={() => selectUser(student)} // Call the function when a row is clicked
+                  style={{ cursor: "pointer" }} // Change cursor to pointer to indicate it's clickable
+                >
+                  <td>
+                    {student.admission
+                      ? student.admission.admissionNumber
+                      : "N/A"}
+                  </td>
+                  <td>{student.firstName}</td>
+                  <td>{student.surName}</td>
+                  <td>{new Date(student.dateOfBirth).toLocaleDateString()}</td>
+                  <td>
+                    {student.academicLevel
+                      ? student.academicLevel.level
+                      : "N/A"}
+                  </td>
+                  <td>{student.gender}</td>
+                  <td>{student.parentGuardianEmail}</td>
+                </tr>
+              ))}
           </tbody>
         </table>
 

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import CreateAcademicLevelForm from "./CreateAcademicLevelForm";
 import AcademicLevelTable from "./AcademicLevelTable";
 import useFetch from "../useFetch";
+import Header from "./header";
 
 function AcademicLevel() {
   const { token } = JSON.parse(localStorage.getItem("user"));
@@ -12,13 +13,15 @@ function AcademicLevel() {
   const { data, error, isPending } = useFetch(url, token);
 
   return (
-    <div>
-      <h1>Class</h1>
-      <CreateAcademicLevelForm />
-      {data && <AcademicLevelTable data={data} />}
-      {isPending && <p> Loading... </p>}
-      {error && <p>{error.message}</p>}
-    </div>
+    <>
+      <div className="w-full lg:w-1/3 mt-5 pt-5 sm:pt-0 sm:mt-0 p-2 sm:p-5">
+        <Header heading="Class" />
+        <CreateAcademicLevelForm />
+        {data && <AcademicLevelTable data={data} />}
+        {isPending && <p> Loading... </p>}
+        {error && <p>{error.message}</p>}
+      </div>
+    </>
   );
 }
 

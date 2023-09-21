@@ -2,15 +2,16 @@ import React from "react";
 import UserSummaryDescription from "./UserSummaryDescription";
 import NoticeBoard from "./NoticeBoard";
 import UserProfile from "./UserProfile";
+import Header from "./header";
 
 function Dashboard() {
   return (
     <>
-      <div className="flex">
+      <div className="flex mt-5 pt-5 md:pt-0 md:mt-1">
         <div className="w-full lg:w-2/3 px-4">
           <div className="bg-white p-4 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-4">Dashboard</h2>
-            <div className="flex">
+            <Header heading="Dashboard" />
+            <div className="flex gap-x-4 gap-y-4 flex-wrap">
               <UserSummaryDescription />
               <UserSummaryDescription />
               <UserSummaryDescription />

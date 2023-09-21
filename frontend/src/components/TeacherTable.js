@@ -24,18 +24,19 @@ function TeacherTable(props) {
             </tr>
           </thead>
           <tbody>
-            {data.map((teacher) => (
-              <tr key={teacher._id} onClick={() => selectUser(teacher)}>
-                <td>{teacher.firstName}</td>
-                <td>{teacher.surName}</td>
-                <td>{teacher.dateOfBirth}</td>
-                <td>{teacher.email}</td>
-                <td>{teacher.phone}</td>
-                <td>{teacher.qualification}</td>
-                <td>{teacher.teachingExperience}</td>
-                <td>{teacher.gender}</td>
-              </tr>
-            ))}
+            {data &&
+              data.map((teacher) => (
+                <tr key={teacher._id} onClick={() => selectUser(teacher)}>
+                  <td>{teacher.firstName}</td>
+                  <td>{teacher.surName}</td>
+                  <td>{teacher.dateOfBirth}</td>
+                  <td>{teacher.email}</td>
+                  <td>{teacher.phone}</td>
+                  <td>{teacher.qualification}</td>
+                  <td>{teacher.teachingExperience}</td>
+                  <td>{teacher.gender}</td>
+                </tr>
+              ))}
           </tbody>
         </table>
         {selectedUser && (

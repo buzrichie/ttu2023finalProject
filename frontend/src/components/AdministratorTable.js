@@ -19,18 +19,19 @@ function AdministratorTable(props) {
             </tr>
           </thead>
           <tbody>
-            {data.map((admin) => (
-              <tr
-                key={admin._id}
-                role={admin.role}
-                school={admin.school}
-                onClick={() => selectUser(admin)}
-              >
-                <td>{admin.adminID || admin.id}</td>
-                <td>{admin.name}</td>
-                <td>{admin.email}</td>
-              </tr>
-            ))}
+            {data &&
+              data.map((admin) => (
+                <tr
+                  key={admin._id}
+                  role={admin.role}
+                  school={admin.school}
+                  onClick={() => selectUser(admin)}
+                >
+                  <td>{admin.adminID || admin.id}</td>
+                  <td>{admin.name}</td>
+                  <td>{admin.email}</td>
+                </tr>
+              ))}
           </tbody>
         </table>
         {selectedUser && (

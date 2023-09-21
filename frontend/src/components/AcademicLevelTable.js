@@ -66,50 +66,69 @@ function ClassTable(props) {
 
   return (
     <div>
-      <h2>Class Table</h2>
-      <table className="table">
+      <table className="w-full border-collapse  border-gray-300">
         <thead>
-          <tr>
-            <th>Class</th>
-            <th>Action</th>
+          <tr className="bg-gray-100">
+            <th className="py-2 px-4 text-center font-medium">Class</th>
+            <th className="py-2 px-4 text-center font-medium">Action</th>
           </tr>
         </thead>
         <tbody>
-          {data.map((academicLevel) => (
-            <tr key={academicLevel._id}>
-              <td>
-                {editedRows[academicLevel._id] ? (
-                  <input
-                    type="text"
-                    name="level"
-                    value={editedRows[academicLevel._id].level}
-                    onChange={(e) => handleChange(e, academicLevel._id)}
-                    // Handle input change and update the value in the component state
-                  />
-                ) : (
-                  academicLevel.level
-                )}
-              </td>
-              <td>
-                {editedRows[academicLevel._id] ? (
-                  <button onClick={() => handleSaveClick(academicLevel._id)}>
-                    Save
-                  </button>
-                ) : (
-                  <>
-                    <button onClick={() => handleEditClick(academicLevel._id)}>
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDeleteClick(academicLevel._id)}
-                    >
-                      Delete
-                    </button>
-                  </>
-                )}
-              </td>
-            </tr>
-          ))}
+          {data &&
+            data.map((academicLevel) => (
+              <tr
+                key={academicLevel._id}
+                className="hover:bg-blue-200 hover:text-white"
+              >
+                <td className="px-4">
+                  {editedRows[academicLevel._id] ? (
+                    <input
+                      type="text"
+                      name="level"
+                      autoComplete="given-name"
+                      className="block w-full hover:bg-white rounded-md border-0 m-0 px-2 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      value={editedRows[academicLevel._id].level}
+                      onChange={(e) => handleChange(e, academicLevel._id)}
+                    />
+                  ) : (
+                    academicLevel.level
+                  )}
+                </td>
+                <td className="flex gap-2 px-4">
+                  {editedRows[academicLevel._id] ? (
+                    <>
+                      <button
+                        onClick={() => handleEditClick(academicLevel._id)}
+                        className="w-12 px-3 py-2 text-sm text-yellow-400 hover:text-yellow-600 focus-visible:text-yellow-600"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={() => handleSaveClick(academicLevel._id)}
+                        className="w-12 px-3 py-2 text-sm text-green-400 hover:text-green-600 focus-visible:text-green-600"
+                      >
+                        Save
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        onClick={() => handleEditClick(academicLevel._id)}
+                        className="w-12 px-3 py-2 text-sm text-blue-400 hover:text-blue-600 focus-visible:text-blue-600"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDeleteClick(academicLevel._id)}
+                        className="w-12 px-3 py-2 text-sm text-red-400 hover:text-red-600 focus-visible:text-red-600"
+                      >
+                        Delete
+                      </button>
+                    </>
+                  )}
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>

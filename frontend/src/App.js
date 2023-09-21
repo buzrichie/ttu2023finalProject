@@ -45,7 +45,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <div className="flex relative dark:bg-main-dark-bg">
+        <div className="flex w-screen relative dark:bg-main-dark-bg">
           {activeMenu ? (
             <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
               {localStorageUser && <Sidebar user={localStorageUser} />}

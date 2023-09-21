@@ -22,18 +22,19 @@ function ParentTable(props) {
             </tr>
           </thead>
           <tbody>
-            {data.map((parentguardian) => (
-              <tr
-                key={parentguardian._id}
-                onClick={() => selectUser(parentguardian)}
-              >
-                <td>{parentguardian.firstName}</td>
-                <td>{parentguardian.surName}</td>
-                <td>{parentguardian.email}</td>
-                <td>{parentguardian.phone}</td>
-                <td>{parentguardian.occupation}</td>
-              </tr>
-            ))}
+            {data &&
+              data.map((parentguardian) => (
+                <tr
+                  key={parentguardian._id}
+                  onClick={() => selectUser(parentguardian)}
+                >
+                  <td>{parentguardian.firstName}</td>
+                  <td>{parentguardian.surName}</td>
+                  <td>{parentguardian.email}</td>
+                  <td>{parentguardian.phone}</td>
+                  <td>{parentguardian.occupation}</td>
+                </tr>
+              ))}
           </tbody>
         </table>
         {selectedUser && (

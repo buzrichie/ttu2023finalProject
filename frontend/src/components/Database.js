@@ -5,6 +5,7 @@ import StudentTable from "./StudentTable";
 import ParentTable from "./ParentTable";
 import AdministratorTable from "./AdministratorTable";
 import EnrolledStudentTable from "./EnrolledStudentTable";
+import Header from "./header";
 
 function Database() {
   const { token } = JSON.parse(localStorage.getItem("user"));
@@ -55,7 +56,7 @@ function Database() {
     <div className="flex">
       <div className="w-full px-4">
         <div className="bg-white p-4 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-4">Database</h2>
+          <Header heading="Database" />
           <ul className="flex tabs mb-4">
             <li
               className={`mr-4 cursor-pointer ${
