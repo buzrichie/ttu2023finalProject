@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Navbar from "../components/NavBar";
 
 function Login() {
@@ -22,7 +22,6 @@ function Login() {
     password: "",
   });
 
-  const [user, setUser] = useState(null);
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
 
@@ -52,11 +51,9 @@ function Login() {
       if (response.ok) {
         const json = await response.json();
         localStorage.setItem("user", JSON.stringify(json));
+        window.location.href = "/";
         setUser(json);
         console.log("Success:", json);
-        // if (user) {
-        //   navigate.push("/");
-        // }
       } else {
         const errorData = await response.json(); // Parse error response
         console.error("Login Error:", errorData.error);
@@ -84,8 +81,12 @@ function Login() {
     if (formData.id.toLocaleLowerCase().includes("te")) {
       apiUrl = "/api/teacher/login";
     }
-
-    fetchData(apiUrl);
+    if (formData.id.toLocaleLowerCase().includes("en")) {
+      apiUrl = "/api/enroll/login";
+    }
+    if (apiUrl) {
+      fetchData(apiUrl);
+    }
   };
 
   return (

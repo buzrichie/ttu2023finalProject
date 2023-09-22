@@ -25,12 +25,6 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
       </button>
     </TooltipComponent>
   );
-const logOut=()=>{
-  localStorage.removeItem("user")
-  localStorage.removeItem("userData")
-  const navigate = useNavigate();
-  navigate.push("/login"); 
-}
 const Navbar = (props) => {
   let localUser = JSON.parse(localStorage.getItem("userData"))
   
@@ -54,6 +48,12 @@ const Navbar = (props) => {
     }
   }, [screenSize]);
 
+  const logOut=()=>{
+    localStorage.removeItem("user")
+    localStorage.removeItem("userData")
+    location.href="/login" 
+  }
+  
   const handleActiveMenu = () => setActiveMenu(!activeMenu);
 
   return (
@@ -73,29 +73,9 @@ const Navbar = (props) => {
           >
             <RxAvatar className="rounded-full w-7 h-7 text-blue-600"/>
             <p className='flex items-center'>
-              <span className="text-gray-400 ml-5 text-18">Hi,</span>{' '}
-              <span className="text-gray-600 font-bold ml-1 text-14">
-              {localUser && localUser.admin ? (localUser.admin.id ? (
-                                    <div>{localUser.admin.id}</div>
-                                  ) : (
-                                    ""
-                                  )
-                                ) : localUser.student ? (
-                                  localUser.student.id ? (
-                                    <div>{localUser.student.id}</div>
-                                  ) : (
-                                    ""
-                                  )
-                                ) : localUser.teacher ? (
-                                  localUser.teacher.id ? (
-                                    <div>{localUser.teacher.id}</div>
-                                  ) : (
-                                    ""
-                                  )
-                                ) : (
-                                  <div>No Specific Role Content</div>
-                                )}
-
+              <span className="text-gray-400 text-14">Hi,</span>{' '}
+              <span className="text-gray-400 font-bold ml-1 text-14">
+                Michael
               </span>
             </p>
             <MdKeyboardArrowDown className="text-gray-400 text-14" />

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Navbar from "../components/NavBar";
-import { useNavigate } from "react-router-dom";
 
 const EnrollmentForm = () => {
   const [formData, setFormData] = useState({
@@ -41,10 +40,7 @@ const EnrollmentForm = () => {
       if (response.ok) {
         const json = await response.json();
         localStorage.setItem("newuser", JSON.stringify(json));
-        setUser(json);
-        console.log("Success:", json);
-        const navigate = useNavigate();
-        navigate.push("/temporalnavbar");
+        location.href = "/login";
       } else {
         const errorData = await response.json(); // Parse error response
         console.error("Login Error:", errorData.error);
@@ -57,10 +53,6 @@ const EnrollmentForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     fetchData();
-
-    // Perform any additional logic or validation here
-
-    // Send POST request
   };
 
   return (

@@ -8,12 +8,13 @@ function Home() {
   if (!token) {
     throw new Error("Autorization token not found");
   }
+
   let role;
   let id;
   if (token) {
     const decodedToken = jwt_decode(token);
     // Access the user's role from the decoded token
-    role = decodedToken.role;
+    role = decodedToken.role.toUpperCase();
     id = decodedToken.id;
   } else {
     throw new Error("Authorization failed.");
