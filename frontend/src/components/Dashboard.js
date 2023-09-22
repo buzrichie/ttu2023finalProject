@@ -3,6 +3,10 @@ import UserSummaryDescription from "./UserSummaryDescription";
 import NoticeBoard from "./NoticeBoard";
 import UserProfile from "./UserProfile";
 import Header from "./header";
+import { PiStudentDuotone } from "react-icons/pi";
+import { LiaChalkboardTeacherSolid } from "react-icons/lia";
+import { RiParentLine } from "react-icons/ri";
+import { HiMiniArrowUpRight } from "react-icons/hi2";
 
 function Dashboard() {
   return (
@@ -12,10 +16,28 @@ function Dashboard() {
           <div className="bg-white p-4 rounded-lg shadow-md">
             <Header heading="Dashboard" />
             <div className="flex gap-x-4 gap-y-4 flex-wrap">
-              <UserSummaryDescription />
-              <UserSummaryDescription />
-              <UserSummaryDescription />
-              <UserSummaryDescription />
+              {PiStudentDuotone && (
+                <UserSummaryDescription
+                  title="Student"
+                  count="20"
+                  icon={<PiStudentDuotone />}
+                />
+              )}
+              <UserSummaryDescription
+                title="Teacher"
+                count="24"
+                icon={<LiaChalkboardTeacherSolid />}
+              />
+              <UserSummaryDescription
+                title="Parent"
+                count="12"
+                icon={<RiParentLine />}
+              />
+              <UserSummaryDescription
+                title="Earning"
+                count="$24000"
+                icon={<HiMiniArrowUpRight />}
+              />
             </div>
             <div></div>
             <div>

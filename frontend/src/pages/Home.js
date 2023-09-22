@@ -22,6 +22,7 @@ function Home() {
   const { data, error, isPending } = useFetch(url, token);
   if (data) {
     console.log(data);
+    localStorage.setItem("userData", JSON.stringify(data));
   }
   return (
     <>

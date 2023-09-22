@@ -27,6 +27,7 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   );
 const logOut=()=>{
   localStorage.removeItem("user")
+  localStorage.removeItem("userData")
   const navigate = useNavigate();
   navigate.push("/login"); 
 }

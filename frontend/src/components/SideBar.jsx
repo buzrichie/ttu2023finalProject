@@ -3,10 +3,27 @@ import { Link, NavLink } from 'react-router-dom';
 import { SiShopware } from 'react-icons/si';
 import { MdOutlineCancel } from 'react-icons/md';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
-import { links } from '../data/dummy';
+import { links, teacher, student } from '../data/dummy';
 import { useStateContext } from '../contexts/ContextProvider';
 
 const Sidebar = (props) => {
+  let localUser = JSON.parse(localStorage.getItem("userData"))
+  // let role = ""
+  let myLinks=null
+  if (localUser) {
+    // console.log("local", typ eof(localUser.admin.role));
+    if (localUser.admin) {
+      // role = "admin";
+      myLinks=links
+    } else if (localUser.student) {
+      // role = "student";
+      myLinks=student
+    } else if (localUser.teacher) {
+      // role = "teacher";
+      myLinks=teacher
+      }
+  }
+  console.log(myLinks)
   const { currentColor, activeMenu, setActiveMenu, screenSize } = useStateContext();
   const {user} = props
   const handleCloseSideBar = () => {
@@ -19,7 +36,7 @@ const Sidebar = (props) => {
   const normalLink = 'flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-md text-gray-700 dark:text-gray-200 dark:hover:text-black hover:bg-light-gray m-2';
 
   return (
-    <>{user &&
+    <>{user && 
     <div className="ml-3 h-screen md:overflow-hidden overflow-auto md:hover:overflow-auto pb-10">
       {activeMenu && (
         <>
@@ -40,7 +57,9 @@ const Sidebar = (props) => {
             </TooltipComponent>
           </div>
           <div className="mt-10 ">
-            {links.map((link) => (
+            
+            {localUser &&  myLinks.map((link) => (
+              
               <div key={link.title}>
                   <NavLink
                     to={`/${link.href}`}

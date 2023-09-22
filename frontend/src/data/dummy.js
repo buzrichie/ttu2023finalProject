@@ -32,6 +32,31 @@ export const links = [
     href: "generate",
   },
 ];
+
+export const teacher = [
+  {
+    title: "Dashboard",
+    href: "",
+  },
+  {
+    title: "Assessment",
+    href: "assessment",
+  },
+  {
+    title: "Attendance",
+    href: "attendance",
+  },
+  {
+    title: "Generate",
+    href: "generate",
+  },
+];
+export const student = [
+  {
+    title: "Dashboard",
+    href: "",
+  },
+];
 // {export const links = {
 //   admin: [
 //     {

@@ -1,47 +1,57 @@
 import React from "react";
+import { AiOutlinePlus } from "react-icons/ai";
+import Header from "./header";
 
 function NoticeBoard() {
   return (
     <div className="bg-gray-100 mt-5 w-full  rounded-lg p-4">
       <div className="n-Header flex justify-between">
         <div className="notice-header">
-          <h2 className="text-lg font-bold">Notice Board</h2>
-          <p className="text-sm text-gray-500">
+          {/* <h2 className="text-lg font-bold">Notice Board</h2> */}
+          <Header heading="Notice Board" />
+          <p className="text-md text-gray-500">
             Welcome to the Notice Board. Stay updated!
           </p>
         </div>
-        <div className="add-notice bg-blue-500 hover:bg-blue-600 text-white rounded-full w-10 h-10 flex justify-center items-center cursor-pointer">
-          <i className="fas fa-plus text-xl"></i>
-        </div>
+        {/* <div className="add-notice bg-blue-500 hover:bg-blue-600 text-white rounded-full w-10 h-10 flex justify-center items-center cursor-pointer">
+          <i className="fas fa-plus text-xl">
+          </i>
+        </div> */}
+        <AiOutlinePlus className="w-7 h-7 text-blue-500 hover:text-blue-300" />
       </div>
       <div className="notice-list mt-4 h-72 overscroll-contain max-h-full overflow-scroll">
         <div className="notice-item bg-white flex mb-2 p-2 rounded">
           <img
-            src="notice_image.jpg"
+            src="images/Asset/books.jpg"
             alt="Notice Image"
-            className="w-16 h-16 rounded mr-2"
+            className="w-20 h-16 rounded mr-2"
           />
-          <div className="notice-details flex  items-center ">
+          <div className="notice-details w-full flex justify-between items-center ">
             <p className="description text-sm">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             </p>
             <p className="date text-xs text-gray-500 w-max">Sep 15, 2023</p>
-            <div className="social-icons mt-2 flex">
-              <a href="#" className="text-blue-500 hover:text-blue-700 mr-2">
-                <i className="fab fa-facebook"></i>
-              </a>
-              <a href="#" className="text-blue-500 hover:text-blue-700 mr-2">
-                <i className="fab fa-linkedin"></i>
-              </a>
-              <a href="#" className="text-blue-500 hover:text-blue-700 mr-2">
-                <i className="fab fa-twitter"></i>
-              </a>
-              <a href="#" className="text-blue-500 hover:text-blue-700 mr-2">
-                <i className="fab fa-instagram"></i>
-              </a>
-              <a href="#" className="text-blue-500 hover:text-blue-700 mr-2">
-                <i className="fab fa-tiktok"></i>
-              </a>
+            <div className="flex -space-x-1 overflow-hidden">
+              <img
+                className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+                src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                alt=""
+              />
+              <img
+                className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+                src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                alt=""
+              />
+              <img
+                className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80"
+                alt=""
+              />
+              <img
+                className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                alt=""
+              />
             </div>
             <div className="video-views flex mt-2 flex items-center">
               <i className="fas fa-video text-green-500 mr-1"></i>
@@ -54,31 +64,36 @@ function NoticeBoard() {
         </div>
         <div className="notice-item bg-white flex mb-2 p-2 rounded">
           <img
-            src="notice_image.jpg"
+            src="images/Asset/kidDay.jpg"
             alt="Notice Image"
-            className="w-16 h-16 rounded mr-2"
+            className="w-20 h-16 rounded mr-2"
           />
-          <div className="notice-details flex  items-center ">
+          <div className="notice-details flex w-full justify-between w-full justify-between items-center ">
             <p className="description text-sm">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             </p>
             <p className="date text-xs text-gray-500 w-max">Sep 15, 2023</p>
-            <div className="social-icons mt-2 flex">
-              <a href="#" className="text-blue-500 hover:text-blue-700 mr-2">
-                <i className="fab fa-facebook"></i>
-              </a>
-              <a href="#" className="text-blue-500 hover:text-blue-700 mr-2">
-                <i className="fab fa-linkedin"></i>
-              </a>
-              <a href="#" className="text-blue-500 hover:text-blue-700 mr-2">
-                <i className="fab fa-twitter"></i>
-              </a>
-              <a href="#" className="text-blue-500 hover:text-blue-700 mr-2">
-                <i className="fab fa-instagram"></i>
-              </a>
-              <a href="#" className="text-blue-500 hover:text-blue-700 mr-2">
-                <i className="fab fa-tiktok"></i>
-              </a>
+            <div className="flex -space-x-1 overflow-hidden">
+              <img
+                className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+                src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                alt=""
+              />
+              <img
+                className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+                src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                alt=""
+              />
+              <img
+                className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80"
+                alt=""
+              />
+              <img
+                className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                alt=""
+              />
             </div>
             <div className="video-views flex mt-2 flex items-center">
               <i className="fas fa-video text-green-500 mr-1"></i>
@@ -91,31 +106,37 @@ function NoticeBoard() {
         </div>
         <div className="notice-item bg-white flex mb-2 p-2 rounded">
           <img
-            src="notice_image.jpg"
+            src="images/Asset/food.jpg"
             alt="Notice Image"
-            className="w-16 h-16 rounded mr-2"
+            className="w-20 h-16 rounded mr-2"
           />
-          <div className="notice-details flex  items-center ">
+
+          <div className="notice-details flex w-full justify-between  items-center ">
             <p className="description text-sm">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             </p>
             <p className="date text-xs text-gray-500 w-max">Sep 15, 2023</p>
-            <div className="social-icons mt-2 flex">
-              <a href="#" className="text-blue-500 hover:text-blue-700 mr-2">
-                <i className="fab fa-facebook"></i>
-              </a>
-              <a href="#" className="text-blue-500 hover:text-blue-700 mr-2">
-                <i className="fab fa-linkedin"></i>
-              </a>
-              <a href="#" className="text-blue-500 hover:text-blue-700 mr-2">
-                <i className="fab fa-twitter"></i>
-              </a>
-              <a href="#" className="text-blue-500 hover:text-blue-700 mr-2">
-                <i className="fab fa-instagram"></i>
-              </a>
-              <a href="#" className="text-blue-500 hover:text-blue-700 mr-2">
-                <i className="fab fa-tiktok"></i>
-              </a>
+            <div className="flex -space-x-1 overflow-hidden">
+              <img
+                className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+                src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                alt=""
+              />
+              <img
+                className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+                src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                alt=""
+              />
+              <img
+                className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80"
+                alt=""
+              />
+              <img
+                className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                alt=""
+              />
             </div>
             <div className="video-views flex mt-2 flex items-center">
               <i className="fas fa-video text-green-500 mr-1"></i>
@@ -128,31 +149,37 @@ function NoticeBoard() {
         </div>
         <div className="notice-item bg-white flex mb-2 p-2 rounded">
           <img
-            src="notice_image.jpg"
+            src="images/Asset/schoolbus.jpg"
             alt="Notice Image"
-            className="w-16 h-16 rounded mr-2"
+            className="w-20 h-16 rounded mr-2"
           />
-          <div className="notice-details flex  items-center ">
+
+          <div className="notice-details flex w-full justify-between  items-center ">
             <p className="description text-sm">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             </p>
             <p className="date text-xs text-gray-500 w-max">Sep 15, 2023</p>
-            <div className="social-icons mt-2 flex">
-              <a href="#" className="text-blue-500 hover:text-blue-700 mr-2">
-                <i className="fab fa-facebook"></i>
-              </a>
-              <a href="#" className="text-blue-500 hover:text-blue-700 mr-2">
-                <i className="fab fa-linkedin"></i>
-              </a>
-              <a href="#" className="text-blue-500 hover:text-blue-700 mr-2">
-                <i className="fab fa-twitter"></i>
-              </a>
-              <a href="#" className="text-blue-500 hover:text-blue-700 mr-2">
-                <i className="fab fa-instagram"></i>
-              </a>
-              <a href="#" className="text-blue-500 hover:text-blue-700 mr-2">
-                <i className="fab fa-tiktok"></i>
-              </a>
+            <div className="flex -space-x-1 overflow-hidden">
+              <img
+                className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+                src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                alt=""
+              />
+              <img
+                className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+                src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                alt=""
+              />
+              <img
+                className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80"
+                alt=""
+              />
+              <img
+                className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                alt=""
+              />
             </div>
             <div className="video-views flex mt-2 flex items-center">
               <i className="fas fa-video text-green-500 mr-1"></i>
@@ -165,31 +192,36 @@ function NoticeBoard() {
         </div>
         <div className="notice-item bg-white flex mb-2 p-2 rounded">
           <img
-            src="notice_image.jpg"
+            src="images/Asset/trip.jpg"
             alt="Notice Image"
-            className="w-16 h-16 rounded mr-2"
+            className="w-20 h-16 rounded mr-2"
           />
-          <div className="notice-details flex  items-center ">
+          <div className="notice-details flex w-full justify-between  items-center ">
             <p className="description text-sm">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             </p>
             <p className="date text-xs text-gray-500 w-max">Sep 15, 2023</p>
-            <div className="social-icons mt-2 flex">
-              <a href="#" className="text-blue-500 hover:text-blue-700 mr-2">
-                <i className="fab fa-facebook"></i>
-              </a>
-              <a href="#" className="text-blue-500 hover:text-blue-700 mr-2">
-                <i className="fab fa-linkedin"></i>
-              </a>
-              <a href="#" className="text-blue-500 hover:text-blue-700 mr-2">
-                <i className="fab fa-twitter"></i>
-              </a>
-              <a href="#" className="text-blue-500 hover:text-blue-700 mr-2">
-                <i className="fab fa-instagram"></i>
-              </a>
-              <a href="#" className="text-blue-500 hover:text-blue-700 mr-2">
-                <i className="fab fa-tiktok"></i>
-              </a>
+            <div className="flex -space-x-1 overflow-hidden">
+              <img
+                className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+                src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                alt=""
+              />
+              <img
+                className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+                src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                alt=""
+              />
+              <img
+                className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80"
+                alt=""
+              />
+              <img
+                className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                alt=""
+              />
             </div>
             <div className="video-views flex mt-2 flex items-center">
               <i className="fas fa-video text-green-500 mr-1"></i>
@@ -202,31 +234,36 @@ function NoticeBoard() {
         </div>
         <div className="notice-item bg-white flex mb-2 p-2 rounded">
           <img
-            src="notice_image.jpg"
+            src="images/Asset/books1.jpg"
             alt="Notice Image"
-            className="w-16 h-16 rounded mr-2"
+            className="w-20 h-16 rounded mr-2"
           />
-          <div className="notice-details flex  items-center ">
+          <div className="notice-details flex w-full justify-between  items-center ">
             <p className="description text-sm">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             </p>
             <p className="date text-xs text-gray-500 w-max">Sep 15, 2023</p>
-            <div className="social-icons mt-2 flex">
-              <a href="#" className="text-blue-500 hover:text-blue-700 mr-2">
-                <i className="fab fa-facebook"></i>
-              </a>
-              <a href="#" className="text-blue-500 hover:text-blue-700 mr-2">
-                <i className="fab fa-linkedin"></i>
-              </a>
-              <a href="#" className="text-blue-500 hover:text-blue-700 mr-2">
-                <i className="fab fa-twitter"></i>
-              </a>
-              <a href="#" className="text-blue-500 hover:text-blue-700 mr-2">
-                <i className="fab fa-instagram"></i>
-              </a>
-              <a href="#" className="text-blue-500 hover:text-blue-700 mr-2">
-                <i className="fab fa-tiktok"></i>
-              </a>
+            <div className="flex -space-x-1 overflow-hidden">
+              <img
+                className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+                src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                alt=""
+              />
+              <img
+                className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+                src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                alt=""
+              />
+              <img
+                className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80"
+                alt=""
+              />
+              <img
+                className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                alt=""
+              />
             </div>
             <div className="video-views flex mt-2 flex items-center">
               <i className="fas fa-video text-green-500 mr-1"></i>
