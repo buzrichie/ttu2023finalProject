@@ -5,7 +5,7 @@ const School = require("../models/schoolModel");
 const generateRandomPassword = require("../utils/passwordGenerator");
 const generateNumericalString = require("../utils/numericalStringGenerator");
 const generateJWT = require("../utils/jwtGenerator");
-
+const bcrypt = require("bcrypt");
 /**
  * Create or add a student.
  * @param {Object} req - The request object.
@@ -98,14 +98,13 @@ const createEnroll = async (req, res) => {
     }
 
     // Generate numerical string and password
-    const admissionNumber = await generateNumericalString();
+    const admissionNumber = await generateNumericalString("EN");
     const password = await generateRandomPassword(8);
 
     // Create Admission
     admission = await Admission.create({
       academicLevel,
       admissionNumber,
-      password,
       school: academicLevel.school._id,
     });
 
@@ -116,12 +115,14 @@ const createEnroll = async (req, res) => {
     // Create Enrollment
     enrolledStudent = await Enrollment.create({
       ...req.body,
+      id: admissionNumber,
       admissionNumber: admission.admissionNumber,
       admission: admission._id,
       academicLevel: academicLevel._id,
       school: admission.school._id,
       gender: gender.toLowerCase(),
-      role: "ENROLLED",
+      role: "ENROLL",
+      password: password,
     });
 
     if (!enrolledStudent) {
@@ -156,11 +157,7 @@ const createEnroll = async (req, res) => {
     }
 
     // Generate JWT Token
-    const payload = {
-      id: enrolledStudent._id,
-      admission: enrolledStudent.admission,
-      role: enrolledStudent.role,
-    };
+    const payload = { id: enrolledStudent._id, role: enrolledStudent.role };
     const token = generateJWT(payload, process.env.SECRET);
 
     // Send the student object without including the password
@@ -187,40 +184,41 @@ const createEnroll = async (req, res) => {
   }
 };
 
-module.exports = { createEnroll };
-
 //Login
 const login = async (req, res) => {
   try {
-    const { admissionNumber, password } = req.body;
-    if (!admissionNumber) {
-      return res.status(400).json({ error: "Student ID Number Required" });
+    const { id, password } = req.body;
+    if (!id) {
+      return res.status(400).json({ error: "Enrollment ID Number Required" });
     }
     if (!password) {
       return res.status(400).json({ error: "Password Required" });
     }
-    const student = await Enrollment.findOne({ admissionNumber });
+    const student = await Enrollment.findOne({ id });
     if (!student) {
-      return res.status(201).json({ error: "Invalid Enrollment ID number" });
+      return res.status(400).json({ error: "Invalid Enrollment ID number" });
     }
+
     //Authenticate the Password
     const match = await bcrypt.compare(password, student.password);
     if (!match) {
-      return res.status(201).json({ error: "Not a valid Password" });
+      return res.status(400).json({ error: "Not a valid Password" });
     }
+
     //Genete a Jwt Token
-    const payload = { id: student._id, admission: student.admission };
+    const payload = { id: student._id, role: student.role };
     const token = generateJWT(payload, process.env.SECRET);
 
     // Send the student object without including the password
     const studentWithoutPassword = { ...student._doc };
     delete studentWithoutPassword.password;
     console.log({ student: studentWithoutPassword, token });
-    return res.status(201).json({ student: studentWithoutPassword, token });
+    return res.status(201).json({ token });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
 //Get All Students
 const getAllEnrolls = async (req, res) => {
   try {
@@ -238,7 +236,7 @@ const getAllEnrolls = async (req, res) => {
 const getSingleEnroll = async (req, res) => {
   try {
     const student = await Enrollment.findById(req.params.id).populate(
-      "admission address school academicLevel subjects parentGuardian"
+      "admission school academicLevel"
     );
     if (!student) {
       return res.status(404).json({ error: "Student not found" });

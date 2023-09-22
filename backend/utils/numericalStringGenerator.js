@@ -4,14 +4,10 @@
  * @returns {Promise<string>} The generated unique numerical string.
  */
 async function generateNumericalString(userRolePrefix) {
-  if (typeof userRolePrefix !== String) {
-    userRolePrefix.toString();
-  }
   const timestamp = Date.now().toString();
   const random = Math.floor(10 + Math.random() * 90); // Generate a random 2-digit number
 
-  const uniqueString =
-    userRolePrefix.toLocaleUpperCase() + timestamp + random.toString();
+  const uniqueString = userRolePrefix + timestamp + random.toString();
   return uniqueString;
 }
 

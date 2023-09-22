@@ -34,6 +34,7 @@ const StudentSchema = new mongoose.Schema(
     },
     role: {
       type: String,
+      lowercase: true,
       required: [true, "Please add the role"],
     },
     admission: {

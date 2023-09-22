@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const hashPassword = require("../utils/passwordHash");
 
 const EnrollmentSchema = new mongoose.Schema({
   admissionNumber: {
@@ -6,6 +7,13 @@ const EnrollmentSchema = new mongoose.Schema({
     unique: true,
     required: true,
     trim: true,
+  },
+  id: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+    maxlength: 20,
   },
   firstName: {
     type: String,
@@ -19,6 +27,11 @@ const EnrollmentSchema = new mongoose.Schema({
     trim: true,
     maxlength: 100,
   },
+  password: {
+    type: String,
+    required: true,
+    minlength: 8,
+  },
   gender: {
     type: String,
     required: true,
@@ -26,6 +39,7 @@ const EnrollmentSchema = new mongoose.Schema({
   },
   role: {
     type: String,
+    lowercase: true,
     required: [true, "Please add the role"],
   },
   dateOfBirth: {
