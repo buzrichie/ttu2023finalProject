@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import usePostFetch from "../usePostFetch";
 import useHttpPut from "../useHttpPut";
+import { RxAvatar } from "react-icons/rx";
 
 function UserProfile(props) {
   const { userData } = props;
@@ -73,15 +74,16 @@ function UserProfile(props) {
     >
       <div className="items-center">
         <div className="mb-4 lg:mb-0 lg:mr-4">
-          <img
+          {/* <img
             src="user_avatar.jpg"
             alt="User Avatar"
             className="rounded-full w-24 h-24"
-          />
+          /> */}
+          <RxAvatar className="rounded-full w-20 h-20 text-blue-600" />
         </div>
-        <div className="user-info flex flex-col justify-center">
+        <div className="user-info flex my-5 flex-col justify-center">
           <p className="text-lg font-semibold">
-            Name:
+            Name:{" "}
             {isEditing ? (
               <input
                 type="text"
@@ -90,12 +92,12 @@ function UserProfile(props) {
                 onChange={handleInputChange}
               />
             ) : userData ? (
-              userData.firstName
+              <>{userData.firstName + " " + userData.surName}</>
             ) : (
               ""
             )}
           </p>
-          <p className="text-md">Class: Grade 10</p>
+          {userData && <p className="text-md">Class: Grade 10</p>}
           <p className="text-md">Role: Student</p>
           <p className="text-md">
             Email:{" "}
@@ -115,16 +117,17 @@ function UserProfile(props) {
           {/* Add more user info as needed */}
         </div>
         <div className="contact-info flex flex-col">
-          <p className="text-md">Message</p>
-          <p className="text-md">Phone</p>
-          <p className="text-md">Email</p>
+          <p className="text-md">DOB: {userData ? userData.dateOfBirth : ""}</p>
+          <p className="text-md">Phone: {userData ? userData.phone : ""}</p>
+          <p className="text-md">Email: {userData ? userData.email : ""}</p>
+          <p className="text-md">Gender: {userData ? userData.gender : ""}</p>
         </div>
       </div>
       <div className="about-section mt-4">
         <h3 className="text-xl font-semibold">About</h3>
         <p className="text-md">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod
-          lectus eu efficitur.
+          Hello hello, the time is due for the walaa, sit back, relax and study
+          smart.
         </p>
       </div>
       {/* Buttons */}

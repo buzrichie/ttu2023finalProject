@@ -7,7 +7,7 @@ import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 import { useStateContext } from '../contexts/ContextProvider';
 import avatar from '../data/avatar.jpg';
 import { Link, useNavigate } from 'react-router-dom';
-
+import {RxAvatar} from "react-icons/rx"
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
     <TooltipComponent content={title} position="BottomCenter">
@@ -32,6 +32,8 @@ const logOut=()=>{
   navigate.push("/login"); 
 }
 const Navbar = (props) => {
+  let localUser = JSON.parse(localStorage.getItem("userData"))
+  
     const { currentColor, activeMenu, setActiveMenu, handleClick, isClicked, setScreenSize, screenSize } = useStateContext();
   const {user} = props
   useEffect(() => {
@@ -69,22 +71,38 @@ const Navbar = (props) => {
             className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg"
             onClick={() => handleClick('userProfile')}
           >
-            <img
-              className="rounded-full w-8 h-8"
-              src={avatar}
-              alt="user-profile"
-            />
-            <p>
-              <span className="text-gray-400 text-14">Hi,</span>{' '}
-              <span className="text-gray-400 font-bold ml-1 text-14">
-                Michael
+            <RxAvatar className="rounded-full w-7 h-7 text-blue-600"/>
+            <p className='flex items-center'>
+              <span className="text-gray-400 ml-5 text-18">Hi,</span>{' '}
+              <span className="text-gray-600 font-bold ml-1 text-14">
+              {localUser && localUser.admin ? (localUser.admin.id ? (
+                                    <div>{localUser.admin.id}</div>
+                                  ) : (
+                                    ""
+                                  )
+                                ) : localUser.student ? (
+                                  localUser.student.id ? (
+                                    <div>{localUser.student.id}</div>
+                                  ) : (
+                                    ""
+                                  )
+                                ) : localUser.teacher ? (
+                                  localUser.teacher.id ? (
+                                    <div>{localUser.teacher.id}</div>
+                                  ) : (
+                                    ""
+                                  )
+                                ) : (
+                                  <div>No Specific Role Content</div>
+                                )}
+
               </span>
             </p>
             <MdKeyboardArrowDown className="text-gray-400 text-14" />
           </div>
         </TooltipComponent>
         
-        {user?<Link to="#" onClick={()=>{logOut()}} className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-5 w-50 hover:text-white rounded">LogOut</Link>:<Link to="auth/*" className="text-gray-400 font-bold ml-1 text-14">LogIn</Link>}
+        {user?<Link to="#" onClick={()=>{logOut()}} className="bg-red-400 hover:bg-red-500 text-white font-semibold py-1 px-4 w-50 hover:text-white rounded">LogOut</Link>:<Link to="auth/*" className="text-gray-400 font-bold ml-1 text-14">LogIn</Link>}
       </div>
     </div>
     </>:<> <nav className="bg-white p-4" style={{zIndex: "1000001", position:"fixed", top:"0", left:"0", width:"100%"}}>

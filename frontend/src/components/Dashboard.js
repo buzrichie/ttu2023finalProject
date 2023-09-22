@@ -9,6 +9,19 @@ import { RiParentLine } from "react-icons/ri";
 import { HiMiniArrowUpRight } from "react-icons/hi2";
 
 function Dashboard() {
+  let localUser = JSON.parse(localStorage.getItem("userData"));
+
+  let userData = null;
+
+  if (localUser) {
+    if (localUser.admin) {
+      userData = localUser.admin;
+    } else if (localUser.student) {
+      userData = localUser.student;
+    } else if (localUser.teacher) {
+      userData = localUser.teacher;
+    }
+  }
   return (
     <>
       <div className="flex mt-5 pt-5 md:pt-0 md:mt-1">
@@ -46,7 +59,7 @@ function Dashboard() {
           </div>
         </div>
         <div className="w-full lg:w-1/3 px-4 hidden lg:block">
-          <UserProfile />
+          {localUser && userData ? <UserProfile userData={userData} /> : ""}
         </div>
       </div>
     </>
