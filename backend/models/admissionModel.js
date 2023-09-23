@@ -15,6 +15,14 @@ const AdmissionSchema = new mongoose.Schema(
       default: "pending",
       lowercase: true,
     },
+    studentID: {
+      type: String,
+      trim: true,
+    },
+    studentPassword: {
+      type: String,
+      trim: true,
+    },
     student: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Student",

@@ -242,7 +242,9 @@ const getSingleEnroll = async (req, res) => {
       return res.status(404).json({ error: "Student not found" });
     }
     console.log(student);
-    res.json(student);
+    const studentWithoutPassword = { ...student._doc };
+    delete studentWithoutPassword.password;
+    res.status(201).json({ enroll: studentWithoutPassword });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

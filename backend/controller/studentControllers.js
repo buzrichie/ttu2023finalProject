@@ -250,6 +250,8 @@ const createStudent = async (req, res) => {
     }
 
     admission.status = admissionStatus;
+    admission.studentID = id;
+    admission.studentPassword = password;
     await admission.save();
 
     // Send the student object without including the password
