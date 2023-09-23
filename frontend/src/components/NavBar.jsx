@@ -28,9 +28,11 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
 const Navbar = (props) => {
     
     const { currentColor, activeMenu, setActiveMenu, handleClick, isClicked, setScreenSize, screenSize } = useStateContext();
-    const {user} = props
-
+    const {user, userCre} = props
+  if (user) {
     console.log("the user is", user);
+    
+  }
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
 
@@ -76,8 +78,11 @@ const Navbar = (props) => {
             <RxAvatar className="rounded-full w-7 h-7 text-blue-600"/>
             <p className='flex items-center'>
               <span className="text-gray-400 text-14">Hi,</span>{' '}
-              {user && user.firstName? <span className="text-gray-400 font-bold ml-1 text-14">
-                {user.firstName}
+              {userCre && userCre.firstName? <span className="text-gray-400 font-bold ml-1 text-14">
+                {userCre.firstName}
+              </span>: ""}
+              {userCre && userCre.name? <span className="text-gray-400 font-bold ml-1 text-14">
+                {userCre.name}
               </span>: ""}
             </p>
             <MdKeyboardArrowDown className="text-gray-400 text-14" />

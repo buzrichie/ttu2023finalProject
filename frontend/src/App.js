@@ -65,13 +65,13 @@ function App() {
         <div className="flex w-screen relative dark:bg-main-dark-bg">
           {activeMenu ? (
             <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
-              {localStorageUser && userLink && (
+              {localStorageUser && (
                 <Sidebar user={localStorageUser} links={userLink} />
               )}
             </div>
           ) : (
             <div className="w-0 dark:bg-secondary-dark-bg">
-              {localStorageUser && userLink && (
+              {localStorageUser && (
                 <Sidebar user={localStorageUser} links={userLink} />
               )}
             </div>
@@ -85,7 +85,9 @@ function App() {
             }
           >
             <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full ">
-              {localStorageUser && user && <Navbar user={user} />}
+              {localStorageUser && (
+                <Navbar user={localStorageUser} userCre={user} />
+              )}
             </div>
             <div>
               {/* Add your main content here */}

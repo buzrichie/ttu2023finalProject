@@ -8,7 +8,7 @@ import { useStateContext } from '../contexts/ContextProvider';
 
 const Sidebar = (props) => {
   const { currentColor, activeMenu, setActiveMenu, screenSize } = useStateContext();
-  const {user} = props
+  
   const {links} = props
   const handleCloseSideBar = () => {
     if (activeMenu !== undefined && screenSize <= 900) {
@@ -20,7 +20,7 @@ const Sidebar = (props) => {
   const normalLink = 'flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-md text-gray-700 dark:text-gray-200 dark:hover:text-black hover:bg-light-gray m-2';
 
   return (
-    <>{user &&
+    <>
     <div className="ml-3 h-screen md:overflow-hidden overflow-auto md:hover:overflow-auto pb-10">
       {activeMenu && (
         <>
@@ -41,7 +41,7 @@ const Sidebar = (props) => {
             </TooltipComponent>
           </div>
           <div className="mt-10 ">
-            {links.map((link) => (
+            {links && links.map((link) => (
               <div key={link.title}>
                   <NavLink
                     to={`/${link.href}`}
@@ -61,7 +61,7 @@ const Sidebar = (props) => {
           </div>
         </>
       )}
-    </div>}
+    </div>
     </>
   );
 };
