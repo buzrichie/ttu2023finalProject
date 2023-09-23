@@ -6,32 +6,32 @@ const useFetch = (url, authToken) => {
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(true);
 
-  useEffect(() => {
-    const fetchDataGet = async () => {
-      try {
-        const response = await fetch(url, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            // Authorization header with the authToken
-            Authorization: `Bearer ${authToken}`,
-          },
-        });
+  const fetchDataGet = async () => {
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization header with the authToken
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
 
-        if (!response.ok) {
-          throw Error("Could not process request");
-        }
-
-        const json = await response.json();
-        setData(json);
-        setIsPending(false);
-        setError(null);
-      } catch (error) {
-        setIsPending(false);
-        setError(error);
+      if (!response.ok) {
+        throw Error("Could not process request");
       }
-    };
 
+      const json = await response.json();
+      setData(json);
+      setIsPending(false);
+      setError(null);
+    } catch (error) {
+      console.log(error);
+      setIsPending(false);
+      setError(error);
+    }
+  };
+  useEffect(() => {
     fetchDataGet();
   }, [url, authToken]); // Specify dependencies here
 

@@ -15,15 +15,27 @@ import Subject from "./components/Subject";
 import Teacher from "./components/Teacher";
 import Assessment from "./components/Assessment";
 import GenerateQuestion from "./components/QuestionGenerator";
-
 import { useStateContext } from "./contexts/ContextProvider";
 import UserProfile from "./components/UserProfile";
 import TemporalNavBar from "./components/NavBarTemp";
 import Application from "./components/Application";
+import { links, teacher, student } from "./data/Dummy";
 
 function App() {
-  // const [user, setUser] = useState(null);
   const localStorageUser = JSON.parse(localStorage.getItem("user"));
+  const userData = JSON.parse(localStorage.getItem("userData"));
+  let userLink = null;
+  if (userData) {
+    if (userData.admin) {
+      userLink = links;
+    }
+    if (userData.teacher) {
+      userLink = teacher;
+    }
+    if (userData.student || userData.enroll) {
+      userLink = student;
+    }
+  }
   const {
     setCurrentColor,
     setCurrentMode,
@@ -48,11 +60,15 @@ function App() {
         <div className="flex w-screen relative dark:bg-main-dark-bg">
           {activeMenu ? (
             <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
-              {localStorageUser && <Sidebar user={localStorageUser} />}
+              {localStorageUser && userLink && (
+                <Sidebar user={localStorageUser} links={userLink} />
+              )}
             </div>
           ) : (
             <div className="w-0 dark:bg-secondary-dark-bg">
-              {localStorageUser && <Sidebar user={localStorageUser} />}
+              {localStorageUser && userLink && (
+                <Sidebar user={localStorageUser} links={userLink} />
+              )}
             </div>
           )}
           {/* {localStorageUser && <NavBarSideBar />} */}

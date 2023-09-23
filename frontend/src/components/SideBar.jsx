@@ -3,12 +3,14 @@ import { Link, NavLink } from 'react-router-dom';
 import { SiShopware } from 'react-icons/si';
 import { MdOutlineCancel } from 'react-icons/md';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
-import { links } from '../data/dummy';
+// import { links } from '../data/dummy';
 import { useStateContext } from '../contexts/ContextProvider';
 
 const Sidebar = (props) => {
   const { currentColor, activeMenu, setActiveMenu, screenSize } = useStateContext();
   const {user} = props
+  const {links} = props
+  console.log("new user links", links);
   const handleCloseSideBar = () => {
     if (activeMenu !== undefined && screenSize <= 900) {
       setActiveMenu(false);

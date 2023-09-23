@@ -51,6 +51,7 @@ const Navbar = (props) => {
   const logOut=()=>{
     localStorage.removeItem("user")
     localStorage.removeItem("userData")
+    localStorage.removeItem("newuser")
     location.href="/login" 
   }
   

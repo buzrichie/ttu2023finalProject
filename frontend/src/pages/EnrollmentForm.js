@@ -40,7 +40,7 @@ const EnrollmentForm = () => {
       if (response.ok) {
         const json = await response.json();
         localStorage.setItem("newuser", JSON.stringify(json));
-        location.href = "/login";
+        location.href = "/";
       } else {
         const errorData = await response.json(); // Parse error response
         console.error("Login Error:", errorData.error);
