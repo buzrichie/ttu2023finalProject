@@ -26,10 +26,11 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
     </TooltipComponent>
   );
 const Navbar = (props) => {
-  let localUser = JSON.parse(localStorage.getItem("userData"))
-  
+    
     const { currentColor, activeMenu, setActiveMenu, handleClick, isClicked, setScreenSize, screenSize } = useStateContext();
-  const {user} = props
+    const {user} = props
+
+    console.log("the user is", user);
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
 
@@ -63,7 +64,7 @@ const Navbar = (props) => {
     <div className="flex justify-between p-2 md:ml-6 md:mr-6 relative">
 
       <NavButton title="Menu" customFunc={handleActiveMenu} color={currentColor} icon={<AiOutlineMenu />} />
-      <div className="flex">
+      <div className="flex items-center">
        
         <NavButton title="Chat" dotColor="#03C9D7" customFunc={() => handleClick('chat')} color={currentColor} icon={<BsChatLeft />} />
         <NavButton title="Notification" dotColor="rgb(254, 201, 15)" customFunc={() => handleClick('notification')} color={currentColor} icon={<RiNotification3Line />} />
@@ -75,15 +76,15 @@ const Navbar = (props) => {
             <RxAvatar className="rounded-full w-7 h-7 text-blue-600"/>
             <p className='flex items-center'>
               <span className="text-gray-400 text-14">Hi,</span>{' '}
-              <span className="text-gray-400 font-bold ml-1 text-14">
-                Michael
-              </span>
+              {user && user.firstName? <span className="text-gray-400 font-bold ml-1 text-14">
+                {user.firstName}
+              </span>: ""}
             </p>
             <MdKeyboardArrowDown className="text-gray-400 text-14" />
           </div>
         </TooltipComponent>
         
-        {user?<Link to="#" onClick={()=>{logOut()}} className="bg-red-400 hover:bg-red-500 text-white font-semibold py-1 px-4 w-50 hover:text-white rounded">LogOut</Link>:<Link to="auth/*" className="text-gray-400 font-bold ml-1 text-14">LogIn</Link>}
+        {user?<Link to="#" onClick={()=>{logOut()}} className="bg-red-400 hover:bg-red-500 text-white font-semibold py-2 px-4 w-50 hover:text-white rounded">LogOut</Link>:<Link to="auth/*" className="text-gray-400 font-bold ml-1 text-14">LogIn</Link>}
       </div>
     </div>
     </>:<> <nav className="bg-white p-4" style={{zIndex: "1000001", position:"fixed", top:"0", left:"0", width:"100%"}}>

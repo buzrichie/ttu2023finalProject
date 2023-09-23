@@ -40,6 +40,7 @@ const EnrollmentForm = () => {
       if (response.ok) {
         const json = await response.json();
         localStorage.setItem("newuser", JSON.stringify(json));
+        localStorage.setItem("user", JSON.stringify({ token: json.token }));
         location.href = "/";
       } else {
         const errorData = await response.json(); // Parse error response

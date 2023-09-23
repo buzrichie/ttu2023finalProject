@@ -10,7 +10,6 @@ const Sidebar = (props) => {
   const { currentColor, activeMenu, setActiveMenu, screenSize } = useStateContext();
   const {user} = props
   const {links} = props
-  console.log("new user links", links);
   const handleCloseSideBar = () => {
     if (activeMenu !== undefined && screenSize <= 900) {
       setActiveMenu(false);

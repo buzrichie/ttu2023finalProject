@@ -1,7 +1,7 @@
 import useFetch from "../useFetch";
 import jwt_decode from "jwt-decode";
 import Dashboard from "../components/Dashboard";
-import { useState } from "react";
+import StatusInformation from "../components/enroll/statusInformation";
 
 function Home() {
   const { token } = JSON.parse(localStorage.getItem("user"));
@@ -24,13 +24,12 @@ function Home() {
   // const [user, setUser] = useState(null);
   const { data, error, isPending } = useFetch(url, token);
   if (data) {
-    console.log(data.enroll);
-    // setUser(data);
     localStorage.setItem("userData", JSON.stringify(data));
   }
   return (
     <>
       {data && !data.enroll ? <Dashboard /> : ""}
+      {data && data.enroll ? <StatusInformation data={data.enroll} /> : ""}
       {/* {<Dashboard />} */}
       {isPending && <p>Loading...</p>}
       {error && <p>{error.message}</p>}

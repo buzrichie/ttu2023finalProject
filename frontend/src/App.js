@@ -20,20 +20,25 @@ import UserProfile from "./components/UserProfile";
 import TemporalNavBar from "./components/NavBarTemp";
 import Application from "./components/Application";
 import { links, teacher, student } from "./data/Dummy";
+import StatusInformation from "./components/enroll/statusInformation";
 
 function App() {
   const localStorageUser = JSON.parse(localStorage.getItem("user"));
   const userData = JSON.parse(localStorage.getItem("userData"));
   let userLink = null;
+  let user = null;
   if (userData) {
     if (userData.admin) {
       userLink = links;
+      user = userData.admin;
     }
     if (userData.teacher) {
       userLink = teacher;
+      user = userData.teacher;
     }
     if (userData.student || userData.enroll) {
       userLink = student;
+      user = userData.student || userData.enroll;
     }
   }
   const {
@@ -80,7 +85,7 @@ function App() {
             }
           >
             <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full ">
-              {localStorageUser && <Navbar user={localStorageUser} />}
+              {localStorageUser && user && <Navbar user={user} />}
             </div>
             <div>
               {/* Add your main content here */}
@@ -95,6 +100,12 @@ function App() {
                 <Route
                   path={"/login"}
                   element={!localStorageUser ? <Login /> : <Navigate to="/" />}
+                />
+                <Route
+                  path={"/enroll"}
+                  element={
+                    !localStorageUser ? <EnrollmentForm /> : <Navigate to="/" />
+                  }
                 />
                 <Route
                   path={"/teacher"}
@@ -150,10 +161,43 @@ function App() {
                     )
                   }
                 />
-                <Route path={"/userprofile"} element={<UserProfile />} />
-                <Route path={"/enroll"} element={<EnrollmentForm />} />
-                <Route path={"/noticeboard"} element={<NoticeBoard />} />
-                <Route path={"/userbase"} element={<Database />} />
+                <Route
+                  path={"/statusinformation"}
+                  element={
+                    localStorageUser ? (
+                      <StatusInformation />
+                    ) : (
+                      <Navigate to="/login" />
+                    )
+                  }
+                />
+                <Route
+                  path={"/userprofile"}
+                  element={
+                    localStorageUser ? (
+                      <UserProfile />
+                    ) : (
+                      <Navigate to="/login" />
+                    )
+                  }
+                />
+                <Route
+                  path={"/noticeboard"}
+                  element={
+                    localStorageUser ? (
+                      <NoticeBoard />
+                    ) : (
+                      <Navigate to="/login" />
+                    )
+                  }
+                />
+                <Route
+                  path={"/userbase"}
+                  element={
+                    localStorageUser ? <Database /> : <Navigate to="/login" />
+                  }
+                />
+
                 <Route path={"/temporalnavbar"} element={<TemporalNavBar />} />
                 <Route path={"*"} element={"404..Page"} />
               </Routes>
