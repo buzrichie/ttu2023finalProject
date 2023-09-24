@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Navbar from "../components/NavBar";
 import Loading from "../components/prompt/isLoading";
 import IsError from "../components/prompt/isError";
+import { academicLevels } from "../data/Dummy";
 
 const EnrollmentForm = () => {
   const [data, setData] = useState(null);
@@ -33,7 +34,6 @@ const EnrollmentForm = () => {
       [name]: value,
     }));
   };
-
   const fetchData = async () => {
     setLoading(true);
     setError(null);
@@ -150,15 +150,25 @@ const EnrollmentForm = () => {
               </div>
               <div className="e-inline">
                 <label htmlFor="_AcademicLevel">Class</label>
-                <input
-                  type="text"
+                <select
                   id="_AcademicLevel"
                   name="_AcademicLevel"
                   required
                   value={formData._AcademicLevel}
                   onChange={handleChange}
-                />
+                >
+                  <option value="" disabled>
+                    Select
+                  </option>
+                  {academicLevels &&
+                    academicLevels.map((level) => (
+                      <option key={level} value={level}>
+                        {level}
+                      </option>
+                    ))}
+                </select>
               </div>
+
               <h2>Parent/Guardian Information</h2>
               <div className="e-inline">
                 <label htmlFor="parentGuardianFirstName">Firstname</label>

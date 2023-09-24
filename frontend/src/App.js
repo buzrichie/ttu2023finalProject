@@ -21,6 +21,8 @@ import TemporalNavBar from "./components/NavBarTemp";
 import Application from "./components/Application";
 import { links, teacher, student } from "./data/Dummy";
 import StatusInformation from "./components/enroll/statusInformation";
+import SchoolForm from "./components/forms/SchoolForm";
+import ScoreTable from "./components/ScoreTable";
 
 function App() {
   const localStorageUser = JSON.parse(localStorage.getItem("user"));
@@ -200,6 +202,8 @@ function App() {
                   }
                 />
 
+                <Route path={"/scoretable"} element={<ScoreTable />} />
+                <Route path={"/school"} element={<SchoolForm />} />
                 <Route path={"/temporalnavbar"} element={<TemporalNavBar />} />
                 <Route path={"*"} element={"404..Page"} />
               </Routes>

@@ -58,6 +58,7 @@ function Login() {
       if (response.ok) {
         const json = await response.json();
         setLoading(false);
+        setError(null);
         localStorage.setItem("user", JSON.stringify(json));
         window.location.href = "/";
         console.log("Success:", json);

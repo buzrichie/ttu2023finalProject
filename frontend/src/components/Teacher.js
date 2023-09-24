@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import fetchDataPost from "../Hooks/usePostFetch";
 import CreateTeacherForm from "./CreateTeacherForm";
 import TeacherTable from "./TeacherTable";
 import IsError from "./prompt/isError";
 import Loading from "./prompt/isLoading";
+import useFetch from "../Hooks/useFetch";
+import Header from "./header";
 
 function Teacher() {
   const [formData, setFormData] = useState({
@@ -20,10 +21,10 @@ function Teacher() {
   const { data, error, isPending } = useFetch(url, token);
 
   return (
-    <div>
-      <h1>Teacher</h1>
+    <div className="w-full mt-5 pt-5 sm:pt-0 sm:mt-0 p-2 sm:p-5">
+      <Header heading="Teacher" />
       <CreateTeacherForm />
-      {data && <TeacherTable />}
+      {/* {data && <TeacherTable />} */}
       {isPending && <Loading message="Fetching data..." />}
       {error && <IsError message={error} />}
     </div>

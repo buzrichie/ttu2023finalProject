@@ -45,7 +45,7 @@ function CreateTeacherForm() {
       [name]: value,
     }));
   };
-  const fetchData = useFetchPost("api/teacher/", formData);
+  const fetchData = usePostFetch("api/teacher/", formData);
   return (
     <>
       <form onSubmit={handleSubmit}>

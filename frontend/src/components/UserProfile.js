@@ -4,6 +4,7 @@ import useHttpPut from "../Hooks/useHttpPut";
 import { RxAvatar } from "react-icons/rx";
 import IsError from "./prompt/isError";
 import Loading from "./prompt/isLoading";
+import Successful from "./prompt/successful";
 
 function UserProfile(props) {
   const { userData } = props;
@@ -14,9 +15,9 @@ function UserProfile(props) {
   if (!token) {
     return;
   }
-  if (userData) {
-    console.log(editedData);
-  }
+  // if (userData) {
+  //   console.log(editedData);
+  // }
   const url = "/api/student/";
   const urlIndex = `${url}${editedData._id}`;
 
@@ -52,10 +53,10 @@ function UserProfile(props) {
   };
 
   const { data, loading, error, postData } = usePostFetch(url, token);
-
-  const handleApproveClick = (e) => {
+  console.log(data);
+  const handleApproveClick = async (e) => {
     e.preventDefault();
-    postData({
+    const data = postData({
       admissionNumber: userData.admissionNumber,
       admissionStatus: "approved",
     });
@@ -160,6 +161,7 @@ function UserProfile(props) {
             </button>
           </>
         )}
+        {data && <Successful message="approved" />}
         {putIsLoadin && <Loading message="Processing request..." />}
         {putError && <IsError message={error} />}
       </div>
