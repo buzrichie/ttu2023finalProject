@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import Loading from "./prompt/isLoading";
+import IsError from "./prompt/isError";
 
 function QuestionGeneratorForm() {
   const { token } = JSON.parse(localStorage.getItem("user"));
@@ -9,8 +11,11 @@ function QuestionGeneratorForm() {
   const [questionContext, setQuestionContext] = useState("");
   const [questions, setQuestions] = useState({});
   const [answers, setAnswers] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleGenerate = async () => {
+    setLoading(true);
     try {
       const response = await fetch("/api/genQue/", {
         method: "POST",
@@ -20,16 +25,21 @@ function QuestionGeneratorForm() {
         body: JSON.stringify({ questionContext }),
       });
 
+      const data = await response.json();
       if (!response.ok) {
-        throw new Error("Failed to generate question");
+        setLoading(false);
+        throw new Error(data.error);
       }
 
-      const data = await response.json();
       console.log({ data });
       setQuestions(data.Qusetions);
       setAnswers(data.answers);
+      setLoading(false);
+      setError(null);
     } catch (error) {
-      console.error(error);
+      setError(data.error);
+      setLoading(false);
+      console.error(error.message);
     }
   };
 
@@ -68,6 +78,8 @@ function QuestionGeneratorForm() {
           </div>
         </div>
       )}
+      {loading && <Loading message="Generating response ..." />}
+      {error && <IsError message={error} />}
     </div>
   );
 }

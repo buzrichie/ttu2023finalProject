@@ -3,6 +3,8 @@ import CreateAttendanceForm from "./CreateAttendanceForm";
 import AttendanceTable from "./AttendanceTable";
 import useFetch from "../useFetch";
 import Header from "./header";
+import IsError from "./prompt/isError";
+import Loading from "./prompt/isLoading";
 
 function Attendance() {
   const { token } = JSON.parse(localStorage.getItem("user"));
@@ -21,8 +23,8 @@ function Attendance() {
       <Header heading="Attendance" />
       <CreateAttendanceForm />
       {data && <AttendanceTable />}
-      {isPending && <p>Loading...</p>}
-      {error && <p>{error.message}</p>}
+      {isPending && <Loading message="Fetching data..." />}
+      {error && <IsError message={error} />}
     </div>
   );
 }

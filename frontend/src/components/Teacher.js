@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import fetchDataPost from "../usePostFetch";
 import CreateTeacherForm from "./CreateTeacherForm";
 import TeacherTable from "./TeacherTable";
+import IsError from "./prompt/isError";
+import Loading from "./prompt/isLoading";
 
 function Teacher() {
   const [formData, setFormData] = useState({
@@ -22,8 +24,8 @@ function Teacher() {
       <h1>Teacher</h1>
       <CreateTeacherForm />
       {data && <TeacherTable />}
-      {isPending && <p>Loading...</p>}
-      {error && <p>{error.message}</p>}
+      {isPending && <Loading message="Fetching data..." />}
+      {error && <IsError message={error} />}
     </div>
   );
 }

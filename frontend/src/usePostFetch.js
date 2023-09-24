@@ -20,15 +20,15 @@ const usePostFetch = (url, authToken) => {
         body: JSON.stringify(formData),
       });
 
+      const responseData = await response.json();
       if (!response.ok) {
-        throw new Error(error);
+        throw new Error(responseData.error);
       }
 
-      const responseData = await response.json();
       setData(responseData);
       setLoading(false);
     } catch (error) {
-      setError(error);
+      setError(error.message);
       setLoading(false);
     }
   };

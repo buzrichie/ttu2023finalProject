@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/NavBar";
+import Loading from "../components/prompt/isLoading";
+import IsError from "../components/prompt/isError";
 
 function Login() {
   // let role = ""; // Initialize the role variable
@@ -17,13 +19,15 @@ function Login() {
   // }
   // let userRole = `${role}ID`;
 
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [rememberMe, setRememberMe] = useState(false);
+
   const [formData, setFormData] = useState({
     id: "",
     password: "",
   });
-
-  const [rememberMe, setRememberMe] = useState(false);
-  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,6 +43,9 @@ function Login() {
   };
   // Make a POST request to the appropriate API endpoint
   const fetchData = async (apiUrl) => {
+    setLoading(true);
+    setError(null);
+
     try {
       const response = await fetch(apiUrl, {
         method: "POST",
@@ -50,16 +57,18 @@ function Login() {
 
       if (response.ok) {
         const json = await response.json();
+        setLoading(false);
         localStorage.setItem("user", JSON.stringify(json));
         window.location.href = "/";
-        setUser(json);
         console.log("Success:", json);
       } else {
-        const errorData = await response.json(); // Parse error response
-        console.error("Login Error:", errorData.error);
+        const errorData = await response.json();
+        throw new Error(errorData.error);
       }
     } catch (error) {
-      console.error("Network Error:", error.message);
+      setLoading(false);
+      setError(error.message);
+      console.error("Login Error:", error.message);
     }
   };
   const handleSubmit = (e) => {
@@ -68,7 +77,7 @@ function Login() {
       return setError("Both fields are required.");
     } else {
       // Clear any previous error messages
-      setError("");
+      setError(null);
     }
     // Construct the API endpoint based on the extracted role
     let apiUrl = "";
@@ -102,7 +111,6 @@ function Login() {
           </div>
 
           <div className="login-form">
-            {/* Enrollment Form */}
             <form onSubmit={handleSubmit}>
               <h2>Login</h2>
 
@@ -150,10 +158,9 @@ function Login() {
                   Register
                 </Link>
               </div>
-
-              {/* Display error message if there's an error */}
-              {error && <p className="error-message">{error}</p>}
             </form>
+            {loading && <Loading message="Processing request..." />}
+            {error && <IsError message={error} />}
           </div>
         </div>
       </div>

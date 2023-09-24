@@ -6,6 +6,8 @@ import ParentTable from "./ParentTable";
 import AdministratorTable from "./AdministratorTable";
 import EnrolledStudentTable from "./EnrolledStudentTable";
 import Header from "./header";
+import IsError from "./prompt/isError";
+import Loading from "./prompt/isLoading";
 
 function Database() {
   const { token } = JSON.parse(localStorage.getItem("user"));
@@ -110,8 +112,8 @@ function Database() {
           )}
           {activeTab === "Admin" && data && <AdministratorTable data={data} />}
 
-          {isPending && <p>Loading...</p>}
-          {error && <p>{error.message}</p>}
+          {isPending && <Loading message="Fetching data..." />}
+          {error && <IsError message={error} />}
         </div>
       </div>
       {/* <div className="w-full lg:w-1/3 px-4 hidden lg:block">

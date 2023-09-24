@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import usePostFetch from "../usePostFetch";
 import useHttpPut from "../useHttpPut";
 import { RxAvatar } from "react-icons/rx";
+import IsError from "./prompt/isError";
+import Loading from "./prompt/isLoading";
 
 function UserProfile(props) {
   const { userData } = props;
@@ -158,6 +160,8 @@ function UserProfile(props) {
             </button>
           </>
         )}
+        {putIsLoadin && <Loading message="Processing request..." />}
+        {putError && <IsError message={error} />}
       </div>
     </div>
   );

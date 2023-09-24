@@ -2,6 +2,8 @@ import useFetch from "../useFetch";
 import jwt_decode from "jwt-decode";
 import Dashboard from "../components/Dashboard";
 import StatusInformation from "../components/enroll/statusInformation";
+import Loading from "../components/prompt/isLoading";
+import IsError from "../components/prompt/isError";
 
 function Home() {
   const { token } = JSON.parse(localStorage.getItem("user"));
@@ -31,8 +33,8 @@ function Home() {
       {data && !data.enroll ? <Dashboard /> : ""}
       {data && data.enroll ? <StatusInformation data={data.enroll} /> : ""}
       {/* {<Dashboard />} */}
-      {isPending && <p>Loading...</p>}
-      {error && <p>{error.message}</p>}
+      {isPending && <Loading message="fetching data..." />}
+      {error && <IsError message={error} />}
     </>
   );
 }

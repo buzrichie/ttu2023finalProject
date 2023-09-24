@@ -16,19 +16,19 @@ const useFetch = (url, authToken) => {
           Authorization: `Bearer ${authToken}`,
         },
       });
+      const json = await response.json();
 
       if (!response.ok) {
-        throw Error("Could not process request");
+        throw Error(json.error);
       }
 
-      const json = await response.json();
       setData(json);
       setIsPending(false);
       setError(null);
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
       setIsPending(false);
-      setError(error);
+      setError(error.message);
     }
   };
   useEffect(() => {

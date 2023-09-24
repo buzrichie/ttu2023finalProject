@@ -3,6 +3,8 @@ import ApplicationForm from "./ApplicationForm";
 import ApplicationTable from "./ApplicationTable";
 import useFetch from "../useFetch";
 import Header from "./header";
+import IsError from "./prompt/isError";
+import Loading from "./prompt/isLoading";
 
 function Application() {
   const { token } = JSON.parse(localStorage.getItem("user"));
@@ -19,8 +21,8 @@ function Application() {
       <Header heading="Application" />
       <ApplicationForm />
       {data && <ApplicationTable />}
-      {isPending && <p>Loading...</p>}
-      {error && <p>{error.message}</p>}
+      {isPending && <Loading message="Fetching data..." />}
+      {error && <IsError message={error} />}
     </div>
   );
 }

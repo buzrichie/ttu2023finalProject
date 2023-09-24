@@ -3,6 +3,8 @@ import CreateAcademicLevelForm from "./CreateAcademicLevelForm";
 import AcademicLevelTable from "./AcademicLevelTable";
 import useFetch from "../useFetch";
 import Header from "./header";
+import IsError from "./prompt/isError";
+import Loading from "./prompt/isLoading";
 
 function AcademicLevel() {
   const { token } = JSON.parse(localStorage.getItem("user"));
@@ -18,8 +20,8 @@ function AcademicLevel() {
         <Header heading="Class" />
         <CreateAcademicLevelForm />
         {data && <AcademicLevelTable data={data} />}
-        {isPending && <p> Loading... </p>}
-        {error && <p>{error.message}</p>}
+        {isPending && <Loading message="Fetching data..." />}
+        {error && <IsError message={error} />}
       </div>
     </>
   );

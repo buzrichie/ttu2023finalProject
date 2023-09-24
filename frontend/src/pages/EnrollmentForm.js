@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import Navbar from "../components/NavBar";
+import Loading from "../components/prompt/isLoading";
+import IsError from "../components/prompt/isError";
 
 const EnrollmentForm = () => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [rememberMe, setRememberMe] = useState(false);
+
   const [formData, setFormData] = useState({
     _AcademicLevel: "",
     parentGuardianFirstName: "",
@@ -28,6 +35,9 @@ const EnrollmentForm = () => {
   };
 
   const fetchData = async () => {
+    setLoading(true);
+    setError(null);
+
     try {
       const response = await fetch("/api/enroll", {
         method: "POST",
@@ -39,15 +49,19 @@ const EnrollmentForm = () => {
 
       if (response.ok) {
         const json = await response.json();
+        setLoading(false);
+        setError(null);
         localStorage.setItem("newuser", JSON.stringify(json));
         localStorage.setItem("user", JSON.stringify({ token: json.token }));
         location.href = "/";
       } else {
-        const errorData = await response.json(); // Parse error response
-        console.error("Login Error:", errorData.error);
+        const errorData = await response.json();
+        throw new Error(errorData.error);
       }
     } catch (error) {
-      console.error("Network Error:", error.error);
+      setLoading(false);
+      setError(error.message);
+      console.error("Network Error:", error.message);
     }
   };
 
@@ -245,6 +259,8 @@ const EnrollmentForm = () => {
                 />
               </div>
               <input type="submit" value="REGISTER" />
+              {loading && <Loading message="Processing request..." />}
+              {error && <IsError message={error} />}
             </form>
           </div>
         </div>

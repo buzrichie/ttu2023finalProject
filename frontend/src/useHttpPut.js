@@ -22,15 +22,15 @@ function useHttpPut(url, token, dependencies = []) {
         body: JSON.stringify(formData),
       });
 
+      const jsonData = await response.json();
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error(jsonData.error);
       }
 
-      const jsonData = await response.json();
       setData(jsonData);
       setLoading(false);
     } catch (error) {
-      setError(error);
+      setError(error.message);
       setLoading(false);
     }
   };
