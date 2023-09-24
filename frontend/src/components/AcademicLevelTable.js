@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import useHttpPut from "../useHttpPut";
+import useHttpPut from "../Hooks/useHttpPut";
 
 function ClassTable(props) {
   const { data } = props;

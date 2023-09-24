@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import CreateAttendanceForm from "./CreateAttendanceForm";
 import AttendanceTable from "./AttendanceTable";
-import useFetch from "../useFetch";
+import useFetch from "../Hooks/useFetch";
 import Header from "./header";
 import IsError from "./prompt/isError";
 import Loading from "./prompt/isLoading";

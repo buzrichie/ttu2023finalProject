@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import usePostFetch from "../usePostFetch";
+import usePostFetch from "../Hooks/usePostFetch";
 import IsError from "./prompt/isError";
 import Loading from "./prompt/isLoading";
 

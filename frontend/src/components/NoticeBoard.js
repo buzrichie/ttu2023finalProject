@@ -28,9 +28,10 @@ function NoticeBoard() {
           />
           <div className="notice-details w-full flex justify-between items-center ">
             <p className="description text-sm">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Explore the world through books! Visit our school library for a
+              treasure trove of knowledge and adventure. Happy reading!
             </p>
-            <p className="date text-xs text-gray-500 w-max">Sep 15, 2023</p>
+            <p className="date text-xs text-gray-500 w-max">Sep 24, 2023</p>
             <div className="flex -space-x-1 overflow-hidden">
               <img
                 className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
@@ -70,9 +71,10 @@ function NoticeBoard() {
           />
           <div className="notice-details flex w-full justify-between w-full justify-between items-center ">
             <p className="description text-sm">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Happy Children's Day! Let's celebrate the joy, curiosity, and
+              creativity of our wonderful students. You make our school shine!
             </p>
-            <p className="date text-xs text-gray-500 w-max">Sep 15, 2023</p>
+            <p className="date text-xs text-gray-500 w-max">Sep 18, 2023</p>
             <div className="flex -space-x-1 overflow-hidden">
               <img
                 className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
@@ -113,7 +115,8 @@ function NoticeBoard() {
 
           <div className="notice-details flex w-full justify-between  items-center ">
             <p className="description text-sm">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Delicious and nutritious meals await you at our school canteen.
+              Enjoy a healthy lunch and fuel your day!
             </p>
             <p className="date text-xs text-gray-500 w-max">Sep 15, 2023</p>
             <div className="flex -space-x-1 overflow-hidden">
@@ -156,7 +159,8 @@ function NoticeBoard() {
 
           <div className="notice-details flex w-full justify-between  items-center ">
             <p className="description text-sm">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Ride to success with our school bus service. Safety and
+              convenience for our students on the go!
             </p>
             <p className="date text-xs text-gray-500 w-max">Sep 15, 2023</p>
             <div className="flex -space-x-1 overflow-hidden">
@@ -198,9 +202,10 @@ function NoticeBoard() {
           />
           <div className="notice-details flex w-full justify-between  items-center ">
             <p className="description text-sm">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Exciting adventures await! Join us on an upcoming school trip.
+              Stay tuned for details and get ready to explore.
             </p>
-            <p className="date text-xs text-gray-500 w-max">Sep 15, 2023</p>
+            <p className="date text-xs text-gray-500 w-max">Sep 10, 2023</p>
             <div className="flex -space-x-1 overflow-hidden">
               <img
                 className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
@@ -240,9 +245,11 @@ function NoticeBoard() {
           />
           <div className="notice-details flex w-full justify-between  items-center ">
             <p className="description text-sm">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Dear Teachers, Parents, and Students, remember that reading is the
+              key to knowledge. Encourage your child to read daily. Let's
+              inspire a love for books together.
             </p>
-            <p className="date text-xs text-gray-500 w-max">Sep 15, 2023</p>
+            <p className="date text-xs text-gray-500 w-max">Sep 08, 2023</p>
             <div className="flex -space-x-1 overflow-hidden">
               <img
                 className="inline-block h-6 w-6 rounded-full ring-2 ring-white"

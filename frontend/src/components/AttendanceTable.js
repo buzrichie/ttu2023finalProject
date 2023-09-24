@@ -1,6 +1,6 @@
 import React from "react";
 import { useCRUDTableContext } from "../contexts/crudTableContext";
-import useHttpPut from "../useHttpPut";
+import useHttpPut from "../Hooks/useHttpPut";
 
 function AttendanceTable(props) {
   const { data } = props;

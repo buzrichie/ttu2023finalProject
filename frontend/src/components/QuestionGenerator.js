@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import fetchDataPost from "../usePostFetch";
+import fetchDataPost from "../Hooks/usePostFetch";
 import QuestionGeneratorForm from "./QuestionGeneratorForm";
 
 function GenerateQuestion() {

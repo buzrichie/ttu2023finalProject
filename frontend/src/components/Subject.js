@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import CreateSubjectForm from "./CreateSubjectForm";
 import SubjectTable from "./SubjectTable";
-import useFetch from "../useFetch";
+import useFetch from "../Hooks/useFetch";
 import Header from "./header";
 import IsError from "./prompt/isError";
 import Loading from "./prompt/isLoading";

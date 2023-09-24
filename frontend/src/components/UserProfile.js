@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import usePostFetch from "../usePostFetch";
-import useHttpPut from "../useHttpPut";
+import usePostFetch from "../Hooks/usePostFetch";
+import useHttpPut from "../Hooks/useHttpPut";
 import { RxAvatar } from "react-icons/rx";
 import IsError from "./prompt/isError";
 import Loading from "./prompt/isLoading";

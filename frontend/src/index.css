@@ -352,7 +352,9 @@ a:hover{
   display: flex;
   flex-wrap: wrap;
 } */
-
+.description{
+  max-width: 65%;
+}
 
 .notice-list::-webkit-scrollbar-track{
   display: none;
