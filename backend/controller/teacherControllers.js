@@ -94,7 +94,7 @@ const createTeacher = async (req, res) => {
     // if (!address) {
     //   return res.status(500).json({ error: "Failed To Create Teacher." });
     // }
-
+    const subject = _Subject ? await Subject.findOne({ name: _Subject }) : null;
     // Generate numerical string and password
     const id = await generateNumericalString("TE");
     const password = await generateRandomPassword(10);
@@ -104,7 +104,7 @@ const createTeacher = async (req, res) => {
       id,
       password,
       application,
-
+      subject: subject._id,
       role: "TEACHER",
       school: application.school._id,
       academicLevel: application.academicLevel

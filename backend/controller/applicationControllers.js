@@ -26,7 +26,7 @@ const createApplication = async (req, res) => {
       return res.status(400).json({ error: "Invalid School." });
     }
 
-    const subject = _Subject ? await Subject.findOne({ _id: _Subject }) : null;
+    const subject = _Subject ? await Subject.findOne({ name: _Subject }) : null;
 
     if (_Subject && !subject) {
       return res.status(400).json({ error: "Class Not Available." });

@@ -88,7 +88,6 @@ const TeacherSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Subject",
-      required: true,
     },
   ],
   address: {
