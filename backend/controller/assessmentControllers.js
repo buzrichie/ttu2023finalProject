@@ -32,14 +32,14 @@ const createAssessment = async (req, res) => {
     }
     // Query for Student Data
     const student = await Student.findOne({
-      fullName: _Student,
+      id: _Student,
     });
     if (!student) {
       return res.status(400).json({ error: "Student Not Found" });
     }
     // Query for Teacher Data
     const teacher = await Teacher.findOne({
-      fullName: _Teacher,
+      id: _Teacher,
     });
     if (!teacher) {
       return res.status(400).json({ error: "Teacher Not Found" });

@@ -8,10 +8,10 @@ const createAttendance = async (req, res) => {
     const { _Student, _Teacher, status, date } = req.body;
 
     if (!_Teacher) {
-      return res.status(400).json({ error: "Teacher required" });
+      return res.status(400).json({ error: "Teacher ID required" });
     }
     if (!_Student) {
-      return res.status(400).json({ error: "Student required" });
+      return res.status(400).json({ error: "Student ID required" });
     }
     if (!date) {
       return res.status(400).json({ error: "Date required" });
@@ -26,14 +26,14 @@ const createAttendance = async (req, res) => {
     }
     // Query for Student Data
     const student = await Student.findOne({
-      fullName: _Student,
+      id: _Student,
     });
     if (!student) {
       return res.status(400).json({ error: "Student Not Found" });
     }
     // Query for Teacher Data
     const teacher = await Teacher.findOne({
-      fullName: _Teacher,
+      id: _Teacher,
     });
     if (!teacher) {
       return res.status(400).json({ error: "Teacher Not Found" });

@@ -97,7 +97,7 @@ const isOwnerOrAdmin = (req, res, next) => {
       .json({ error: "Unauthorized. User is not authenticated." });
   }
 
-  const isAdmin = req.user.role === "admin"; // Check if the user has the "admin" role
+  const isAdmin = req.user.role.toLowerCase() === "admin"; // Check if the user has the "admin" role
   const isOwner = req.params.id === req.user.id;
 
   if (isAdmin || isOwner) {
@@ -124,9 +124,9 @@ const isOwnerOrAdminOrTeacher = (req, res, next) => {
       .status(403)
       .json({ error: "Unauthorized. User is not authenticated." });
   }
-
-  const isAdmin = req.user.role === "admin"; // Check if the user has the "admin" role
-  const isTeacher = req.user.role === "teacher"; // Check if the user has the "admin" role
+  console.log(req.user.role.toLowerCase());
+  const isAdmin = req.user.role.toLowerCase() === "admin"; // Check if the user has the "admin" role
+  const isTeacher = req.user.role.toLowerCase() === "teacher"; // Check if the user has the "admin" role
   const isOwner = req.params.id === req.user.id;
 
   if (isAdmin || isOwner || isTeacher) {
