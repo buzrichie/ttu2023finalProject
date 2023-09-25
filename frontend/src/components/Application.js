@@ -20,7 +20,7 @@ function Application() {
     <div className="w-full lg:w-1/3 mt-5 pt-5 sm:pt-0 sm:mt-0 p-2 sm:p-5">
       <Header heading="Application" />
       <ApplicationForm />
-      {data && <ApplicationTable />}
+      {data && <ApplicationTable data={data} />}
       {isPending && <Loading message="Fetching data..." />}
       {error && <IsError message={error} />}
     </div>

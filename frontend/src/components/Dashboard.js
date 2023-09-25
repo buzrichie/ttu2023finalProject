@@ -9,54 +9,45 @@ import { RiParentLine } from "react-icons/ri";
 import { HiMiniArrowUpRight } from "react-icons/hi2";
 import ScoreTable from "./ScoreTable";
 
-function Dashboard() {
-  let localUser = JSON.parse(localStorage.getItem("userData"));
+function Dashboard(props) {
+  const { role, data } = props;
 
-  let userData = null;
-  const data = {
-    title: "Fees",
-    amount: "200",
-    paid: "50",
-    balance: "150",
-  };
-  if (localUser) {
-    if (localUser.admin) {
-      userData = localUser.admin;
-    } else if (localUser.student) {
-      userData = localUser.student;
-    } else if (localUser.teacher) {
-      userData = localUser.teacher;
-    }
-  }
   return (
     <>
       <div className="flex mt-5 pt-5 md:pt-0 md:mt-1">
         <div className="w-full lg:w-2/3 px-4">
           <div className="bg-white p-4 rounded-lg shadow-md">
             <Header heading="Dashboard" />
-            <div className="flex gap-x-4 gap-y-4 flex-wrap">
-              {localUser && localUser.admin && (
+            <div className="flex gap-x-4 justify-between gap-y-4 flex-wrap">
+              {role && role === "ADMIN" && (
                 <UserSummaryDescription
                   title="Student"
                   count="20"
                   icon={<PiStudentDuotone />}
                 />
               )}
-              {localUser && localUser.admin && (
+              {role && role === "TEACHER" && (
+                <UserSummaryDescription
+                  title="Student"
+                  count="20"
+                  icon={<PiStudentDuotone />}
+                />
+              )}
+              {role && role === "ADMIN" && (
                 <UserSummaryDescription
                   title="Teacher"
                   count="24"
                   icon={<LiaChalkboardTeacherSolid />}
                 />
               )}
-              {localUser && localUser.admin && (
+              {role && role === "ADMIN" && (
                 <UserSummaryDescription
                   title="Earning"
                   count="$24000"
                   icon={<HiMiniArrowUpRight />}
                 />
               )}
-              {localUser && localUser.student && (
+              {role && role === "STUDENT" && (
                 <UserSummaryDescription
                   data={{
                     title: "Class",
@@ -67,13 +58,13 @@ function Dashboard() {
                   icon={<RiParentLine />}
                 />
               )}
-              {localUser && localUser.student && (
+              {role && role === "STUDENT" && (
                 <UserSummaryDescription
                   data={{ title: "Score", aggregate: "17", position: "6" }}
                   icon={<RiParentLine />}
                 />
               )}
-              {localUser && localUser.student && (
+              {role && role === "STUDENT" && (
                 <UserSummaryDescription
                   data={{
                     title: "Remarks",
@@ -84,14 +75,22 @@ function Dashboard() {
                   icon={<RiParentLine />}
                 />
               )}
-              {localUser && localUser.student && (
-                <UserSummaryDescription data={data} icon={<RiParentLine />} />
+              {role && role === "STUDENT" && (
+                <UserSummaryDescription
+                  data={{
+                    title: "Fees",
+                    amount: "200",
+                    paid: "50",
+                    balance: "150",
+                  }}
+                  icon={<RiParentLine />}
+                />
               )}
             </div>
             <div>
               <NoticeBoard />
             </div>
-            {localUser && localUser.student && (
+            {role && role === "STUDENT" && (
               <div className="my-5 py-5">
                 <Header heading="End Of Term Result" />
                 <ScoreTable
@@ -106,9 +105,9 @@ function Dashboard() {
             )}
           </div>
         </div>
-        <div className="w-full lg:w-1/3 px-4 hidden lg:block">
-          {localUser && userData ? <UserProfile userData={userData} /> : ""}
-        </div>
+        {/* <div className="w-full lg:w-1/3 px-4 hidden lg:block">
+          {data ? <UserProfile data={data} /> : ""}
+        </div> */}
       </div>
     </>
   );

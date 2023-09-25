@@ -42,6 +42,7 @@ function App() {
       userLink = student;
       user = userData.student || userData.enroll;
     }
+    console.log("userData is ", userData);
   }
   const {
     setCurrentColor,

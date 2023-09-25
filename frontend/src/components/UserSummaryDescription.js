@@ -2,8 +2,8 @@ import React from "react";
 function UserSummaryDescription(props) {
   const { title, count, icon, data } = props;
   return (
-    <div className="bg-gray-100 w-44 p-4 flex flex-1 rounded-lg md:mb-4 justify-between items-center transition duration-300 hover:bg-gray-400">
-      <div className="flex flex-col">
+    <div className="bg-gray-100 w-48 p-4 flex flex-1 rounded-lg md:mb-4 justify-between items-center transition duration-300 hover:bg-gray-400">
+      <div className="flex flex-col w-max">
         <p className="text-sm text-gray-500 mb-1">{title}</p>
         {count && <p className="font-bold text-black">{count}</p>}
         {data && data.title && (

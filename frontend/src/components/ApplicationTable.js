@@ -14,12 +14,13 @@ function ApplicationTable(props) {
           </tr>
         </thead>
         <tbody>
-          {/* {data.map((application) => (
-            <tr key={application._id}>
-              <td>{application.applicationNumber}</td>
-              <td>{application.date}</td>
-            </tr>
-          ))} */}
+          {data &&
+            data.map((application) => (
+              <tr key={application._id}>
+                <td>{application.applicationNumber}</td>
+                <td>{application.applicationDate}</td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>

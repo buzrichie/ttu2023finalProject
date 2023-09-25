@@ -7,17 +7,17 @@ import Loading from "./prompt/isLoading";
 import Successful from "./prompt/successful";
 
 function UserProfile(props) {
-  const { userData } = props;
+  const { data } = props;
   const [isEditing, setIsEditing] = useState(false);
-  const [editedData, setEditedData] = useState({ ...userData });
+  const [editedData, setEditedData] = useState({ ...data });
 
   const { token } = JSON.parse(localStorage.getItem("user"));
   if (!token) {
     return;
   }
-  // if (userData) {
-  //   console.log(editedData);
-  // }
+  if (data) {
+    console.log("data is", data);
+  }
   const url = "/api/student/";
   const urlIndex = `${url}${editedData._id}`;
 
@@ -52,12 +52,19 @@ function UserProfile(props) {
     });
   };
 
-  const { data, loading, error, postData } = usePostFetch(url, token);
-  console.log(data);
+  const {
+    data: approvedData,
+    loading,
+    error,
+    postData,
+  } = usePostFetch(url, token);
+  if (approvedData) {
+    console.log(approvedData);
+  }
   const handleApproveClick = async (e) => {
     e.preventDefault();
     const data = postData({
-      admissionNumber: userData.admissionNumber,
+      admissionNumber: data.admissionNumber,
       admissionStatus: "approved",
     });
   };
@@ -65,7 +72,7 @@ function UserProfile(props) {
   const handleDeclineClick = (e) => {
     e.preventDefault();
     postData({
-      admissionNumber: userData.admissionNumber,
+      admissionNumber: data.admissionNumber,
       admissionStatus: "declined",
     });
   };
@@ -94,13 +101,13 @@ function UserProfile(props) {
                 value={editedData ? editedData.firstName : ""}
                 onChange={handleInputChange}
               />
-            ) : userData ? (
-              <>{userData.firstName + " " + userData.surName}</>
+            ) : data ? (
+              <>{data.firstName + " " + data.surName}</>
             ) : (
               ""
             )}
           </p>
-          {userData && <p className="text-md">Class: Grade 10</p>}
+          {data && <p className="text-md">Class: Grade 10</p>}
           <p className="text-md">Role: Student</p>
           <p className="text-md">
             Email:{" "}
@@ -111,8 +118,8 @@ function UserProfile(props) {
                 value={editedData.email}
                 onChange={handleInputChange}
               />
-            ) : userData ? (
-              userData.email
+            ) : data ? (
+              data.email
             ) : (
               ""
             )}
@@ -120,10 +127,10 @@ function UserProfile(props) {
           {/* Add more user info as needed */}
         </div>
         <div className="contact-info flex flex-col">
-          <p className="text-md">DOB: {userData ? userData.dateOfBirth : ""}</p>
-          <p className="text-md">Phone: {userData ? userData.phone : ""}</p>
-          <p className="text-md">Email: {userData ? userData.email : ""}</p>
-          <p className="text-md">Gender: {userData ? userData.gender : ""}</p>
+          <p className="text-md">DOB: {data ? data.dateOfBirth : ""}</p>
+          <p className="text-md">Phone: {data ? data.phone : ""}</p>
+          <p className="text-md">Email: {data ? data.email : ""}</p>
+          <p className="text-md">Gender: {data ? data.gender : ""}</p>
         </div>
       </div>
       <div className="about-section mt-4">
@@ -144,7 +151,7 @@ function UserProfile(props) {
           {isEditing ? "Save" : "Edit"}
         </button>
 
-        {userData && (
+        {data && (
           <>
             <button
               className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md"
@@ -161,7 +168,7 @@ function UserProfile(props) {
             </button>
           </>
         )}
-        {data && <Successful message="approved" />}
+        {approvedData && <Successful message="approved" />}
         {putIsLoadin && <Loading message="Processing request..." />}
         {putError && <IsError message={error} />}
       </div>

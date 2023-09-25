@@ -29,10 +29,10 @@ const Navbar = (props) => {
     
     const { currentColor, activeMenu, setActiveMenu, handleClick, isClicked, setScreenSize, screenSize } = useStateContext();
     const {user, userCre} = props
-  if (user) {
-    console.log("the user is", user);
+  // if (user) {
+  //   console.log("the user is", user);
     
-  }
+  // }
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
 

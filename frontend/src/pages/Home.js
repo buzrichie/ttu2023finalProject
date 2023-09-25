@@ -22,6 +22,7 @@ function Home() {
   } else {
     throw new Error("Authorization failed.");
   }
+  console.log(role);
   const url = `/api/${role}/${id}`;
   // const [user, setUser] = useState(null);
   const { data, error, isPending } = useFetch(url, token);
@@ -30,7 +31,7 @@ function Home() {
   }
   return (
     <>
-      {data && !data.enroll ? <Dashboard /> : ""}
+      {data && !data.enroll ? <Dashboard data={data} role={role} /> : ""}
       {data && data.enroll ? <StatusInformation data={data.enroll} /> : ""}
       {/* {<Dashboard />} */}
       {isPending && <Loading message="fetching data..." />}
