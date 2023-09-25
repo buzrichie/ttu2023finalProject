@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import usePostFetch from "../Hooks/usePostFetch";
 import IsError from "./prompt/isError";
 import Loading from "./prompt/isLoading";
+import Successful from "./prompt/successful";
 
 function CreateAcademicLevelForm() {
   const { token } = JSON.parse(localStorage.getItem("user"));
@@ -111,6 +112,8 @@ function CreateAcademicLevelForm() {
           </div>
         )}
       </div>
+
+      {data && <Successful message="Successful" />}
       {loading && <Loading message="Processing request..." />}
       {error && <IsError message={error} />}
     </>

@@ -13,8 +13,8 @@ function TeacherTable(props) {
         <table className="table w-full lg:w-2/3">
           <thead>
             <tr>
-              <th>First Name</th>
-              <th>Surname</th>
+              <th>Name</th>
+
               <th>Date of Birth</th>
               <th>Email</th>
               <th>Phone</th>
@@ -26,22 +26,33 @@ function TeacherTable(props) {
           <tbody>
             {data &&
               data.map((teacher) => (
-                <tr key={teacher._id} onClick={() => selectUser(teacher)}>
-                  <td>{teacher.firstName}</td>
-                  <td>{teacher.surName}</td>
-                  <td>{teacher.dateOfBirth}</td>
-                  <td>{teacher.email}</td>
-                  <td>{teacher.phone}</td>
-                  <td>{teacher.qualification}</td>
-                  <td>{teacher.teachingExperience}</td>
-                  <td>{teacher.gender}</td>
+                <tr
+                  key={teacher._id}
+                  onClick={() => selectUser(teacher)}
+                  style={{ cursor: "pointer" }}
+                >
+                  <td>
+                    {teacher.firstName && teacher.surName
+                      ? `${teacher.firstName} ${teacher.surName}`
+                      : "N/A"}
+                  </td>
+                  <td>
+                    {teacher.dateOfBirth
+                      ? new Date(teacher.dateOfBirth).toLocaleDateString()
+                      : "N/A"}
+                  </td>
+                  <td>{teacher.email || "N/A"}</td>
+                  <td>{teacher.phone || "N/A"}</td>
+                  <td>{teacher.qualification || "N/A"}</td>
+                  <td>{teacher.teachingExperience || "N/A"}</td>
+                  <td>{teacher.gender || "N/A"}</td>
                 </tr>
               ))}
           </tbody>
         </table>
         {selectedUser && (
           <div className="w-full lg:w-1/3 px-4 hidden lg:block">
-            <UserProfile userData={selectedUser} />
+            <UserProfile data={selectedUser} />
           </div>
         )}
       </div>

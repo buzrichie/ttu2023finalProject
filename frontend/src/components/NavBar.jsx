@@ -79,7 +79,7 @@ const Navbar = (props) => {
             <p className='flex items-center'>
               <span className="text-gray-400 text-14">Hi,</span>{' '}
               {userCre && userCre.firstName? <span className="text-gray-400 font-bold ml-1 text-14">
-                {userCre.firstName}
+                {userCre.firstName} {userCre.surName}
               </span>: ""}
               {userCre && userCre.name? <span className="text-gray-400 font-bold ml-1 text-14">
                 {userCre.name}

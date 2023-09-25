@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import usePostFetch from "../Hooks/usePostFetch";
 import IsError from "./prompt/isError";
 import Loading from "./prompt/isLoading";
+import Successful from "./prompt/successful";
 function CreateAttendanceForm() {
   const { token } = JSON.parse(localStorage.getItem("user"));
   if (!token) {
@@ -43,7 +44,7 @@ function CreateAttendanceForm() {
             htmlFor="_Student"
             className="block text-sm font-medium leading-2 text-gray-900"
           >
-            Student's Full Name:
+            Student's ID:
           </label>
           <input
             type="text"
@@ -59,7 +60,7 @@ function CreateAttendanceForm() {
             htmlFor="_Teacher"
             className="block text-sm font-medium leading-2 text-gray-900"
           >
-            Teacher's Full Name:
+            Teacher's ID:
           </label>
           <input
             type="text"
@@ -120,6 +121,7 @@ function CreateAttendanceForm() {
           </button>
         </div>
       </form>
+      {data && <Successful message="Successful" />}
       {loading && <Loading message="Processing request..." />}
       {error && <IsError message={error} />}
     </>

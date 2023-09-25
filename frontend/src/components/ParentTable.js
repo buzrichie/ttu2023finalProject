@@ -13,12 +13,10 @@ function ParentTable(props) {
         <table className="table w-full lg:w-2/3">
           <thead>
             <tr>
-              <th>First Name</th>
-              <th>Surname</th>
+              <th>Name</th>
               <th>Email</th>
               <th>Phone</th>
               <th>Occupation</th>
-              <th>Student ID</th>
             </tr>
           </thead>
           <tbody>
@@ -27,19 +25,23 @@ function ParentTable(props) {
                 <tr
                   key={parentguardian._id}
                   onClick={() => selectUser(parentguardian)}
+                  style={{ cursor: "pointer" }}
                 >
-                  <td>{parentguardian.firstName}</td>
-                  <td>{parentguardian.surName}</td>
-                  <td>{parentguardian.email}</td>
-                  <td>{parentguardian.phone}</td>
-                  <td>{parentguardian.occupation}</td>
+                  <td>
+                    {parentguardian.firstName && parentguardian.surName
+                      ? `${parentguardian.firstName} ${parentguardian.surName}`
+                      : "N/A"}
+                  </td>
+                  <td>{parentguardian.email || "N/A"}</td>
+                  <td>{parentguardian.phone || "N/A"}</td>
+                  <td>{parentguardian.occupation || "N/A"}</td>
                 </tr>
               ))}
           </tbody>
         </table>
         {selectedUser && (
           <div className="w-full lg:w-1/3 px-4 hidden lg:block">
-            <UserProfile userData={selectedUser} />
+            <UserProfile data={selectedUser} />
           </div>
         )}
       </div>

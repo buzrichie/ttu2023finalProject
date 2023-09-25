@@ -18,9 +18,9 @@ function UserSummaryDescription(props) {
         {data && data.balance && (
           <p className="font-bold text-black">Balance: GHc{data.balance}</p>
         )}
-        {data && data.class && (
+        {/* {data && data.class && (
           <p className="font-bold text-black">Class: {data.class}</p>
-        )}
+        )} */}
         {data && data.onroll && (
           <p className="font-bold text-black">No. on roll: {data.onroll}</p>
         )}

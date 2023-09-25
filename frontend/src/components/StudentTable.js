@@ -17,13 +17,13 @@ function StudentTable(props) {
         <table className="table w-full lg:w-2/3">
           <thead>
             <tr>
-              <th>Admission Number</th>
-              <th>First Name</th>
-              <th>Surname</th>
-              <th>Date of Birth</th>
+              <th>StudentID</th>
+              <th>Name</th>
+
+              <th>DOB</th>
               <th>Class</th>
               <th>Gender</th>
-              <th>Parent/Guardian Email</th>
+              <th>Guardian Email</th>
             </tr>
           </thead>
           <tbody>
@@ -31,24 +31,31 @@ function StudentTable(props) {
               data.map((student) => (
                 <tr
                   key={student._id}
-                  onClick={() => selectUser(student)} // Call the function when a row is clicked
-                  style={{ cursor: "pointer" }} // Change cursor to pointer to indicate it's clickable
+                  onClick={() => selectUser(student)}
+                  style={{ cursor: "pointer" }}
                 >
+                  <td>{student.id || "N/A"}</td>
                   <td>
-                    {student.admission
-                      ? student.admission.admissionNumber
+                    {student.firstName && student.surName
+                      ? `${student.firstName} ${student.surName}`
                       : "N/A"}
                   </td>
-                  <td>{student.firstName}</td>
-                  <td>{student.surName}</td>
-                  <td>{new Date(student.dateOfBirth).toLocaleDateString()}</td>
                   <td>
-                    {student.academicLevel
+                    {student.dateOfBirth
+                      ? new Date(student.dateOfBirth).toLocaleDateString()
+                      : "N/A"}
+                  </td>
+                  <td>
+                    {student.academicLevel && student.academicLevel.level
                       ? student.academicLevel.level
                       : "N/A"}
                   </td>
-                  <td>{student.gender}</td>
-                  <td>{student.parentGuardianEmail}</td>
+                  <td>{student.gender || "N/A"}</td>
+                  <td>
+                    {student.parentGuardian && student.parentGuardian.email
+                      ? student.parentGuardian.email
+                      : "N/A"}
+                  </td>
                 </tr>
               ))}
           </tbody>
@@ -57,7 +64,7 @@ function StudentTable(props) {
         {/* Conditionally render the UserProfile component */}
         {selectedUser && (
           <div className="w-full lg:w-1/3 px-4 hidden lg:block">
-            <UserProfile userData={selectedUser} />
+            <UserProfile data={selectedUser} />
           </div>
         )}
       </div>

@@ -11,7 +11,11 @@ import ScoreTable from "./ScoreTable";
 
 function Dashboard(props) {
   const { role, data } = props;
-
+  let roleInStr = "";
+  if (role) {
+    roleInStr = `${role.toLowerCase()}`;
+  }
+  console.log("pdta", data);
   return (
     <>
       <div className="flex mt-5 pt-5 md:pt-0 md:mt-1">
@@ -105,9 +109,13 @@ function Dashboard(props) {
             )}
           </div>
         </div>
-        {/* <div className="w-full lg:w-1/3 px-4 hidden lg:block">
-          {data ? <UserProfile data={data} /> : ""}
-        </div> */}
+        <div className="w-full lg:w-1/3 px-4 hidden lg:block">
+          {data && role && roleInStr ? (
+            <UserProfile data={data[roleInStr]} />
+          ) : (
+            ""
+          )}
+        </div>
       </div>
     </>
   );

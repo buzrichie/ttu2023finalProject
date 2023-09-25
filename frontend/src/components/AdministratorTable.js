@@ -26,17 +26,18 @@ function AdministratorTable(props) {
                   role={admin.role}
                   school={admin.school}
                   onClick={() => selectUser(admin)}
+                  style={{ cursor: "pointer" }}
                 >
-                  <td>{admin.adminID || admin.id}</td>
-                  <td>{admin.name}</td>
-                  <td>{admin.email}</td>
+                  <td>{admin.adminID || admin.id || "N/A"}</td>
+                  <td>{admin.name || "N/A"}</td>
+                  <td>{admin.email || "N/A"}</td>
                 </tr>
               ))}
           </tbody>
         </table>
         {selectedUser && (
           <div className="w-full lg:w-1/3 px-4 hidden lg:block">
-            <UserProfile userData={selectedUser} />
+            <UserProfile data={selectedUser} />
           </div>
         )}
       </div>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import usePostFetch from "../Hooks/usePostFetch";
 import IsError from "./prompt/isError";
 import Loading from "./prompt/isLoading";
+import Successful from "./prompt/successful";
 
 function CreateSubjectForm() {
   const { token } = JSON.parse(localStorage.getItem("user"));
@@ -116,6 +117,8 @@ function CreateSubjectForm() {
           </button>
         </div>
       </form>
+      {data && <Successful message="Successful" />}
+
       {loading && <Loading message="Processing request..." />}
       {error && <IsError message={error} />}
     </>
