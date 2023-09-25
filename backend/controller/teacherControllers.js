@@ -64,21 +64,21 @@ const createTeacher = async (req, res) => {
     if (!gender) {
       return res.status(400).json({ error: "Gender is required." });
     }
-    if (!street) {
-      return res.status(400).json({ error: "Street is required." });
-    }
-    if (!state) {
-      return res.status(400).json({ error: "State is required." });
-    }
-    if (!city) {
-      return res.status(400).json({ error: "City is required." });
-    }
-    if (!wpsAddress) {
-      return res.status(400).json({ error: "WPS Address is required." });
-    }
-    if (!_School) {
-      return res.status(400).json({ error: "School is required." });
-    }
+    // if (!street) {
+    //   return res.status(400).json({ error: "Street is required." });
+    // }
+    // if (!state) {
+    //   return res.status(400).json({ error: "State is required." });
+    // }
+    // if (!city) {
+    //   return res.status(400).json({ error: "City is required." });
+    // }
+    // if (!wpsAddress) {
+    //   return res.status(400).json({ error: "WPS Address is required." });
+    // }
+    // if (!_School) {
+    //   return res.status(400).json({ error: "School is required." });
+    // }
     if (!_Subject) {
       return res.status(400).json({ error: "Subject is required." });
     }
@@ -90,10 +90,10 @@ const createTeacher = async (req, res) => {
     }
 
     // Add Address to database
-    address = await Address.create({ street, wpsAddress, state, city });
-    if (!address) {
-      return res.status(500).json({ error: "Failed To Create Teacher." });
-    }
+    // address = await Address.create({ street, wpsAddress, state, city });
+    // if (!address) {
+    //   return res.status(500).json({ error: "Failed To Create Teacher." });
+    // }
 
     // Generate numerical string and password
     const id = await generateNumericalString("TE");
@@ -104,7 +104,7 @@ const createTeacher = async (req, res) => {
       id,
       password,
       application,
-      address,
+
       role: "TEACHER",
       school: application.school._id,
       academicLevel: application.academicLevel
@@ -182,13 +182,14 @@ const login = async (req, res) => {
       return res.status(201).json({ error: "Not a valid Password" });
     }
     //Genete a Jwt Token
-    const payload = { id: teacher._id, application: teacher.application };
+    const payload = { id: teacher._id, role: teacher.role };
     const token = generateJWT(payload, process.env.SECRET);
+
     // Send the teacher object without including the password
     const teacherWithoutPassword = { ...teacher._doc };
     delete teacherWithoutPassword.password;
     console.log({ teacher: teacherWithoutPassword, token });
-    return res.status(201).json({ teacher: teacherWithoutPassword, token });
+    return res.status(201).json({ token });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -216,7 +217,9 @@ const getSingleTeacher = async (req, res) => {
     if (!teacher) {
       return res.status(404).json({ error: "Teacher not found" });
     }
-    res.json(teacher);
+    const teacherWithoutPassword = { ...teacher._doc };
+    delete teacherWithoutPassword.password;
+    res.status(201).json({ teacher: teacherWithoutPassword });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

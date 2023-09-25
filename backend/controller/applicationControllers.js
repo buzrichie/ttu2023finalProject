@@ -33,7 +33,7 @@ const createApplication = async (req, res) => {
     }
 
     // Generate numerical string for application number
-    const applicationNumber = await generateNumericalString();
+    const applicationNumber = await generateNumericalString("AP");
 
     application = await Application.create({
       ...req.body,
