@@ -4,7 +4,8 @@ import IsError from "./prompt/isError";
 import Loading from "./prompt/isLoading";
 import Successful from "./prompt/successful";
 
-function CreateSubjectForm() {
+function CreateSubjectForm(props) {
+  const { school } = props;
   const { token } = JSON.parse(localStorage.getItem("user"));
   if (!token) {
     return;
@@ -12,7 +13,7 @@ function CreateSubjectForm() {
   const [formData, setFormData] = useState({
     name: "",
     code: "",
-    _School: "", // Assuming this represents School ID
+    _School: { _id: school }, // Assuming this represents School ID
     _AcademicLevel: "", // Assuming this represents AcademicLevel ID
   });
 
@@ -72,7 +73,7 @@ function CreateSubjectForm() {
             required
           />
         </div>
-        <div>
+        {/* <div>
           <label
             htmlFor="_School"
             className="block text-sm font-medium leading-2 text-gray-900"
@@ -86,7 +87,7 @@ function CreateSubjectForm() {
             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             onChange={handleChange}
           />
-        </div>
+        </div> */}
         <div>
           <label
             htmlFor="_AcademicLevel"

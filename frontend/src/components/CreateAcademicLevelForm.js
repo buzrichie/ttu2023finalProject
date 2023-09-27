@@ -4,7 +4,8 @@ import IsError from "./prompt/isError";
 import Loading from "./prompt/isLoading";
 import Successful from "./prompt/successful";
 
-function CreateAcademicLevelForm() {
+function CreateAcademicLevelForm(props) {
+  const { school } = props;
   const { token } = JSON.parse(localStorage.getItem("user"));
   if (!token) {
     return;
@@ -13,7 +14,7 @@ function CreateAcademicLevelForm() {
   const [formData, setFormData] = useState({
     _Subject: "",
     level: "",
-    _School: "",
+    _School: { _id: school },
   });
 
   const { data, loading, error, postData } = usePostFetch(
@@ -46,7 +47,7 @@ function CreateAcademicLevelForm() {
               htmlFor="_Subject"
               className="block text-sm font-medium leading-2 text-gray-900"
             >
-              SubjectID:
+              Can Assign to SubjectID:
             </label>
             <input
               type="text"
@@ -74,7 +75,7 @@ function CreateAcademicLevelForm() {
               required
             />
           </div>
-          <div>
+          {/* <div>
             <label
               htmlFor="_School"
               className="block text-sm font-medium leading-2 text-gray-900"
@@ -89,7 +90,7 @@ function CreateAcademicLevelForm() {
               value={formData._School}
               onChange={handleChange}
             />
-          </div>
+          </div> */}
           <div className="mt-6 flex w-full items-center justify-end gap-x-6">
             <button
               type="button"
@@ -101,7 +102,7 @@ function CreateAcademicLevelForm() {
               type="submit"
               className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
-              Save
+              Add Class
             </button>
           </div>
         </form>
