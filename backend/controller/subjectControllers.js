@@ -15,9 +15,10 @@ const createSubject = async (req, res) => {
     }
 
     // Query for School Data only if provided in request body
+
     const school = _School
       ? await School.findOne({
-          _id: _School,
+          _id: _School._id,
         })
       : null;
 
@@ -31,12 +32,14 @@ const createSubject = async (req, res) => {
     if (school) {
       school.subjects.push(subject);
       await school.save();
+      subject.schools.push(subject);
+      await subject.save();
     }
 
     // Update fields that relate to AcademicLevel - Subject
     if (_AcademicLevel) {
       const academicLevels = await AcademicLevel.find({
-        _id: _AcademicLevel,
+        level: _AcademicLevel,
       });
 
       if (academicLevels) {
