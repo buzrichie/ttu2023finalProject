@@ -92,7 +92,7 @@ const Navbar = (props) => {
         {user?<Link to="#" onClick={()=>{logOut()}} className="bg-red-400 hover:bg-red-500 text-white font-semibold py-2 px-4 w-50 hover:text-white rounded">LogOut</Link>:<Link to="auth/*" className="text-gray-400 font-bold ml-1 text-14">LogIn</Link>}
       </div>
     </div>
-    </>:<> <nav className="bg-white p-4" style={{zIndex: "1000001", position:"fixed", top:"0", left:"0", width:"100%"}}>
+    </>:<> <nav className="bg-white p-2" style={{zIndex: "1000001", position:"fixed", top:"0", left:"0", width:"100%"}}>
       <div className="container mx-auto flex justify-between items-center">
       <div className="flex text-black items-center font-bold text-xl">
         {/* Your brand name */}
