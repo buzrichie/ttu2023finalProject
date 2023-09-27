@@ -46,7 +46,7 @@ function CreateAssessmentForm() {
             htmlFor="_Subject"
             className="block text-sm font-medium leading-2 text-gray-900"
           >
-            Subject:
+            Subject Name:
           </label>
           <input
             type="text"
@@ -62,7 +62,7 @@ function CreateAssessmentForm() {
             htmlFor="_Student"
             className="block text-sm font-medium leading-2 text-gray-900"
           >
-            Student:
+            Student ID:
           </label>
           <input
             type="text"
@@ -78,7 +78,7 @@ function CreateAssessmentForm() {
             htmlFor="_Teacher"
             className="block text-sm font-medium leading-2 text-gray-900"
           >
-            Teacher:
+            Teacher ID:
           </label>
           <input
             type="text"
@@ -89,7 +89,7 @@ function CreateAssessmentForm() {
             required
           />
         </div>
-        <div>
+        {/* <div>
           <label
             htmlFor="name"
             className="block text-sm font-medium leading-2 text-gray-900"
@@ -104,6 +104,28 @@ function CreateAssessmentForm() {
             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             required
           />
+        </div> */}
+        <div className="e-inline">
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium leading-2 text-gray-900"
+          >
+            Assessment Type
+          </label>
+          <select
+            id="name"
+            name="name"
+            required
+            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            value={formData.name}
+            onChange={handleChange}
+          >
+            <option value="" disabled>
+              Select
+            </option>
+            <option value="female">Class Assessment</option>
+            <option value="other">Examination</option>
+          </select>
         </div>
         <div>
           <label
@@ -132,7 +154,7 @@ function CreateAssessmentForm() {
             type="submit"
             className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
-            Save
+            Assess
           </button>
         </div>
       </form>

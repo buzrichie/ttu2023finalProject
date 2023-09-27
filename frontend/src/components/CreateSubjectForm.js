@@ -3,6 +3,7 @@ import usePostFetch from "../Hooks/usePostFetch";
 import IsError from "./prompt/isError";
 import Loading from "./prompt/isLoading";
 import Successful from "./prompt/successful";
+import { academicLevels } from "../data/Dummy";
 
 function CreateSubjectForm(props) {
   const { school } = props;
@@ -88,7 +89,7 @@ function CreateSubjectForm(props) {
             onChange={handleChange}
           />
         </div> */}
-        <div>
+        {/* <div>
           <label
             htmlFor="_AcademicLevel"
             className="block text-sm font-medium leading-2 text-gray-900"
@@ -102,6 +103,27 @@ function CreateSubjectForm(props) {
             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             onChange={handleChange}
           />
+        </div> */}
+        <div className="e-inline">
+          <label htmlFor="_AcademicLevel">Class</label>
+          <select
+            id="_AcademicLevel"
+            name="_AcademicLevel"
+            required
+            value={formData._AcademicLevel}
+            onChange={handleChange}
+            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+          >
+            <option value="" disabled>
+              Select
+            </option>
+            {academicLevels &&
+              academicLevels.map((level) => (
+                <option key={level} value={level}>
+                  {level}
+                </option>
+              ))}
+          </select>
         </div>
         <div className="mt-6 flex w-full items-center justify-end gap-x-6">
           <button

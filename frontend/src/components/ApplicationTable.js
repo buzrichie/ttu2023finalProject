@@ -8,7 +8,7 @@ function ApplicationTable(props) {
         <thead>
           <tr className="bg-gray-100">
             <th className="py-2 px-4 text-center font-medium">
-              applicationNumber
+              Application Number
             </th>
             <th className="py-2 px-4 text-center font-medium">Date</th>
           </tr>
@@ -18,7 +18,9 @@ function ApplicationTable(props) {
             data.map((application) => (
               <tr key={application._id}>
                 <td>{application.applicationNumber}</td>
-                <td>{application.applicationDate}</td>
+                <td>
+                  {new Date(application.applicationDate).toLocaleDateString()}
+                </td>
               </tr>
             ))}
         </tbody>
