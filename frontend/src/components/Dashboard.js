@@ -110,7 +110,7 @@ function Dashboard(props) {
           </div>
         </div>
         <div className="w-full lg:w-1/3 px-4 hidden lg:block">
-          {data && role && roleInStr ? (
+          {data && role && roleInStr && roleInStr.toLowerCase() !== "admin" ? (
             <UserProfile data={data[roleInStr]} />
           ) : (
             ""

@@ -10,7 +10,7 @@ function TeacherTable(props) {
   return (
     <>
       <div className="flex w-full">
-        <table className="table w-full lg:w-2/3">
+        <table className="table h-fit w-full lg:w-2/3">
           <thead>
             <tr>
               <th>Name</th>

@@ -202,8 +202,13 @@ function App() {
                     localStorageUser ? <Database /> : <Navigate to="/login" />
                   }
                 />
+                <Route
+                  path={"/scoretable"}
+                  element={
+                    localStorageUser ? <ScoreTable /> : <Navigate to="/login" />
+                  }
+                />
 
-                <Route path={"/scoretable"} element={<ScoreTable />} />
                 <Route path={"/school"} element={<SchoolForm />} />
                 <Route path={"/temporalnavbar"} element={<TemporalNavBar />} />
                 <Route path={"*"} element={"404..Page"} />

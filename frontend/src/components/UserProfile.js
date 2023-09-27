@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import usePostFetch from "../Hooks/usePostFetch";
 import useHttpPut from "../Hooks/useHttpPut";
+import useDelete from "../Hooks/useDelete";
 import { RxAvatar } from "react-icons/rx";
 import IsError from "./prompt/isError";
 import Loading from "./prompt/isLoading";
@@ -55,8 +56,8 @@ function UserProfile(props) {
 
   const {
     data: approvedData,
-    loading,
-    error,
+    loading: approvedLoading,
+    error: approvedError,
     postData,
   } = usePostFetch(url, token);
   if (approvedData) {
@@ -77,7 +78,14 @@ function UserProfile(props) {
       admissionStatus: "declined",
     });
   };
-
+  const {
+    data: deleteData,
+    isPending: deletePending,
+    error: deleteError,
+  } = useDelete(url, token);
+  const handleDelete = (e) => {
+    e.preventDefault();
+  };
   return (
     <>
       {data && (
@@ -167,7 +175,7 @@ function UserProfile(props) {
               data.role.toLowerCase() !== "enroll" && (
                 <button
                   className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md"
-                  onClick={handleApproveClick}
+                  onClick={handleDelete}
                 >
                   Delete
                 </button>
@@ -189,9 +197,15 @@ function UserProfile(props) {
                 </button>
               </>
             )}
-            {approvedData && <Successful message="approved" />}
-            {putIsLoadin && <Loading message="Processing request..." />}
-            {putError && <IsError message={error} />}
+            {approvedData && <Successful message="Approved" />}
+            {deleteData && <Successful message="Deleted" />}
+            {putData && <Successful message="Successful" />}
+            {putIsLoadin ||
+              deletePending ||
+              (approvedLoading && <Loading message="Processing request..." />)}
+            {putError && <IsError message={putError} />}
+            {approvedError && <IsError message={putError} />}
+            {deleteError && <IsError message={putError} />}
           </div>
         </div>
       )}
