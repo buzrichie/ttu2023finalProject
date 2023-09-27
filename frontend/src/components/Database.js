@@ -57,7 +57,7 @@ function Database() {
   return (
     <div className="flex">
       <div className="w-full px-4">
-        <div className="bg-white p-4 rounded-lg shadow-md">
+        <div className="bg-white w-max p-4 rounded-lg shadow-md">
           <Header heading="Database" />
           <ul className="flex tabs mb-4">
             <li

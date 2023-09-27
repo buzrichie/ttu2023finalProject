@@ -45,7 +45,6 @@ function QuestionGeneratorForm() {
 
   return (
     <div className="question-generator-container p-4">
-      <h2 className="text-2xl font-bold mb-4">Question Generator</h2>
       <textarea
         rows="4"
         cols="50"
